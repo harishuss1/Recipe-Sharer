@@ -1,4 +1,6 @@
-public class Recipes
+namespace recipes;
+
+public class Recipe
 {
 // recipe name property 
 // description property

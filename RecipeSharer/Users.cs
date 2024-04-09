@@ -1,3 +1,5 @@
+namespace users;
+
 public class User
 {
 // admin user? 
@@ -8,10 +10,6 @@ public class User
     public string Username;
 
     private string Password;
-
-    private string? ProfilePicturePath;
-
-    private string? Description;
 
     // Constructor
     public User(string name, string password);
