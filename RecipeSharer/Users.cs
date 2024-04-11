@@ -19,7 +19,7 @@ public class User
 
     // Constructor
     public User(string name, string password){
-        if (password.Length < 7) {
+        if (password.Length < UserGlobalVars.PASSWORD_LENGTH) {
                 throw new ArgumentOutOfRangeException("---PASSWORD WAS NOT LONG ENOUGH---");
             }
             
@@ -62,13 +62,6 @@ public class User
     //// These all will probably just end up being setters for the properties
     // Add Profile picture
     // removeProfilePicture method
-    public void removeProfilePicture();
-    // update pfp
-    public void changeProfilePicture(string path);
-    // add description
-    public void addDescription(string description);
-    // update description
-    public void updateDescription(string description);
 
 // Some methods might be moved to UserOperations not 100% sure.
 }
