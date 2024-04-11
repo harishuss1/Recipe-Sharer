@@ -1,3 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+
+
 namespace users;
 
 public class User
@@ -10,29 +14,48 @@ public class User
     public string Username;
 
     private string _password;
-    public string Password {
-        get {
-            return _password;
-        } 
-        set {
-            if (_password != null){
-                Console.WriteLine("Enter old password");
-                string passwordCheck = Console.ReadLine();
-                if (passwordCheck.Equals(_password)){
-                    _password = value;
-                }
-            }
-            else {
-                _password = value;
-            }
-        }
-    }
+    public byte[] Salt{get; set;}
+    public byte[] Password {get; set;}
 
     // Constructor
     public User(string name, string password){
+        if (password.Length < 7) {
+                throw new ArgumentOutOfRangeException("---PASSWORD WAS NOT LONG ENOUGH---");
+            }
+            
         Username = name;
-        Password = password;
+        Tuple<byte[], byte[]> hash = CreatePassword(password);
+        Salt = hash.Item1;
+        Password = hash.Item2;
     }
+    
+     public static Tuple<byte[], byte[]> CreatePassword(string password) {
+        byte[] salt = new byte[8];
+            
+        using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider()) {
+            rng.GetBytes(salt);
+        }
+        int iterations = 1000;
+        Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(password, salt, iterations);
+        byte[] encrypted_password = key.GetBytes(32);
+
+        return new Tuple<byte[], byte[]>(salt, encrypted_password);
+    }
+
+    public static bool VerifyPassword(string password, byte[] salt, byte[] encrypted_password) {
+        int iterations = 1000;
+        Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(password, salt, iterations);
+        byte[] encrypted_password2 = key.GetBytes(32);
+
+        for (int i = 0; i < encrypted_password.Length; i++) {
+            if (encrypted_password[i] != encrypted_password2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     // updatePassword method
 
