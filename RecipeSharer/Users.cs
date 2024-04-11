@@ -9,17 +9,35 @@ public class User
     // username property ? or name property
     public string Username;
 
-    private string Password;
+    private string _password;
+    public string Password {
+        get {
+            return _password;
+        } 
+        set {
+            if (_password != null){
+                Console.WriteLine("Enter old password");
+                string passwordCheck = Console.ReadLine();
+                if (passwordCheck.Equals(_password)){
+                    _password = value;
+                }
+            }
+            else {
+                _password = value;
+            }
+        }
+    }
 
     // Constructor
-    public User(string name, string password);
+    public User(string name, string password){
+        Username = name;
+        Password = password;
+    }
 
     // updatePassword method
-    public void updatePassword(string newPassword);
 
     //// These all will probably just end up being setters for the properties
     // Add Profile picture
-    public void addProfilePicture(string path);
     // removeProfilePicture method
     public void removeProfilePicture();
     // update pfp
