@@ -10,16 +10,15 @@ public class User
 // maybe another class for usersOperation if we think there are too many methods in this class
 // public class Users
 
-    // username property ? or name property
+    // username property
     public string Username;
-
-    private string _password;
+    // 
     public byte[] Salt{get; set;}
     public byte[] Password {get; set;}
 
     // Constructor
     public User(string name, string password){
-        if (password.Length < UserGlobalVars.PASSWORD_LENGTH) {
+        if (password.Length < UserGlobalVars.PASSWORD_LENGTH || password == null) {
                 throw new ArgumentOutOfRangeException("---PASSWORD WAS NOT LONG ENOUGH---");
             }
             
@@ -32,9 +31,17 @@ public class User
      public static Tuple<byte[], byte[]> CreatePassword(string password) {
         byte[] salt = new byte[8];
             
-        using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider()) {
+        // RNGCryptoServiceProvider was obsolete, using RandomNumberGenerator.Create instead
+
+        // using (RNGCryptoServiceProvider rngCsp = new()) {
+        //     rngCsp.GetBytes(salt);
+        // }
+
+        using (var rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(salt);
         }
+
+        
         int iterations = 1000;
         Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(password, salt, iterations);
         byte[] encrypted_password = key.GetBytes(32);
@@ -56,8 +63,23 @@ public class User
         return true;
     }
 
+    public void ChangePassword(string newPassword, string oldPassword){
+        if (newPassword.Length < UserGlobalVars.PASSWORD_LENGTH) {
+            throw new ArgumentOutOfRangeException("PASSWORD WAS NOT LONG ENOUGH");
+        }
 
-    // updatePassword method
+        if (!VerifyPassword(oldPassword, Salt, Password)){
+            throw new Exception("OLD PASSWORD DOES NOT MATCH");
+        }
+
+        else {
+            Tuple<byte[], byte[]> hash = CreatePassword(newPassword);
+            Salt = hash.Item1;
+            Password = hash.Item2;
+        }
+    }
+
+    
 
     //// These all will probably just end up being setters for the properties
     // Add Profile picture
