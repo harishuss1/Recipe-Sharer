@@ -83,5 +83,33 @@ public class Search
             throw new ArgumentOutOfRangeException(nameof(rating), "Rating must be between 0 and 10.");
         MinimumRating = rating;
     }
+    // The method to perform the actual search
+    public List<Recipe> PerformSearch(List<Recipe> allRecipes)
+    {
+        IEnumerable<Recipe> query = allRecipes;
 
+        if (Ingredients.Any())
+        {
+            query = query.Where(r => Ingredients.All(ing => r.Ingredients.Select(i => i.Name).Contains(ing)));
+        }
+        if (Tags.Any())
+        {
+            query = query.Where(r => Tags.All(tag => r.Tags.Contains(tag)));
+        }
+        if (!string.IsNullOrEmpty(Keyword))
+        {
+            query = query.Where(r => r.Name.Contains(Keyword, StringComparison.OrdinalIgnoreCase) ||
+                                     (r.ShortDescription != null && r.ShortDescription.Contains(Keyword, StringComparison.OrdinalIgnoreCase)));
+        }
+        if (MinDuration.HasValue)
+        {
+            query = query.Where(r => r.TotalTime >= MinDuration.Value);
+        }
+        if (MaxDuration.HasValue)
+        {
+            query = query.Where(r => r.TotalTime <= MaxDuration.Value);
+        }
+        
+        return query.ToList();
+    }
 }
