@@ -50,5 +50,38 @@ public class Search
         OwnerUsername = username;
     }
 
+    public void SetTimeConstraints(TimeSpan? minDuration, TimeSpan? maxDuration)
+    {
+        if (minDuration.HasValue && minDuration.Value.TotalMinutes < 0)
+            throw new ArgumentOutOfRangeException(nameof(minDuration), "Minimum duration cannot be less than zero.");
+        if (maxDuration.HasValue && maxDuration.Value.TotalMinutes < 0)
+            throw new ArgumentOutOfRangeException(nameof(maxDuration), "Maximum duration cannot be less than zero.");
+        if (minDuration.HasValue && maxDuration.HasValue && minDuration > maxDuration)
+            throw new ArgumentException("Minimum duration cannot be greater than maximum duration.");
+
+        MinDuration = minDuration;
+        MaxDuration = maxDuration;
+    }
+
+
+    public void SetServingsConstraints(int? minServings, int? maxServings)
+    {
+        if (minServings.HasValue && minServings < 1)
+            throw new ArgumentOutOfRangeException(nameof(minServings), "Minimum servings must be at least 1.");
+        if (maxServings.HasValue && maxServings < 1)
+            throw new ArgumentOutOfRangeException(nameof(maxServings), "Maximum servings must be at least 1.");
+        if (minServings.HasValue && maxServings.HasValue && minServings > maxServings)
+            throw new ArgumentException("Minimum servings cannot be greater than maximum servings.");
+
+        MinServings = minServings;
+        MaxServings = maxServings;
+    }
+
+    public void SetMinimumRating(double? rating)
+    {
+        if (rating.HasValue && (rating < 0 || rating > 10))
+            throw new ArgumentOutOfRangeException(nameof(rating), "Rating must be between 0 and 10.");
+        MinimumRating = rating;
+    }
 
 }
