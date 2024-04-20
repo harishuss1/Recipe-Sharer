@@ -11,7 +11,7 @@
 // - Check behavior when no recipes match the specified tags.
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-// using Search; 
+using Search; 
 
 [TestClass]
 public class SearchTests
