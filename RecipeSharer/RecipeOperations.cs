@@ -1,4 +1,4 @@
-namespace Recipe;
+namespace Recipes;
 
 public class RecipeOperations
 {
