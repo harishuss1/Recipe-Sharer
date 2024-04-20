@@ -109,7 +109,27 @@ public class Search
         {
             query = query.Where(r => r.TotalTime <= MaxDuration.Value);
         }
-        
+        if (MinimumRating.HasValue)
+        {
+            query = query.Where(r => r.Ratings.Any() && r.Ratings.Average(r => r.Score) >= MinimumRating.Value);
+        }
+        if (UserFavorites.Any())
+        {
+            query = query.Where(r => UserFavorites.Contains(r));
+        }
+        if (MinServings.HasValue)
+        {
+            query = query.Where(r => r.Servings >= MinServings.Value);
+        }
+        if (MaxServings.HasValue)
+        {
+            query = query.Where(r => r.Servings <= MaxServings.Value);
+        }
+        if (!string.IsNullOrEmpty(OwnerUsername))
+        {
+            query = query.Where(r => r.Owner.Username == OwnerUsername);
+        }
+
         return query.ToList();
     }
 }
