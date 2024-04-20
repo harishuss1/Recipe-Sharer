@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
-
+namespace Recipe;
+using User;
 public class Recipe
 {
     public string Name { get; set; }
