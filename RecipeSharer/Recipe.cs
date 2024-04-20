@@ -7,7 +7,7 @@ public class Recipe
     public string ShortDescription { get; set; }
     public TimeSpan PreparationTime { get; set; }
     public TimeSpan CookingTime { get; set; }
-    public TimeSpan TotalTime { get; set; }
+    public TimeSpan TotalTime => PreparationTime + CookingTime;
     public int Servings { get; set; }
     public List<string> Steps { get; set; }
     public List<Ingredient> Ingredients { get; set; }
