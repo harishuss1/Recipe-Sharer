@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+namespace RecipeSharer;
 public class Recipe
 {
     public string Name { get; set; }
@@ -15,10 +15,15 @@ public class Recipe
     public List<Rating> Ratings { get; set; }
     public List<string> Tags { get; set; }
 
-    public Recipe(User owner, string name)
+    public Recipe(User owner, string name, string description, TimeSpan prepTime, TimeSpan cookingTime, int servings)
     {
         Owner = owner;
         Name = name;
+        ShortDescription = description;
+        PreparationTime = prepTime;
+        CookingTime = cookingTime;
+        TotalTime = prepTime + cookingTime;
+        Servings = servings;
         Steps = new List<string>();
         Ingredients = new List<Ingredient>();
         Ratings = new List<Rating>();
