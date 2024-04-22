@@ -1,5 +1,5 @@
 namespace RecipeSearch;
-namespace Recipes;
+using Recipes;
 
 /// <summary>
 /// Provides functionality to search through a collection of recipes based on various criteria.

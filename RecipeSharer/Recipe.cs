@@ -1,4 +1,4 @@
-namespace Recipe;
+namespace Recipes;
 using User;
 public class Recipe
 {
