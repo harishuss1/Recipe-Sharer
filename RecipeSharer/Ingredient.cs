@@ -1,4 +1,5 @@
-namespace RecipeSharer;
+namespace Recipes;
+
 public class Ingredient
 {
     public string Name { get; set; }

@@ -1,3 +1,4 @@
+namespace User;
 public class User
 {
 // admin user? 

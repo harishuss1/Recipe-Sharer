@@ -1,3 +1,6 @@
+namespace Recipes;
+using User;
+
 public class Rating
 {
     public User User { get; set; }
