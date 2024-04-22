@@ -1,3 +1,5 @@
+using users;
+
 public class Rating
 {
     public User User { get; set; }

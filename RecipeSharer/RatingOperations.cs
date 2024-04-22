@@ -1,3 +1,5 @@
+using users;
+
 public class RatingOperations
 {
     public void AddRating(User user, Recipe recipe)

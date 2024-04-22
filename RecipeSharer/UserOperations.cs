@@ -1,5 +1,7 @@
 using System.Security.Cryptography;
 
+namespace users;
+
 public class UserOperation
 {
 
