@@ -1,4 +1,5 @@
-namespace RecipeSharer;
+namespace Recipes;
+
 public class RecipeOperations
 {
 
@@ -39,7 +40,6 @@ public class RecipeOperations
         existingRecipe.ShortDescription = newDetails.ShortDescription;
         existingRecipe.PreparationTime = newDetails.PreparationTime;
         existingRecipe.CookingTime = newDetails.CookingTime;
-        existingRecipe.TotalTime = newDetails.TotalTime;
         existingRecipe.Servings = newDetails.Servings;
         existingRecipe.Steps = new List<string>(newDetails.Steps);
         existingRecipe.Ingredients = new List<Ingredient>(newDetails.Ingredients);
