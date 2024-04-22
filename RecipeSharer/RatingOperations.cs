@@ -1,3 +1,6 @@
+namespace Recipes;
+using User;
+
 public class RatingOperations
 {
     public void AddRating(User user, Recipe recipe)
