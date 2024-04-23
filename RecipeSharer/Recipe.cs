@@ -3,13 +3,6 @@ using Users;
 
 public class Recipe
 {
-    private User user;
-    private string v1;
-    private string v2;
-    private int v3;
-    private int v4;
-    private int v5;
-
     public string Name { get; set; }
     public User Owner { get; set; }
     public string ShortDescription { get; set; }
