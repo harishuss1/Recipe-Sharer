@@ -53,20 +53,18 @@ public class RecipeOperations
 
     // add steps to a recipe
     public List<string> AddStepsToRecipe(TextReader reader)
+{
+    var steps = new List<string>();
+    string step;
+    while ((step = reader.ReadLine()) != null)
     {
-        var steps = new List<string>();
-            string step;
-            while ((step = reader.ReadLine()) != null)
-            {
-                if (step.ToLower() == "done!")
-                {
-                    break;
-                }
-                else
-                {
-                    steps.Add(step);
-                }
-            }
-            return steps;
+        if (step.Trim().Equals("Done!", StringComparison.OrdinalIgnoreCase))
+        {
+            break;
+        }
+
+        steps.Add(step.Trim());
     }
+    return steps;
+}
 }
