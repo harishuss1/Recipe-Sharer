@@ -5,18 +5,19 @@ public class RatingOperations
 {
     public void AddRating(User user, Recipe recipe, int score)
     {
-    if (user == null || recipe == null)
-    {
-        throw new ArgumentException("User or Recipe cannot be null.");
-    }
+        
+        if (user == null || recipe == null)
+        {
+            throw new ArgumentException("User or Recipe cannot be null.");
+        }
 
-    if (score < 0 || score > 10)
-    {
-        throw new ArgumentOutOfRangeException("Score must be between 0 and 10.");
-    }
+        if (score < 0 || score > 10)
+        {
+            throw new ArgumentOutOfRangeException("Score must be between 0 and 10.");
+        }
 
-    Rating rating = new Rating(user, score);
-    recipe.Ratings.Add(rating);
+        Rating rating = new Rating(user, score);
+        recipe.Ratings.Add(rating);
     }
 
     public void RemoveRating(User user, Recipe recipe)
