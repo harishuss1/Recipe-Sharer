@@ -1,4 +1,5 @@
-using users;
+namespace Recipes;
+using Users;
 
 public class RatingOperations
 {

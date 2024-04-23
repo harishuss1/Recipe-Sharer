@@ -1,13 +1,14 @@
-namespace users;
+namespace Users;
+using Recipes;
 
 using System.Linq;
 
 public class Profile {
     public User User {get; set;}
     
-    private string? _pfpPath;
 
     //To-do: Create system for profile picture, need to figure that out.
+    private string? _pfpPath;
     public string ProfilePicturePath {
         get{
             return _pfpPath ?? "DEFAULTPATH";

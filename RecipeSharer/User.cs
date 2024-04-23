@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 
 
-namespace users;
+namespace Users;
 
 public class User
 {

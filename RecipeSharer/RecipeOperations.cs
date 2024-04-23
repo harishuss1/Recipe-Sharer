@@ -1,3 +1,5 @@
+namespace Recipes;
+
 public class RecipeOperations
 {
 
@@ -10,6 +12,7 @@ public class RecipeOperations
     public RecipeOperations()
     {
         recipes = new List<Recipe>(); // pulled from database
+        // will be info taken from the db? Is it this method needed? can just do line 13 as equality to line 9 no?
     }
 
     // Add a new recipe
@@ -37,11 +40,9 @@ public class RecipeOperations
         existingRecipe.ShortDescription = newDetails.ShortDescription;
         existingRecipe.PreparationTime = newDetails.PreparationTime;
         existingRecipe.CookingTime = newDetails.CookingTime;
-        existingRecipe.TotalTime = newDetails.TotalTime;
         existingRecipe.Servings = newDetails.Servings;
         existingRecipe.Steps = new List<string>(newDetails.Steps);
         existingRecipe.Ingredients = new List<Ingredient>(newDetails.Ingredients);
         existingRecipe.Tags = new List<string>(newDetails.Tags);
     }
-
 }

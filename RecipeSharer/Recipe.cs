@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-
-using users;
+namespace Recipes;
+using Users;
 
 public class Recipe
 {
@@ -10,17 +8,21 @@ public class Recipe
     public string ShortDescription { get; set; }
     public TimeSpan PreparationTime { get; set; }
     public TimeSpan CookingTime { get; set; }
-    public TimeSpan TotalTime { get; set; }
+    public TimeSpan TotalTime => PreparationTime + CookingTime;
     public int Servings { get; set; }
     public List<string> Steps { get; set; }
     public List<Ingredient> Ingredients { get; set; }
     public List<Rating> Ratings { get; set; }
     public List<string> Tags { get; set; }
 
-    public Recipe(User owner, string name)
+    public Recipe(User owner, string name, string description, TimeSpan prepTime, TimeSpan cookingTime, int servings)
     {
         Owner = owner;
         Name = name;
+        ShortDescription = description;
+        PreparationTime = prepTime;
+        CookingTime = cookingTime;
+        Servings = servings;
         Steps = new List<string>();
         Ingredients = new List<Ingredient>();
         Ratings = new List<Rating>();
