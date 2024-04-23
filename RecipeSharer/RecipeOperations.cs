@@ -33,6 +33,8 @@ public class RecipeOperations
     // Remove a recipe
     public void RemoveRecipe(User user,Recipe recipe)
     {
+        if (recipe.Owner == null)
+            throw new ArgumentException("Recipe must have an owner.");
         recipes.Remove(recipe);
     }
 
