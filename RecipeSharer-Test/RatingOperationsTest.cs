@@ -82,4 +82,18 @@ public class RatingOperationsTests
         // Assert
         Assert.AreEqual(0, rating);
     }
+
+    [TestMethod]
+    public void ViewRating_RatingsAvailable_ShouldReturnAvgRating()
+    {
+        // Arrange
+        _ratingOperations.AddRating(_user, _recipe, 8);
+        _ratingOperations.AddRating(_user, _recipe, 6);
+
+        // Act 
+        double rating = _ratingOperations.ViewRating(_recipe);
+
+        // Assert
+        Assert.AreEqual(7, rating);
+    }
 }
