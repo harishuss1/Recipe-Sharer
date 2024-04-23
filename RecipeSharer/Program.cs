@@ -7,6 +7,7 @@ class Program
 {
     public static void Main(string[] args)
     {   
+        //Create User/Profile
         string username;
         string password;
         do {
@@ -19,7 +20,7 @@ class Program
         User user = new User(username, password);
         Profile profile = new Profile(user);
 
-
+        profile.ToString();
 
         // Test ingredients with different quantity formats
         List<Ingredient> originalIngredients = new List<Ingredient>()
@@ -67,16 +68,21 @@ class Program
         }
         Console.ReadLine();
 
+
+        //Creating recipe with the ingredients
         Recipe recipe = new Recipe(user, "recipe", "example recipe", originalIngredients, new TimeSpan(100), new TimeSpan(100), 2);
 
-        int rating;
 
+        //Rating Recipe
+        int rating;
         do {
             rating = Convert.ToInt32(Console.ReadLine());
         } while (rating >= 0 && rating <= 10);
 
         new RatingOperations().AddRating(user, recipe, rating);
 
+
+        //Add recipe to favorites
         profile.addToFavorites(recipe);
     }
 }
