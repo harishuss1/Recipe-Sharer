@@ -9,7 +9,7 @@ class Program
         static List<User> users = new List<User>();
         static List<Recipe> recipes = new List<Recipe>();
         static User currentUser;
-
+        static RecipeOperations recipeOps = new RecipeOperations();
         static void Main(string[] args)
         {
             InitializeMockDatabase();
@@ -75,16 +75,18 @@ class Program
                 switch (choice)
                 {
                     case "1":
-                        RecipeOperations.AddRecipe(currentUser);
+                        Recipe validrecipe = ConsoleUtils.GetValidRecipe(currentUser);
+                        recipeOps.AddRecipe(currentUser,validrecipe);
                         break;
                     case "2":
-                        RecipeOperations.ViewRecipes(currentUser);
+                        recipeOps.ViewRecipes(currentUser);
                         break;
                     case "3":
-                        RecipeOperations.UpdateRecipe(currentUser);
+                    Recipe validrecipe = ConsoleUtils.GetValidRecipe(currentUser);
+                        recipeOps.UpdateRecipe(currentUser);
                         break;
                     case "4":
-                        RecipeOperations.DeleteRecipe(currentUser);
+                        recipeOps.DeleteRecipe(currentUser);
                         break;
                     case "5":
                         back = true;
