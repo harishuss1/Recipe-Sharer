@@ -64,39 +64,62 @@ public class RecipeOperations
     // add steps to a recipe
     public List<string> AddStepsToRecipe(TextReader reader)
     {
-    var steps = new List<string>();
-    string step;
-    while ((step = reader.ReadLine()) != null)
-    {
-        if (step.Trim().Equals("Done!", StringComparison.OrdinalIgnoreCase))
+        var steps = new List<string>();
+        string step;
+        while ((step = reader.ReadLine()) != null)
         {
-            break;
-        }
+            if (step.Trim().Equals("Done!", StringComparison.OrdinalIgnoreCase))
+            {
+                break;
+            }
 
-        steps.Add(step.Trim());
+            // checks if the step is empty after trimming
+            if (!string.IsNullOrWhiteSpace(step))
+            {
+            steps.Add(step.Trim());
+            }
+
+            else
+            {
+                throw new InvalidOperationException("Empty step found. Please provide a non-empty step.");
+            }
+        }
+        return steps;
     }
-    return steps;
-    }
+
 
     // add ingredient to recipe
-    public void addIngredient(Recipe recipe, Ingredient ingredient){
+    public void addIngredient(Recipe recipe, Ingredient ingredient)
+    {
+        if (ingredient == null)
+        {
+            throw new ArgumentNullException(nameof(ingredient), "Ingredient cannot be null.");
+        }
         recipe.Ingredients.Add(ingredient);
     }
 
     //View all recipes
-    public void ViewRecipes(){
+    public void ViewRecipes()
+    {
+        if (recipes == null || recipes.Count == 0)
+        {
+            Console.WriteLine("No Recipes Found");
+            return;
+        }
         int count = 0;
         foreach (Recipe recipe in recipes){
                 count++;
                 Console.WriteLine($"{count}: {recipe.ToString()}");
         }
-        if (count == 0){
-            Console.WriteLine("No Recipes Found");
-        }
     }
 
     //View user's recipe lists
-    public void ViewUserRecipes(User owner){
+    public void ViewUserRecipes(User owner)
+    {
+        if (owner == null)
+        {
+            throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
+        }
         int count = 0;
         foreach (Recipe recipe in recipes){
             if (recipe.Owner == owner){
@@ -110,6 +133,10 @@ public class RecipeOperations
     }
 
     public List<Recipe> GetUserRecipes(User owner){
+        if (owner == null)
+        {
+            throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
+        }
         List<Recipe> r = new List<Recipe>();
         foreach (Recipe recipe in recipes){
             if (recipe.Owner == owner){
