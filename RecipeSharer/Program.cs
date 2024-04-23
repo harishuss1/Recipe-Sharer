@@ -11,11 +11,13 @@ class Program
         string username;
         string password;
         do {
+            Console.WriteLine("input username");
             username = Console.ReadLine();
-        } while (username != null);
+        } while (username == null);
         do {
+            Console.WriteLine("input password");
             password = Console.ReadLine();
-        } while (password != null);
+        } while (password == null);
 
         User user = new User(username, password);
         Profile profile = new Profile(user);
@@ -74,10 +76,11 @@ class Program
 
 
         //Rating Recipe
-        int rating;
+        int rating = -1;
+        Console.WriteLine("rate the recipe from 0 to 10");
         do {
             rating = Convert.ToInt32(Console.ReadLine());
-        } while (rating >= 0 && rating <= 10);
+        } while (rating < 0 && rating > 10);
 
         new RatingOperations().AddRating(user, recipe, rating);
 
