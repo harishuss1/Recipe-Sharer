@@ -7,7 +7,7 @@ public class RecipeOperations
     // Will be discuseed among teamates
 
     //Also might will be using Our Validation class after when refactoring code.
-    private List<Recipe> recipes;
+    public List<Recipe> recipes;
 
     public RecipeOperations()
     {
