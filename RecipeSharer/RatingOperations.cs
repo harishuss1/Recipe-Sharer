@@ -65,6 +65,11 @@ public class RatingOperations
 
     public double ViewRating(Recipe recipe)
     {
+        if (recipe == null)
+        {
+            throw new ArgumentNullException(nameof(recipe), "Recipe can't be null");
+        }
+        
         if (recipe.Ratings.Count == 0)
         {
             Console.WriteLine("No ratings available for this recipe.");
