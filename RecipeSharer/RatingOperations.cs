@@ -4,7 +4,7 @@ using Users;
 public class RatingOperations
 {
     public void AddRating(User user, Recipe recipe, int score)
-{
+    {
     if (user == null || recipe == null)
     {
         throw new ArgumentException("User or Recipe cannot be null.");
@@ -17,7 +17,7 @@ public class RatingOperations
 
     Rating rating = new Rating(user, score);
     recipe.Ratings.Add(rating);
-}
+    }
 
     public void RemoveRating(User user, Recipe recipe)
     {
@@ -60,5 +60,18 @@ public class RatingOperations
         {
             Console.WriteLine("No rating from this user found.");
         }
+    }
+
+    public double ViewRating(Recipe recipe)
+    {
+        if (recipe.Ratings.Count == 0)
+        {
+            Console.WriteLine("No ratings available for this recipe.");
+            return 0;
+        }
+
+        double totalScore = recipe.Ratings.Sum(r => r.Score);
+        double averageScore = totalScore / recipe.Ratings.Count;
+        return averageScore;
     }
 }
