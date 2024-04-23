@@ -119,4 +119,7 @@ public static List<string> GetSteps()
         return tags;
     }
 
+    public override string ToString(){
+        return $"Recipe Name: {name}, Description: {ShortDescription}, Total Time: {TotalTime}";
+    }
 }

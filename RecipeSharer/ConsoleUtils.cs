@@ -75,7 +75,7 @@ public static Recipe GetValidRecipe(User currentUser)
         return input;
     }
 
-    private static int ReadValidInteger(string errorMessage)
+    public static int ReadValidInteger(string errorMessage)
     {
         int number;
         while (!int.TryParse(Console.ReadLine(), out number) || number <= 0)

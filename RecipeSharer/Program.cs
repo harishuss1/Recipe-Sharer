@@ -82,14 +82,44 @@ class Program
                         recipeOps.AddRecipe(currentUser,validrecipe);
                         break;
                     case "2":
-                        // recipeOps.ViewRecipes(currentUser);
+                        recipeOps.ViewUserRecipes(currentUser);
+
                         break;
                     case "3":
-                        Recipe validRecipe = ConsoleUtils.GetValidRecipe(currentUser);
-                        // recipeOps.UpdateRecipe(currentUser);
+                        recipeOps.ViewUserRecipes(currentUser);
+                        if (recipeOps.GetUserRecipes(currentUser).Count == 0){
+                            break;
+                        }
+                        bool validToUpdate = false;
+                        int toUpdate = -1;
+
+                        Console.WriteLine("Select Recipe number you want to update");
+                        while (validToUpdate == false){
+                            toUpdate = ConsoleUtils.ReadValidInteger("not a valid choice") -1;
+                            if (toUpdate >= 0 && toUpdate < recipeOps.GetUserRecipes(currentUser).Count){
+                                validToUpdate = true;
+                            }
+                            else { Console.WriteLine("Invalid Recipe Selected"); }
+                        }
+                        recipeOps.UpdateRecipe(currentUser, recipeOps.GetUserRecipes(currentUser)[toUpdate], ConsoleUtils.GetValidRecipe(currentUser));
                         break;
                     case "4":
-                        // recipeOps.DeleteRecipe(currentUser);
+                        recipeOps.ViewUserRecipes(currentUser);
+                        if (recipeOps.GetUserRecipes(currentUser).Count == 0){
+                            break;
+                        }
+                        bool validToDelete = false;
+                        int toDelete = -1;
+
+                        Console.WriteLine("Select Recipe number you want to delete");
+                        while (validToDelete == false){
+                            toDelete = ConsoleUtils.ReadValidInteger("not a valid choice") -1;
+                            if (toDelete >= 0 && toDelete < recipeOps.GetUserRecipes(currentUser).Count){
+                                validToDelete = true;
+                            }
+                            else { Console.WriteLine("Invalid Recipe Selected"); }
+                        }
+                        recipeOps.RemoveRecipe(currentUser, recipeOps.GetUserRecipes(currentUser)[toDelete]);
                         break;
                     case "5":
                         back = true;

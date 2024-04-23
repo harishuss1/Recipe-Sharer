@@ -80,4 +80,37 @@ public class RecipeOperations
     public void addIngredient(Recipe recipe, Ingredient ingredient){
         recipe.Ingredients.Add(ingredient);
     }
+
+    //View all recipes
+    public void ViewRecipes(){
+        int count = 0;
+        foreach (Recipe recipe in recipes){
+                count++;
+                Console.WriteLine($"{count}: {recipe.ToString()}");
+        }
+    }
+
+    //View user's recipe lists
+    public void ViewUserRecipes(User owner){
+        int count = 0;
+        foreach (Recipe recipe in recipes){
+            if (recipe.Owner == owner){
+                count++;
+                Console.WriteLine($"{count}: {recipe.ToString()}");
+            }
+        }
+        if (count == 0){
+            Console.WriteLine("No Recipes Found");
+        }
+    }
+
+    public List<Recipe> GetUserRecipes(User owner){
+        List<Recipe> r = new List<Recipe>();
+        foreach (Recipe recipe in recipes){
+            if (recipe.Owner == owner){
+                r.Add(recipe);
+            }
+        }
+        return r;
+    }
 }
