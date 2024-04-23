@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
-
+using Recipes;
 
 namespace Users;
 
@@ -16,6 +16,22 @@ public class User
     public byte[] Salt{get; set;}
     public byte[] Password {get; set;}
 
+    public List<Recipe> UserRecipes;
+
+    public List<Recipe> UserFavouriteRecipes;
+    
+    public void addToFavorites(Recipe recipe)
+    {
+        UserFavouriteRecipes.Append(recipe);
+    }
+
+    public void RemoveRecipeFromFavorites(Recipe recipe)
+    {
+        if (UserFavouriteRecipes.Contains(recipe))
+        {
+            UserFavouriteRecipes.Remove(recipe);
+        }
+    }
     // Constructor
     public User(string name, string password){
         if (password.Length < UserGlobalVars.PASSWORD_LENGTH || password == null) {
@@ -26,6 +42,8 @@ public class User
         Tuple<byte[], byte[]> hash = CreatePassword(password);
         Salt = hash.Item1;
         Password = hash.Item2;
+        UserRecipes = new List<Recipe>();
+        UserFavouriteRecipes = new List<Recipe>();
     }
     
      public static Tuple<byte[], byte[]> CreatePassword(string password) {
