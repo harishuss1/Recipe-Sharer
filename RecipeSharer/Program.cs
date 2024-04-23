@@ -9,7 +9,7 @@ class Program
         static List<User> users = new List<User>();
         static List<Recipe> recipes = new List<Recipe>();
         static List<Ingredient> ingredients = new List<Ingredient>();
-        static User currentUser; 
+        static User? currentUser; 
         static RecipeOperations recipeOps = new RecipeOperations();
         static void Main(string[] args)
         {
@@ -21,7 +21,9 @@ class Program
             Console.Write("Enter your password: ");
             string password = Console.ReadLine();
 
-            currentUser = LoginOrCreateUser(username, password);
+            while (currentUser is null){
+                currentUser = LoginOrCreateUser(username, password);
+            }
             Console.WriteLine($"Logged in as {currentUser.Username}");
 
             bool exit = false;
@@ -80,14 +82,14 @@ class Program
                         recipeOps.AddRecipe(currentUser,validrecipe);
                         break;
                     case "2":
-                        recipeOps.ViewRecipes(currentUser);
+                        // recipeOps.ViewRecipes(currentUser);
                         break;
                     case "3":
                         Recipe validRecipe = ConsoleUtils.GetValidRecipe(currentUser);
-                        recipeOps.UpdateRecipe(currentUser);
+                        // recipeOps.UpdateRecipe(currentUser);
                         break;
                     case "4":
-                        recipeOps.DeleteRecipe(currentUser);
+                        // recipeOps.DeleteRecipe(currentUser);
                         break;
                     case "5":
                         back = true;
@@ -122,9 +124,27 @@ class Program
 
         static User LoginOrCreateUser(string username, string password)
         {
+            bool userExists = false;
+
             // Check if user exists and validate password or create new user
-
-
+            foreach (User user in users){
+                if (user.Username == username){
+                    userExists = true;
+                    Console.WriteLine("Existing user found");
+                    if (User.VerifyPassword(password, user.Salt, user.Password)){
+                        Console.WriteLine("Password is valid");
+                        currentUser = user;
+                    }
+                    else {
+                        Console.WriteLine("Password is invalid");
+                    }
+                }
+            }
+            if (userExists == false){
+                Console.WriteLine("User does not exist, creating new user");
+                users.Add(new User(username, password));
+                currentUser = users[users.Count -1];
+            }
             return currentUser; // Simplified for demonstration
         }
 

@@ -57,9 +57,8 @@ public static Recipe GetValidRecipe(User currentUser)
         List<string> tags = Recipe.GetTags();
 
         // Create and return the recipe object
-        return new Recipe(currentUser, name, description, prepTime, cookTime, servings)
+        return new Recipe(currentUser, name, description, ingredients, prepTime, cookTime, servings)
         {
-            Ingredients = ingredients,
             Steps = steps,
             Tags = tags
         };
