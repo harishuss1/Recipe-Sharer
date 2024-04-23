@@ -1,7 +1,7 @@
 using RecipeSharer;
 
 namespace Recipes;
-
+using Users;
 public class RecipeOperations
 {
 
@@ -18,7 +18,7 @@ public class RecipeOperations
     }
 
     // Add a new recipe
-    public void AddRecipe(Recipe recipe)
+    public void AddRecipe(User user,Recipe recipe)
     {
         if (recipe.Owner == null)
             throw new ArgumentException("Recipe must have an owner.");
@@ -26,17 +26,18 @@ public class RecipeOperations
         {
             throw new ArgumentException("Recipe name cannot be null or empty.", nameof(recipe.Name));
         }
+        recipe.Owner= user;
         recipes.Add(recipe);
     }
 
     // Remove a recipe
-    public void RemoveRecipe(Recipe recipe)
+    public void RemoveRecipe(User user,Recipe recipe)
     {
         recipes.Remove(recipe);
     }
 
     // Update a recipe
-    public void UpdateRecipe(Recipe existingRecipe, Recipe newDetails)
+    public void UpdateRecipe(User user,Recipe existingRecipe, Recipe newDetails)
     {
         if (existingRecipe.Owner != newDetails.Owner)
             throw new ArgumentException("Cannot change the owner of the recipe.");

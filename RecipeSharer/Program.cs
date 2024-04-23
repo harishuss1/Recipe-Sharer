@@ -6,38 +6,49 @@ using Users;
 using Utils;
 class Program
     {
-        static RecipeOperations recipeOps = new RecipeOperations(); 
+        static List<User> users = new List<User>();
+        static List<Recipe> recipes = new List<Recipe>();
         static User currentUser;
 
         static void Main(string[] args)
         {
+            InitializeMockDatabase();
             Console.WriteLine("Welcome to Recipe Sharer!");
+
+            Console.Write("Enter your username: ");
+            string username = Console.ReadLine();
+            Console.Write("Enter your password: ");
+            string password = Console.ReadLine();
+
+            currentUser = LoginOrCreateUser(username, password);
+            Console.WriteLine($"Logged in as {currentUser.Username}");
 
             bool exit = false;
             while (!exit)
             {
-                Console.WriteLine("\nPlease choose an option:");
+                Console.WriteLine("\nChoose an option:");
                 Console.WriteLine("1. Recipe");
                 Console.WriteLine("2. Rate");
-                Console.WriteLine("3. Search");
-                Console.WriteLine("4. Exit");
+                Console.WriteLine("3. User");
+                Console.WriteLine("4. Search");
+                Console.WriteLine("5. Exit");
 
-                string mainChoice = Console.ReadLine();
-                switch (mainChoice)
+                string option = Console.ReadLine();
+                switch (option)
                 {
                     case "1":
-                        // Recipe operations
                         RecipeMenu();
                         break;
                     case "2":
-                        // Rating operations
                         RateMenu();
                         break;
                     case "3":
-                        // Search operations
-                        SearchMenu();
+                        UserMenu();
                         break;
                     case "4":
+                        SearchMenu();
+                        break;
+                    case "5":
                         exit = true;
                         Console.WriteLine("Exiting Recipe Sharer. Goodbye!");
                         break;
@@ -53,27 +64,27 @@ class Program
             bool back = false;
             while (!back)
             {
-                Console.WriteLine("\nRecipe Menu:");
+                Console.WriteLine("\nRecipe Options:");
                 Console.WriteLine("1. Add Recipe");
-                Console.WriteLine("2. View Recipes");
+                Console.WriteLine("2. View My Recipes");
                 Console.WriteLine("3. Update Recipe");
                 Console.WriteLine("4. Delete Recipe");
-                Console.WriteLine("5. Back to Main Menu");
+                Console.WriteLine("5. Back");
 
-                string recipeChoice = Console.ReadLine();
-                switch (recipeChoice)
+                string choice = Console.ReadLine();
+                switch (choice)
                 {
                     case "1":
-                        // Add Recipe  here
+                        RecipeOperations.AddRecipe(currentUser);
                         break;
                     case "2":
-                        // View Recipes  here
+                        RecipeOperations.ViewRecipes(currentUser);
                         break;
                     case "3":
-                        // Update Recipe  here
+                        RecipeOperations.UpdateRecipe(currentUser);
                         break;
                     case "4":
-                        // Delete Recipe  here
+                        RecipeOperations.DeleteRecipe(currentUser);
                         break;
                     case "5":
                         back = true;
@@ -87,59 +98,27 @@ class Program
 
         static void RateMenu()
         {
-            bool back = false;
-            while (!back)
-            {
-                Console.WriteLine("\nRate Menu:");
-                Console.WriteLine("1. Rate a Recipe");
-                Console.WriteLine("2. View Ratings");
-                Console.WriteLine("3. Back to Main Menu");
+            // Implement rating menu logic here
+        }
 
-                string rateChoice = Console.ReadLine();
-                switch (rateChoice)
-                {
-                    case "1":
-                        // Rate a Recipe  here
-                        break;
-                    case "2":
-                        // View Ratings  here
-                        break;
-                    case "3":
-                        back = true;
-                        break;
-                    default:
-                        Console.WriteLine("Invalid option. Please choose again.");
-                        break;
-                }
-            }
+        static void UserMenu()
+        {
+            // Implement user profile menu logic here
         }
 
         static void SearchMenu()
         {
-            bool back = false;
-            while (!back)
-            {
-                Console.WriteLine("\nSearch Menu:");
-                Console.WriteLine("1. Search Recipes by Name");
-                Console.WriteLine("2. Search Recipes by Ingredient");
-                Console.WriteLine("3. Back to Main Menu");
+            // Implement search menu logic here
+        }
 
-                string searchChoice = Console.ReadLine();
-                switch (searchChoice)
-                {
-                    case "1":
-                        // Search Recipes by Name  here
-                        break;
-                    case "2":
+        static User LoginOrCreateUser(string username, string password)
+        {
+            // Check if user exists and validate password or create new user
+            return currentUser; // Simplified for demonstration
+        }
 
-                        break;
-                    case "3":
-                        back = true;
-                        break;
-                    default:
-                        Console.WriteLine("Invalid option. Please choose again.");
-                        break;
-                }
-            }
+        static void InitializeMockDatabase()
+        {
+            // Populate users and recipes lists with mock data
         }
     }

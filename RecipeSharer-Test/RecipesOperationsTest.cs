@@ -28,11 +28,12 @@ public class RecipeOperationsTests
     public void AddRecipeTestAddsValidRecipe()
     {
         // Arrange
+        User _user = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe recipe = new Recipe(_user, "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act
-        recipeOperations.AddRecipe(recipe);
+        recipeOperations.AddRecipe(_user,recipe);
 
         // Assert
         // iterates through each item in the recipes list and if it finds an item that equals the recipe object using the Equals() method, it sets recipeFound to true. 
@@ -52,11 +53,12 @@ public class RecipeOperationsTests
     public void AddRecipeTestThrowsArgumentExceptionWhenRecipeHasNullOwner()
     {
         // Arrange
+        User _user = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(null, "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe recipe = new Recipe(_user, "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act and Assert
-        Assert.ThrowsException<ArgumentException>(() => recipeOperations.AddRecipe(recipe));
+        Assert.ThrowsException<ArgumentException>(() => recipeOperations.AddRecipe(_user,recipe));
     }
 
     // need to do this for each field?
@@ -64,11 +66,12 @@ public class RecipeOperationsTests
     public void AddRecipeTestThrowsExceptionWhenRecipeNameIsMissing()
     {
         // Arrange
+        User _user = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), null, "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe recipe = new Recipe(_user, null, "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act and Assert
-        Assert.ThrowsException<ArgumentException>(() => recipeOperations.AddRecipe(recipe));
+        Assert.ThrowsException<ArgumentException>(() => recipeOperations.AddRecipe(_user,recipe));
     }
 
     [TestMethod]
@@ -78,10 +81,10 @@ public class RecipeOperationsTests
         User owner = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
         Recipe recipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
-        recipeOperations.AddRecipe(recipe);
+        recipeOperations.AddRecipe(owner,recipe);
 
         // Act
-        recipeOperations.RemoveRecipe(recipe);
+        recipeOperations.RemoveRecipe(owner,recipe);
 
         // Assert
         bool recipeFound = false;
@@ -101,12 +104,13 @@ public class RecipeOperationsTests
     public void RemoveRecipeTestRemovesExistingRecipe()
     {
         // Arrange
+        User owner = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
-        recipeOperations.AddRecipe(recipe);
+        Recipe recipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        recipeOperations.AddRecipe(owner,recipe);
 
         // Act
-        recipeOperations.RemoveRecipe(recipe);
+        recipeOperations.RemoveRecipe(owner,recipe);
 
         // Assert
         bool recipeNotFound = true;
@@ -125,11 +129,12 @@ public class RecipeOperationsTests
     public void RemoveRecipeTestDoesNothingWhenRecipeDoesNotExist()
     {
         // Arrange
+        User owner = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe recipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act
-        recipeOperations.RemoveRecipe(recipe);
+        recipeOperations.RemoveRecipe(owner,recipe);
 
         // Assert
         bool recipeNotFound = true;
@@ -149,13 +154,14 @@ public class RecipeOperationsTests
     public void UpdateRecipeTestUpdatesExistingRecipeWithValidDetails()
     {
         // Arrange
+        User owner = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe existingRecipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe existingRecipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
         Recipe newDetails = new Recipe(existingRecipe.Owner, "Vanilla Cake", "Delicious vanilla cake recipe", TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
         // Act
-        recipeOperations.AddRecipe(existingRecipe);
-        recipeOperations.UpdateRecipe(existingRecipe, newDetails);
+        recipeOperations.AddRecipe(owner,existingRecipe);
+        recipeOperations.UpdateRecipe(owner,existingRecipe, newDetails);
 
         // Assert
         Assert.AreEqual(newDetails.Name, existingRecipe.Name);
@@ -174,34 +180,38 @@ public class RecipeOperationsTests
     public void UpdateRecipeTestThrowsArgumentExceptionWhenNewOwnerIsDifferent()
     {
         // Arrange
+        User owner = new User("testperson", "testpwd123");
+        User owner2 = new User("testperson2", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe existingRecipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
-        Recipe newDetails = new Recipe(new User("testperson2", "testpwd123"), "Vanilla Cake", "Delicious vanilla cake recipe", TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
+        Recipe existingRecipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe newDetails = new Recipe(owner2, "Vanilla Cake", "Delicious vanilla cake recipe", TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
         // Act and Assert
-        Assert.ThrowsException<ArgumentException>(() => recipeOperations.UpdateRecipe(existingRecipe, newDetails));
+        Assert.ThrowsException<ArgumentException>(() => recipeOperations.UpdateRecipe(owner,existingRecipe, newDetails));
     }
 
     [TestMethod]
     public void UpdateRecipeTestThrowsArgumentNullExceptionWhenExistingRecipeIsNull()
     {
         // Arrange
+        User owner = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe newDetails = new Recipe(new User("testperson", "testpwd123"), "Vanilla Cake", "Delicious vanilla cake recipe", TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
+        Recipe newDetails = new Recipe(owner, "Vanilla Cake", "Delicious vanilla cake recipe", TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
         // Act and Assert
-        Assert.ThrowsException<NullReferenceException>(() => recipeOperations.UpdateRecipe(null, newDetails));
+        Assert.ThrowsException<NullReferenceException>(() => recipeOperations.UpdateRecipe(owner,null, newDetails));
     }
 
     [TestMethod]
     public void UpdateRecipeTestThrowsArgumentNullExceptionWhenNewDetailsIsNull()
     {
         // Arrange
+        User owner = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe existingRecipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe existingRecipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act and Assert
-        Assert.ThrowsException<NullReferenceException>(() => recipeOperations.UpdateRecipe(existingRecipe, null));
+        Assert.ThrowsException<NullReferenceException>(() => recipeOperations.UpdateRecipe(owner,existingRecipe, null));
     }
 
     [TestMethod]

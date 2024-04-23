@@ -3,42 +3,35 @@ using Recipes;
 
 using System.Linq;
 
-public class Profile {
-    public User User {get; set;}
-    
+public class Profile
+{
+    public User User { get; set; }
+
 
     //To-do: Create system for profile picture, need to figure that out.
     private string? _pfpPath;
-    public string ProfilePicturePath {
-        get{
+    public string ProfilePicturePath
+    {
+        get
+        {
             return _pfpPath ?? "DEFAULTPATH";
-        } 
-        set{
+        }
+        set
+        {
             _pfpPath = value;
         }
     }
 
-    private string? Description {get; set;}
+    private string? Description { get; set; }
 
-    public List<Recipe> Favorites {get; set;} = new List<Recipe>();
-
-    public Profile(User user){
+    public Profile(User user)
+    {
         User = user;
     }
 
-    public void addToFavorites(Recipe recipe){
-        Favorites.Append(recipe);
-    }
-
-    public void RemoveRecipeFromFavorites(Recipe recipe)
-{
-    if (Favorites.Contains(recipe))
+    public override string ToString()
     {
-        Favorites.Remove(recipe);
-    }
-}
-    public override string ToString(){
         return $"Name: {User.Username}, Description: {Description}, ProfilePicturePath: {ProfilePicturePath}";
     }
-    
+
 }
