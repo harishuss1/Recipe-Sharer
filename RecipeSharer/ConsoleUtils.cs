@@ -6,9 +6,9 @@ public class ConsoleUtils
     int rating;
     do
     {
-        Console.Write("Please enter a rating from 1 to 10: ");
+        Console.Write("Please enter a rating from 0 to 10: ");
         string input = Console.ReadLine();
-        if (int.TryParse(input, out rating) && rating >= 1 && rating <= 10)
+        if (int.TryParse(input, out rating) && rating >= 0 && rating <= 10)
         {
             break;
         }
