@@ -72,4 +72,14 @@ public class RatingOperationsTests
         // Assert
         Assert.AreEqual(9, _recipe.Ratings.First().Score);
     }
+
+    [TestMethod]
+    public void ViewRating_NoRatingAvailable_ShouldReturnZero()
+    {
+        // Act
+        double rating = _ratingOperations.ViewRating(_recipe);
+
+        // Assert
+        Assert.AreEqual(0, rating);
+    }
 }
