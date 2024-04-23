@@ -18,7 +18,7 @@ public class RecipeTests
         int servings = 8;
 
         // Act
-        Recipe recipe = new Recipe(owner, name, description, prepTime, cookingTime, servings);
+        Recipe recipe = new Recipe(owner, name, description, new List<Ingredient>(), prepTime, cookingTime, servings);
 
         // Assert
         // should I do 1 test for each assert...?
@@ -40,7 +40,7 @@ public class RecipeTests
     {
         // Arrange
         User owner = new User("testperson", "testpwd123");
-        Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
+        Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
 
         // Act
         recipe.Name = "Updated Name";
@@ -67,7 +67,7 @@ public class RecipeTests
         TimeSpan cookingTime = TimeSpan.FromMinutes(45);
 
         // Act
-        Recipe recipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", prepTime, cookingTime, 8);
+        Recipe recipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), prepTime, cookingTime, 8);
 
         // Assert
         Assert.AreEqual(prepTime + cookingTime, recipe.TotalTime);

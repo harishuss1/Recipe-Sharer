@@ -81,7 +81,7 @@ private string name;
     public List<Rating> Ratings { get; set; }
     public List<string> Tags { get; set; }
 
-    public Recipe(User owner, string name, string description, TimeSpan prepTime, TimeSpan cookingTime, int servings)
+    public Recipe(User owner, string name, string description, List<Ingredient> ingredients, TimeSpan prepTime, TimeSpan cookingTime, int servings)
     {
         Owner = owner;
         Name = name;
@@ -89,8 +89,8 @@ private string name;
         PreparationTime = prepTime;
         CookingTime = cookingTime;
         Servings = servings;
+        Ingredients = ingredients;
         Steps = new List<string>();
-        Ingredients = new List<Ingredient>();
         Ratings = new List<Rating>();
         Tags = new List<string>();
     }
@@ -119,4 +119,7 @@ public static List<string> GetSteps()
         return tags;
     }
 
+    public override string ToString(){
+        return $"Recipe Name: {name}, Description: {ShortDescription}, Total Time: {TotalTime}";
+    }
 }

@@ -57,9 +57,8 @@ public static Recipe GetValidRecipe(User currentUser)
         List<string> tags = Recipe.GetTags();
 
         // Create and return the recipe object
-        return new Recipe(currentUser, name, description, prepTime, cookTime, servings)
+        return new Recipe(currentUser, name, description, ingredients, prepTime, cookTime, servings)
         {
-            Ingredients = ingredients,
             Steps = steps,
             Tags = tags
         };
@@ -76,7 +75,7 @@ public static Recipe GetValidRecipe(User currentUser)
         return input;
     }
 
-    private static int ReadValidInteger(string errorMessage)
+    public static int ReadValidInteger(string errorMessage)
     {
         int number;
         while (!int.TryParse(Console.ReadLine(), out number) || number <= 0)
