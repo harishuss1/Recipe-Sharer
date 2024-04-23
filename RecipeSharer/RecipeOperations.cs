@@ -52,24 +52,21 @@ public class RecipeOperations
     }
 
     // add steps to a recipe
-    public List<string> AddStepsToRecipe()
+    public List<string> AddStepsToRecipe(TextReader reader)
     {
-        Console.WriteLine("Add steps to the recipe. Press Enter after each step. Type 'Done!' when finished:");
-
-        List<string> steps = new List<string>();
-        string step;
-        while (true)
-        {
-            step = Console.ReadLine();
-            if (step.ToLower() == "done!")
+        var steps = new List<string>();
+            string step;
+            while ((step = reader.ReadLine()) != null)
             {
-                break;
+                if (step.ToLower() == "done!")
+                {
+                    break;
+                }
+                else
+                {
+                    steps.Add(step);
+                }
             }
-            else
-            {
-                steps.Add(step);
-            }
-        }
-        return steps;
+            return steps;
     }
 }
