@@ -1,5 +1,6 @@
 namespace Recipes;
 using Users;
+
 public class Recipe
 {
     public string Name { get; set; }
