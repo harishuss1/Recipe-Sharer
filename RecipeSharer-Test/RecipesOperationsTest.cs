@@ -203,4 +203,67 @@ public class RecipeOperationsTests
         // Act and Assert
         Assert.ThrowsException<NullReferenceException>(() => recipeOperations.UpdateRecipe(existingRecipe, null));
     }
+
+    [TestMethod]
+    public void AddStepsToRecipeReturnsSteps()
+    {
+        // Arrange
+        RecipeOperations recipeOperations = new RecipeOperations();
+        var input = "Step 1\nStep 2\nDone!";
+        var reader = new StringReader(input);
+        var expectedSteps = new List<string> { "Step 1", "Step 2" };
+
+        // Act
+        var steps = recipeOperations.AddStepsToRecipe(reader);
+
+        // Assert
+        CollectionAssert.AreEqual(expectedSteps, steps);
+    }
+
+    [TestMethod]
+    public void AddStepsToRecipeReturnsEmptyListWhenNoStepsEntered()
+    {
+        // Arrange
+        RecipeOperations recipeOperations = new RecipeOperations();
+        var input = "Done!";
+        var reader = new StringReader(input);
+
+        // Act
+        var steps = recipeOperations.AddStepsToRecipe(reader);
+
+        // Assert
+        CollectionAssert.AreEqual(new List<string>(), steps);
+    }
+
+    [TestMethod]
+    public void AddStepsToRecipeReturnsStepsWhenSingleStepEntered()
+    {
+        // Arrange
+        RecipeOperations recipeOperations = new RecipeOperations();
+        var input = "Step 1\nDone!";
+        var reader = new StringReader(input);
+        var expectedSteps = new List<string> { "Step 1" };
+
+        // Act
+        var steps = recipeOperations.AddStepsToRecipe(reader);
+
+        // Assert
+        CollectionAssert.AreEqual(expectedSteps, steps);
+    }
+
+    [TestMethod]
+    public void AddStepsToRecipeReturnsStepsIgnoresLeadingAndTrailingSpaces()
+    {
+        // Arrange
+        var recipeOperations = new RecipeOperations();
+        var input = "  Step 1  \n  Step 2  \nDone!";
+        var reader = new StringReader(input);
+        var expectedSteps = new List<string> { "Step 1", "Step 2" };
+
+        // Act
+        var steps = recipeOperations.AddStepsToRecipe(reader);
+
+        // Assert
+        CollectionAssert.AreEqual(expectedSteps, steps);
+    }
 }
