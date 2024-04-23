@@ -6,6 +6,7 @@ public class UserTests
     // - Ensure that a user can authenticate with valid credentials.
     // - Verify that authentication fails with invalid credentials.
 
+
     
 
     // Tests for User Registration

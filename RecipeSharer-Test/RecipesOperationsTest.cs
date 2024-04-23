@@ -29,7 +29,7 @@ public class RecipeOperationsTests
     {
         // Arrange
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act
         recipeOperations.AddRecipe(recipe);
@@ -53,7 +53,7 @@ public class RecipeOperationsTests
     {
         // Arrange
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(null, "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe recipe = new Recipe(null, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act and Assert
         Assert.ThrowsException<ArgumentException>(() => recipeOperations.AddRecipe(recipe));
@@ -65,7 +65,7 @@ public class RecipeOperationsTests
     {
         // Arrange
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), null, "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), null, "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act and Assert
         Assert.ThrowsException<ArgumentException>(() => recipeOperations.AddRecipe(recipe));
@@ -77,7 +77,7 @@ public class RecipeOperationsTests
         // Arrange
         User owner = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe recipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
         recipeOperations.AddRecipe(recipe);
 
         // Act
@@ -102,7 +102,7 @@ public class RecipeOperationsTests
     {
         // Arrange
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
         recipeOperations.AddRecipe(recipe);
 
         // Act
@@ -126,7 +126,7 @@ public class RecipeOperationsTests
     {
         // Arrange
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe recipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act
         recipeOperations.RemoveRecipe(recipe);
@@ -150,8 +150,8 @@ public class RecipeOperationsTests
     {
         // Arrange
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe existingRecipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
-        Recipe newDetails = new Recipe(existingRecipe.Owner, "Vanilla Cake", "Delicious vanilla cake recipe", TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
+        Recipe existingRecipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe newDetails = new Recipe(existingRecipe.Owner, "Vanilla Cake", "Delicious vanilla cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
         // Act
         recipeOperations.AddRecipe(existingRecipe);
@@ -175,8 +175,8 @@ public class RecipeOperationsTests
     {
         // Arrange
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe existingRecipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
-        Recipe newDetails = new Recipe(new User("testperson2", "testpwd123"), "Vanilla Cake", "Delicious vanilla cake recipe", TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
+        Recipe existingRecipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe newDetails = new Recipe(new User("testperson2", "testpwd123"), "Vanilla Cake", "Delicious vanilla cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
         // Act and Assert
         Assert.ThrowsException<ArgumentException>(() => recipeOperations.UpdateRecipe(existingRecipe, newDetails));
@@ -187,7 +187,7 @@ public class RecipeOperationsTests
     {
         // Arrange
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe newDetails = new Recipe(new User("testperson", "testpwd123"), "Vanilla Cake", "Delicious vanilla cake recipe", TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
+        Recipe newDetails = new Recipe(new User("testperson", "testpwd123"), "Vanilla Cake", "Delicious vanilla cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
         // Act and Assert
         Assert.ThrowsException<NullReferenceException>(() => recipeOperations.UpdateRecipe(null, newDetails));
@@ -198,7 +198,7 @@ public class RecipeOperationsTests
     {
         // Arrange
         RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe existingRecipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+        Recipe existingRecipe = new Recipe(new User("testperson", "testpwd123"), "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act and Assert
         Assert.ThrowsException<NullReferenceException>(() => recipeOperations.UpdateRecipe(existingRecipe, null));
