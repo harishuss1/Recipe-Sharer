@@ -1,4 +1,7 @@
-namespace RecipeSharer.Tests;
+using Recipes;
+using Users;
+namespace RecipeSharerTests;
+
 
 [TestClass]
 public class RecipeTests

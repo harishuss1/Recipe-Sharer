@@ -1,8 +1,7 @@
-namespace RecipeTest;
-using System.Collections.Generic;
 using Recipes;
 using RecipeSearch;
-using User;
+using Users;
+namespace RecipeSharerTests;
 [TestClass]
 public class SearchTests
 {

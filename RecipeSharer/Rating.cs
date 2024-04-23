@@ -1,5 +1,5 @@
 namespace Recipes;
-using User;
+using Users;
 
 public class Rating
 {

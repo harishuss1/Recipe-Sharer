@@ -1,4 +1,9 @@
-namespace RecipeSharer.Tests;
+namespace RecipeSharerTests;
+using Recipes;
+using System;
+using Users;
+using System.Collections.Generic;
+using System.Linq;
 // Tests for Adding Recipes
 // - Ensure that a recipe can be added with valid details.
 // - Check handling of adding a recipe with missing or invalid fields.

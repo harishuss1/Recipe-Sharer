@@ -1,5 +1,5 @@
 namespace Recipes;
-using User;
+using Users;
 public class Recipe
 {
     public string Name { get; set; }
@@ -21,7 +21,6 @@ public class Recipe
         ShortDescription = description;
         PreparationTime = prepTime;
         CookingTime = cookingTime;
-        TotalTime = prepTime + cookingTime;
         Servings = servings;
         Steps = new List<string>();
         Ingredients = new List<Ingredient>();

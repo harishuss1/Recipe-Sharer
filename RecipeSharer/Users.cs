@@ -1,4 +1,4 @@
-namespace User;
+namespace Users;
 public class User
 {
 // admin user? 
