@@ -20,7 +20,10 @@ public class RecipeOperations
     {
         if (recipe.Owner == null)
             throw new ArgumentException("Recipe must have an owner.");
-
+        if (string.IsNullOrEmpty(recipe.Name))
+        {
+            throw new ArgumentException("Recipe name cannot be null or empty.", nameof(recipe.Name));
+        }
         recipes.Add(recipe);
     }
 

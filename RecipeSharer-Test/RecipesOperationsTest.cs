@@ -164,9 +164,9 @@ public class RecipeOperationsTests
         Assert.AreEqual(newDetails.CookingTime, existingRecipe.CookingTime);
         Assert.AreEqual(newDetails.TotalTime, existingRecipe.TotalTime);
         Assert.AreEqual(newDetails.Servings, existingRecipe.Servings);
-        Assert.AreEqual(newDetails.Steps, existingRecipe.Steps);
-        Assert.AreEqual(newDetails.Ingredients, existingRecipe.Ingredients);
-        Assert.Equals(newDetails.Tags, existingRecipe.Tags);
+        CollectionAssert.AreEqual(newDetails.Steps, existingRecipe.Steps, "The steps do not match.");
+        CollectionAssert.AreEqual(newDetails.Ingredients, existingRecipe.Ingredients, "The ingredients do not match.");
+        CollectionAssert.AreEquivalent(newDetails.Tags, existingRecipe.Tags, "The tags do not match.");
     }
 
     // next 3 methods, I think I would need to call the update method...? but it will fail before it reaches the end of the test soo????
