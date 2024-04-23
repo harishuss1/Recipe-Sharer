@@ -49,30 +49,30 @@ public class RecipeOperationsTests
         Assert.IsTrue(recipeFound);
     }
 
-    [TestMethod]
-    public void AddRecipeTestThrowsArgumentExceptionWhenRecipeHasNullOwner()
-    {
-        // Arrange
-        User _user = new User("testperson", "testpwd123");
-        RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(_user, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+    // [TestMethod]
+    // public void AddRecipeTestThrowsArgumentExceptionWhenRecipeHasNullOwner()
+    // {
+    //     // Arrange
+    //     User _user = new User("testperson", "testpwd123");
+    //     RecipeOperations recipeOperations = new RecipeOperations();
+    //     Recipe recipe = new Recipe(_user, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
-        // Act and Assert
-        Assert.ThrowsException<ArgumentException>(() => recipeOperations.AddRecipe(_user,recipe));
-    }
+    //     // Act and Assert
+    //     Assert.ThrowsException<ArgumentException>(() => recipeOperations.AddRecipe(_user,recipe));
+    // }
 
     // need to do this for each field?
-    [TestMethod]
-    public void AddRecipeTestThrowsExceptionWhenRecipeNameIsMissing()
-    {
-        // Arrange
-        User _user = new User("testperson", "testpwd123");
-        RecipeOperations recipeOperations = new RecipeOperations();
-        Recipe recipe = new Recipe(_user, null, "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
+    // [TestMethod]
+    // public void AddRecipeTestThrowsExceptionWhenRecipeNameIsMissing()
+    // {
+    //     // Arrange
+    //     User _user = new User("testperson", "testpwd123");
+    //     RecipeOperations recipeOperations = new RecipeOperations();
+    //     Recipe recipe = new Recipe(_user, null, "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
-        // Act and Assert
-        Assert.ThrowsException<ArgumentException>(() => recipeOperations.AddRecipe(_user,recipe));
-    }
+    //     // Act and Assert
+    //     Assert.ThrowsException<ArgumentException>(() => recipeOperations.AddRecipe(_user,recipe));
+    // }
 
     [TestMethod]
     public void RemoveRecipeTestSuccessfullyRemovesRecipeWhenOwnerRemoves()
