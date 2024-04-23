@@ -6,7 +6,21 @@ using Users;
 class Program
 {
     public static void Main(string[] args)
-    {
+    {   
+        string username;
+        string password;
+        do {
+            username = Console.ReadLine();
+        } while (username != null);
+        do {
+            password = Console.ReadLine();
+        } while (password != null);
+
+        User user = new User(username, password);
+        Profile profile = new Profile(user);
+
+
+
         // Test ingredients with different quantity formats
         List<Ingredient> originalIngredients = new List<Ingredient>()
         {
@@ -52,5 +66,17 @@ class Program
             }
         }
         Console.ReadLine();
+
+        Recipe recipe = new Recipe(user, "recipe", "example recipe", originalIngredients, new TimeSpan(100), new TimeSpan(100), 2);
+
+        int rating;
+
+        do {
+            rating = Convert.ToInt32(Console.ReadLine());
+        } while (rating >= 0 && rating <= 10);
+
+        new RatingOperations().AddRating(user, recipe, rating);
+
+        profile.addToFavorites(recipe);
     }
 }
