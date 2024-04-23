@@ -31,16 +31,21 @@ public class RecipeOperations
     }
 
     // Remove a recipe
-    public void RemoveRecipe(User user,Recipe recipe)
-    {
-        if (recipe.Owner == null)
-            throw new ArgumentException("Recipe must have an owner.");
-        recipes.Remove(recipe);
-    }
+    public void RemoveRecipe(User user, Recipe recipe)
+{
+    if (recipe.Owner == null)
+        throw new ArgumentException("Recipe must have an owner.");
+    if (recipe.Owner != user)
+        throw new ArgumentException("Only the owner can remove the recipe.");
+    recipes.Remove(recipe);
+}
 
     // Update a recipe
     public void UpdateRecipe(User user,Recipe existingRecipe, Recipe newDetails)
     {
+        if (existingRecipe.Owner != newDetails.Owner || existingRecipe.Owner != user)
+        throw new ArgumentException("Only the owner can update the recipe.");
+        
         if (existingRecipe.Owner != newDetails.Owner)
             throw new ArgumentException("Cannot change the owner of the recipe.");
 
