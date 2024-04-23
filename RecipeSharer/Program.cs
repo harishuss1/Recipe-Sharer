@@ -6,6 +6,9 @@ using Users;
 using Utils;
 class Program
     {
+        static RecipeOperations recipeOps = new RecipeOperations(); 
+        static User currentUser;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Recipe Sharer!");
@@ -61,16 +64,16 @@ class Program
                 switch (recipeChoice)
                 {
                     case "1":
-                        // Add Recipe code here
+                        // Add Recipe  here
                         break;
                     case "2":
-                        // View Recipes code here
+                        // View Recipes  here
                         break;
                     case "3":
-                        // Update Recipe code here
+                        // Update Recipe  here
                         break;
                     case "4":
-                        // Delete Recipe code here
+                        // Delete Recipe  here
                         break;
                     case "5":
                         back = true;
@@ -96,10 +99,10 @@ class Program
                 switch (rateChoice)
                 {
                     case "1":
-                        // Rate a Recipe code here
+                        // Rate a Recipe  here
                         break;
                     case "2":
-                        // View Ratings code here
+                        // View Ratings  here
                         break;
                     case "3":
                         back = true;
@@ -125,10 +128,10 @@ class Program
                 switch (searchChoice)
                 {
                     case "1":
-                        // Search Recipes by Name code here
+                        // Search Recipes by Name  here
                         break;
                     case "2":
-                        // Search Recipes by Ingredient code here
+
                         break;
                     case "3":
                         back = true;
