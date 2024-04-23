@@ -19,6 +19,7 @@ public class RatingOperationsTests
             _user,
             "Chocolate Cake",
             "Delicious and rich chocolate cake.",
+            new List<Ingredient>(),
             TimeSpan.FromMinutes(30),
             TimeSpan.FromMinutes(60),
             4

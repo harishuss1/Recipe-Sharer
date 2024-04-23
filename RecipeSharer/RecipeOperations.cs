@@ -88,6 +88,9 @@ public class RecipeOperations
                 count++;
                 Console.WriteLine($"{count}: {recipe.ToString()}");
         }
+        if (count == 0){
+            Console.WriteLine("No Recipes Found");
+        }
     }
 
     //View user's recipe lists

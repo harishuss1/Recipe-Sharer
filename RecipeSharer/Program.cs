@@ -11,19 +11,21 @@ class Program
         static List<Ingredient> ingredients = new List<Ingredient>();
         static User? currentUser; 
         static RecipeOperations recipeOps = new RecipeOperations();
+        static RatingOperations ratingOps = new RatingOperations();
         static void Main(string[] args)
         {
             InitializeMockDatabase();
             Console.WriteLine("Welcome to Recipe Sharer!");
 
-            Console.Write("Enter your username: ");
-            string username = Console.ReadLine();
-            Console.Write("Enter your password: ");
-            string password = Console.ReadLine();
-
             while (currentUser is null){
+                Console.Write("Enter your username: ");
+                string username = Console.ReadLine();
+                Console.Write("Enter your password: ");
+                string password = Console.ReadLine();
+
                 currentUser = LoginOrCreateUser(username, password);
             }
+
             Console.WriteLine($"Logged in as {currentUser.Username}");
 
             bool exit = false;
@@ -46,10 +48,10 @@ class Program
                         RateMenu();
                         break;
                     case "3":
-                        UserMenu();
+                        // UserMenu();
                         break;
                     case "4":
-                        SearchMenu();
+                        // SearchMenu();
                         break;
                     case "5":
                         exit = true;
@@ -139,6 +141,77 @@ class Program
                 Console.WriteLine("\nRating Options:");
                 Console.WriteLine("1.Rate a Recipe");
                 Console.WriteLine("2.See a Recipe's Rating");
+                Console.WriteLine("3.Back");
+
+
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        recipeOps.ViewRecipes();
+                        if (recipeOps.recipes.Count == 0){
+                            break;
+                        }
+                        bool validToRate = false;
+                        int toRate = -1;
+
+                        Console.WriteLine("Select Recipe number you want to rate");
+                        while (validToRate == false){
+                            toRate = ConsoleUtils.ReadValidInteger("not a valid choice") -1;
+                            if (toRate >= 0 && toRate < recipeOps.recipes.Count){
+                                validToRate = true;
+                            }
+                            else { Console.WriteLine("Invalid Recipe Selected"); }
+                        }
+                        bool existingRating = false;
+
+                        //Get Rating
+                        int score;
+                        do {
+                            Console.WriteLine("Input rating between 0 and 10");
+                            score = ConsoleUtils.ReadValidInteger("invalid input");
+                        } while (score < 0 || score > 10);
+                        
+                        //Check if User already rated
+                        foreach (Rating rating in recipeOps.recipes[toRate].Ratings){
+                            if (rating.User == currentUser){
+                                existingRating = true;
+                            }
+                        }
+
+                        //Update Rating
+                        if (existingRating == true){
+                            ratingOps.UpdateRating(currentUser, recipeOps.recipes[toRate], score);
+                        }
+                        else {
+                            ratingOps.AddRating(currentUser, recipeOps.recipes[toRate], score);
+                        }
+
+                        break;
+                    case "2":
+                        recipeOps.ViewRecipes();
+                        if (recipeOps.recipes.Count == 0){
+                            break;
+                        }
+                        bool validToView = false;
+                        int toView = -1;
+
+                        Console.WriteLine("Select Recipe number whose rating you want to view");
+                        while (validToView == false){
+                            toView = ConsoleUtils.ReadValidInteger("not a valid choice") -1;
+                            if (toView >= 0 && toView < recipeOps.recipes.Count){
+                                validToView = true;
+                            }
+                            else { Console.WriteLine("Invalid Recipe Selected"); }
+                        }
+
+                        Console.WriteLine($"Average rating: {ratingOps.ViewRating(recipeOps.recipes[toView])}");
+                        break;
+                        
+                    case "3":
+                        back= true;
+                        break;
+                }
             }
         }
 
