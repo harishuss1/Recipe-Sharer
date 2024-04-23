@@ -34,13 +34,13 @@ public class RecipeOperations
 
     // Remove a recipe
     public void RemoveRecipe(User user, Recipe recipe)
-{
-    if (recipe.Owner == null)
-        throw new ArgumentException("Recipe must have an owner.");
-    if (recipe.Owner != user)
-        throw new ArgumentException("Only the owner can remove the recipe.");
-    recipes.Remove(recipe);
-}
+    {
+        if (recipe.Owner == null)
+            throw new ArgumentException("Recipe must have an owner.");
+        if (recipe.Owner != user)
+            throw new ArgumentException("Only the owner can remove the recipe.");
+        recipes.Remove(recipe);
+    }
 
     // Update a recipe
     public void UpdateRecipe(User user,Recipe existingRecipe, Recipe newDetails)
@@ -87,7 +87,6 @@ public class RecipeOperations
         return steps;
     }
 
-
     // add ingredient to recipe
     public void addIngredient(Recipe recipe, Ingredient ingredient)
     {
@@ -132,6 +131,7 @@ public class RecipeOperations
         }
     }
 
+    //Get user's recipe lists
     public List<Recipe> GetUserRecipes(User owner){
         if (owner == null)
         {
