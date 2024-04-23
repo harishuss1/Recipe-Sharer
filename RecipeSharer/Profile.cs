@@ -30,7 +30,15 @@ public class Profile {
         Favorites.Append(recipe);
     }
 
+    public void RemoveRecipeFromFavorites(Recipe recipe)
+{
+    if (Favorites.Contains(recipe))
+    {
+        Favorites.Remove(recipe);
+    }
+}
     public override string ToString(){
         return $"Name: {User.Username}, Description: {Description}, ProfilePicturePath: {ProfilePicturePath}";
     }
+    
 }

@@ -1,3 +1,5 @@
+using RecipeSharer;
+
 namespace Recipes;
 
 public class RecipeOperations
@@ -7,7 +9,7 @@ public class RecipeOperations
     // Will be discuseed among teamates
 
     //Also might will be using Our Validation class after when refactoring code.
-    private List<Recipe> recipes;
+    public List<Recipe> recipes;
 
     public RecipeOperations()
     {
@@ -20,7 +22,10 @@ public class RecipeOperations
     {
         if (recipe.Owner == null)
             throw new ArgumentException("Recipe must have an owner.");
-
+        if (string.IsNullOrEmpty(recipe.Name))
+        {
+            throw new ArgumentException("Recipe name cannot be null or empty.", nameof(recipe.Name));
+        }
         recipes.Add(recipe);
     }
 
@@ -45,4 +50,21 @@ public class RecipeOperations
         existingRecipe.Ingredients = new List<Ingredient>(newDetails.Ingredients);
         existingRecipe.Tags = new List<string>(newDetails.Tags);
     }
+
+    // add steps to a recipe
+    public List<string> AddStepsToRecipe(TextReader reader)
+{
+    var steps = new List<string>();
+    string step;
+    while ((step = reader.ReadLine()) != null)
+    {
+        if (step.Trim().Equals("Done!", StringComparison.OrdinalIgnoreCase))
+        {
+            break;
+        }
+
+        steps.Add(step.Trim());
+    }
+    return steps;
+}
 }
