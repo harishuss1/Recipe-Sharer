@@ -1,56 +1,142 @@
-﻿
-namespace RecipeSharer;
+﻿namespace RecipeSharer;
 using Recipes;
+using RecipeSearch;
 using System;
 using Users;
+using Utils;
 class Program
-{
-    public static void Main(string[] args)
     {
-        // Test ingredients with different quantity formats
-        List<Ingredient> originalIngredients = new List<Ingredient>()
+        static void Main(string[] args)
         {
-            new Ingredient("Flour", 0.5, "cups", "solid"),
-            new Ingredient("Sugar", 5.5, "tablespoons", "solid"),
-            new Ingredient("Eggs", 3, "units", "eggs"),
-            new Ingredient("Milk", 1.0/3.0, "cups", "liquid")
-            // Add more ingredients as needed
-        };
+            Console.WriteLine("Welcome to Recipe Sharer!");
 
-        Console.WriteLine("Here are the ingredients:");
-        foreach (var ingredient in originalIngredients)
-        {
-            Console.WriteLine(ingredient);
-        }
-
-        Console.WriteLine("Would you like to scale the ingredients for more servings? Enter 'yes' or 'no'");
-        string userAnswer = Console.ReadLine();
-        if(userAnswer.ToLower() == "yes")
-        {
-            // Scale all ingredients
-            int multiplier = Ingredient.GetUserMultiplier(); // Get multiplier from user
-            foreach (var ingredient in originalIngredients)
+            bool exit = false;
+            while (!exit)
             {
-                ingredient.RecipeScaler(multiplier);
-            } 
-        }
+                Console.WriteLine("\nPlease choose an option:");
+                Console.WriteLine("1. Recipe");
+                Console.WriteLine("2. Rate");
+                Console.WriteLine("3. Search");
+                Console.WriteLine("4. Exit");
 
-        Console.WriteLine("Would you like to change the unit of the ingredients? Enter 'yes' or 'no'");
-        string answer = Console.ReadLine();
-        if(answer.ToLower() == "yes")
-        {
-            foreach (var ingredient in originalIngredients)
-            {
-                ingredient.Quantity = Ingredient.ConvertUnit(ingredient.Quantity, ingredient.UnitOfMass, ingredient.Type);
-            }
-
-            // Output converted ingredients
-            Console.WriteLine("Converted Ingredients:");
-            foreach (var ingredient in originalIngredients)
-            {
-                Console.WriteLine(ingredient);
+                string mainChoice = Console.ReadLine();
+                switch (mainChoice)
+                {
+                    case "1":
+                        // Recipe operations
+                        RecipeMenu();
+                        break;
+                    case "2":
+                        // Rating operations
+                        RateMenu();
+                        break;
+                    case "3":
+                        // Search operations
+                        SearchMenu();
+                        break;
+                    case "4":
+                        exit = true;
+                        Console.WriteLine("Exiting Recipe Sharer. Goodbye!");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Please choose again.");
+                        break;
+                }
             }
         }
-        Console.ReadLine();
+
+        static void RecipeMenu()
+        {
+            bool back = false;
+            while (!back)
+            {
+                Console.WriteLine("\nRecipe Menu:");
+                Console.WriteLine("1. Add Recipe");
+                Console.WriteLine("2. View Recipes");
+                Console.WriteLine("3. Update Recipe");
+                Console.WriteLine("4. Delete Recipe");
+                Console.WriteLine("5. Back to Main Menu");
+
+                string recipeChoice = Console.ReadLine();
+                switch (recipeChoice)
+                {
+                    case "1":
+                        // Add Recipe code here
+                        break;
+                    case "2":
+                        // View Recipes code here
+                        break;
+                    case "3":
+                        // Update Recipe code here
+                        break;
+                    case "4":
+                        // Delete Recipe code here
+                        break;
+                    case "5":
+                        back = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Please choose again.");
+                        break;
+                }
+            }
+        }
+
+        static void RateMenu()
+        {
+            bool back = false;
+            while (!back)
+            {
+                Console.WriteLine("\nRate Menu:");
+                Console.WriteLine("1. Rate a Recipe");
+                Console.WriteLine("2. View Ratings");
+                Console.WriteLine("3. Back to Main Menu");
+
+                string rateChoice = Console.ReadLine();
+                switch (rateChoice)
+                {
+                    case "1":
+                        // Rate a Recipe code here
+                        break;
+                    case "2":
+                        // View Ratings code here
+                        break;
+                    case "3":
+                        back = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Please choose again.");
+                        break;
+                }
+            }
+        }
+
+        static void SearchMenu()
+        {
+            bool back = false;
+            while (!back)
+            {
+                Console.WriteLine("\nSearch Menu:");
+                Console.WriteLine("1. Search Recipes by Name");
+                Console.WriteLine("2. Search Recipes by Ingredient");
+                Console.WriteLine("3. Back to Main Menu");
+
+                string searchChoice = Console.ReadLine();
+                switch (searchChoice)
+                {
+                    case "1":
+                        // Search Recipes by Name code here
+                        break;
+                    case "2":
+                        // Search Recipes by Ingredient code here
+                        break;
+                    case "3":
+                        back = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Please choose again.");
+                        break;
+                }
+            }
+        }
     }
-}
