@@ -8,7 +8,8 @@ class Program
     {
         static List<User> users = new List<User>();
         static List<Recipe> recipes = new List<Recipe>();
-        static User currentUser;
+        static List<Ingredient> ingredients = new List<Ingredient>();
+        static User currentUser; 
         static RecipeOperations recipeOps = new RecipeOperations();
         static void Main(string[] args)
         {
@@ -82,7 +83,7 @@ class Program
                         recipeOps.ViewRecipes(currentUser);
                         break;
                     case "3":
-                    Recipe validrecipe = ConsoleUtils.GetValidRecipe(currentUser);
+                        Recipe validRecipe = ConsoleUtils.GetValidRecipe(currentUser);
                         recipeOps.UpdateRecipe(currentUser);
                         break;
                     case "4":
@@ -101,6 +102,12 @@ class Program
         static void RateMenu()
         {
             // Implement rating menu logic here
+            bool back = false;
+            while (!back){
+                Console.WriteLine("\nRating Options:");
+                Console.WriteLine("1.Rate a Recipe");
+                Console.WriteLine("2.See a Recipe's Rating");
+            }
         }
 
         static void UserMenu()
@@ -116,11 +123,27 @@ class Program
         static User LoginOrCreateUser(string username, string password)
         {
             // Check if user exists and validate password or create new user
+
+
             return currentUser; // Simplified for demonstration
         }
 
         static void InitializeMockDatabase()
         {
             // Populate users and recipes lists with mock data
+            users.Add(new User("ddubois1","python420"));
+            users.Add(new User("j_desrosiers","csharp410"));
+            users.Add(new User("pcampbell","linux440"));
+
+            ingredients.Add(new Ingredient("Flour", 0.5, "cups", "solid"));
+            ingredients.Add(new Ingredient("Sugar", 5.5, "tablespoons", "solid"));
+            ingredients.Add(new Ingredient("Eggs", 3, "units", "eggs"));
+            ingredients.Add(new Ingredient("Milk", 1.0/3.0, "cups", "liquid"));
+            ingredients.Add(new Ingredient("Salt", 1, "teaspoons", "solid"));
+            ingredients.Add(new Ingredient("Cocoa", 2, "teaspoons", "solid"));
+
+            recipeOps.AddRecipe(users[0], new Recipe(users[0], "Scrambled Eggs", "Eggs but scrambled", new List<Ingredient>(){ingredients[2], ingredients[4]}, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(2), 1));
+            recipeOps.AddRecipe(users[1], new Recipe(users[1], "Cake", "Very Basic Chocolate Cake", new List<Ingredient>(){ingredients[0], ingredients[1], ingredients[2], ingredients[3], ingredients[5]}, TimeSpan.FromMinutes(5), TimeSpan.FromHours(1), 3));
+            recipeOps.AddRecipe(users[2], new Recipe(users[2], "Hot Cocoa", "Chocolate Milk but hot", new List<Ingredient>(){ingredients[1], ingredients[3], ingredients[5]}, TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(40), 1));
         }
     }

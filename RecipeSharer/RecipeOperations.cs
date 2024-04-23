@@ -51,17 +51,17 @@ public class RecipeOperations
 
         existingRecipe.Name = newDetails.Name;
         existingRecipe.ShortDescription = newDetails.ShortDescription;
+        existingRecipe.Ingredients = newDetails.Ingredients;
         existingRecipe.PreparationTime = newDetails.PreparationTime;
         existingRecipe.CookingTime = newDetails.CookingTime;
         existingRecipe.Servings = newDetails.Servings;
         existingRecipe.Steps = new List<string>(newDetails.Steps);
-        existingRecipe.Ingredients = new List<Ingredient>(newDetails.Ingredients);
         existingRecipe.Tags = new List<string>(newDetails.Tags);
     }
 
     // add steps to a recipe
     public List<string> AddStepsToRecipe(TextReader reader)
-{
+    {
     var steps = new List<string>();
     string step;
     while ((step = reader.ReadLine()) != null)
@@ -74,5 +74,10 @@ public class RecipeOperations
         steps.Add(step.Trim());
     }
     return steps;
-}
+    }
+
+    // add ingredient to recipe
+    public void addIngredient(Recipe recipe, Ingredient ingredient){
+        recipe.Ingredients.Add(ingredient);
+    }
 }
