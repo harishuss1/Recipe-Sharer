@@ -1,4 +1,4 @@
-using System.Security.Cryptography;
+namespace Users;
 
 public class UserOperation
 {
