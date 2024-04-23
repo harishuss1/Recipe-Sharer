@@ -1,3 +1,5 @@
+using RecipeSharer;
+
 namespace Recipes;
 
 public class RecipeOperations
@@ -44,5 +46,27 @@ public class RecipeOperations
         existingRecipe.Steps = new List<string>(newDetails.Steps);
         existingRecipe.Ingredients = new List<Ingredient>(newDetails.Ingredients);
         existingRecipe.Tags = new List<string>(newDetails.Tags);
+    }
+
+    // add steps to a recipe
+    public List<string> AddStepsToRecipe()
+    {
+        Console.WriteLine("Add steps to the recipe. Press Enter after each step. Type 'Done!' when finished:");
+
+        List<string> steps = new List<string>();
+        string step;
+        while (true)
+        {
+            step = Console.ReadLine();
+            if (step.ToLower() == "done!")
+            {
+                break;
+            }
+            else
+            {
+                steps.Add(step);
+            }
+        }
+        return steps;
     }
 }
