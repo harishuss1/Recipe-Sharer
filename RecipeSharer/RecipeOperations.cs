@@ -8,6 +8,8 @@ public class RecipeOperations
     // Not sure if i should manage everything locally or from the database
     // Will be discuseed among teamates
 
+    // will need a ViewRecipe method? with data pulled from the db 
+
     //Also might will be using Our Validation class after when refactoring code.
     public List<Recipe> recipes;
 
