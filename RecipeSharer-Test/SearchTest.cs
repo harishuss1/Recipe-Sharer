@@ -19,13 +19,13 @@ namespace RecipeSharerTests;
 
             _recipes = new List<Recipe>
             {
-                new Recipe(_testUser, "Chocolate Cake", "Delicious dark chocolate cake", TimeSpan.FromMinutes(20), TimeSpan.FromHours(1), 4) 
+                new Recipe(_testUser, "Chocolate Cake", "Delicious dark chocolate cake", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromHours(1), 4) 
                 {
                     Ingredients = new List<Ingredient> { new Ingredient("Chocolate", 200, "g", "Solid") },
                     Tags = new List<string> { "Dessert" },
                     Ratings = new List<Rating> { new Rating(_testUser, 5) }  
                 },
-                new Recipe(_testUser, "Tomato Soup", "Fresh and creamy tomato soup", TimeSpan.FromMinutes(10), TimeSpan.FromMinutes(30), 2) 
+                new Recipe(_testUser, "Tomato Soup", "Fresh and creamy tomato soup", new List<Ingredient>(), TimeSpan.FromMinutes(10), TimeSpan.FromMinutes(30), 2) 
                 {
                     Ingredients = new List<Ingredient> { new Ingredient("Tomato", 5, "pcs", "Vegetable") },
                     Tags = new List<string> { "Soup", "Vegan" },

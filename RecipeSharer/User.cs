@@ -20,9 +20,12 @@ public class User
 
     public List<Recipe> UserFavouriteRecipes;
     
-    public void addToFavorites(Recipe recipe)
+    public void AddToFavorites(Recipe recipe)
     {
-        UserFavouriteRecipes.Append(recipe);
+        if (!UserFavouriteRecipes.Contains(recipe))
+        {
+            UserFavouriteRecipes.Add(recipe);
+        }
     }
 
     public void RemoveRecipeFromFavorites(Recipe recipe)
@@ -97,6 +100,10 @@ public class User
         }
     }
 
+    public void AddUser(User user)
+    {
+        // Add user to the database
+    }
     
 
     //// These all will probably just end up being setters for the properties
