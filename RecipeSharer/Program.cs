@@ -51,7 +51,7 @@ class Program
                         UserMenu();
                         break;
                     case "4":
-                        // SearchMenu();
+                        SearchMenu();
                         break;
                     case "5":
                         exit = true;
@@ -293,7 +293,100 @@ class Program
         static void SearchMenu()
         {
             // Implement search menu logic here
+            bool back = false;
+            Search filters = new Search();
 
+            while (!back){
+                Console.WriteLine("\nSearch Options:");
+                Console.WriteLine("1.Add filter by Ingredients");
+                Console.WriteLine("2.Add filter by Tag");
+                Console.WriteLine("3.Add filter by Keyword");
+                Console.WriteLine("4.Add filter by Owner");
+                Console.WriteLine("5.Add filter by time constraints");
+                Console.WriteLine("6.Add filter by portions");
+                Console.WriteLine("7.Add filter by rating");
+                Console.WriteLine("8.Clear Filters");
+                Console.WriteLine("9.Perform Search");
+                Console.WriteLine("10.Back");
+
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("Enter ingredients (type 'done' to finish):");
+                        string ingredientInput;
+                        List<String> ingredientList = new List<string>();
+                        while ((ingredientInput = Console.ReadLine().ToLower()) != "done")
+                        {
+                            // Assuming the existence of a method to parse ingredient strings
+                            ingredientList.Add((ingredientInput));
+                        }
+                        filters.SetIngredients(ingredientList);
+                        break;
+
+                    case "2":
+                        Console.WriteLine("Enter tag");
+                        string tagInput = ConsoleUtils.ReadNonEmptyString("String can't be empty");
+                        filters.AddTag(tagInput);
+                        break;
+                    case "3":
+                        Console.WriteLine("Enter Keyword");
+                        string keywordInput = ConsoleUtils.ReadNonEmptyString("String can't be empty");
+                        filters.SetKeyword(keywordInput);
+
+                        break;
+                    case "4":
+                        Console.WriteLine("Enter Owner");
+                        string ownerInput = ConsoleUtils.ReadNonEmptyString("String can't be empty");
+                        filters.SetOwnerUsername(ownerInput);
+                        break;
+                    case "5":
+                        Console.WriteLine("Enter minimum time in minutes");
+                        int minInput = ConsoleUtils.ReadValidInteger("Not a valid int");
+                        Console.WriteLine("Enter maximum time in minutes");
+                        int maxInput = ConsoleUtils.ReadValidInteger("Not a valid int");
+
+                        filters.SetTimeConstraints(TimeSpan.FromMinutes(minInput), TimeSpan.FromMinutes(maxInput));
+                        break;
+                    case "6":
+                        Console.WriteLine("Enter minimum servings");
+                        int minServings = ConsoleUtils.ReadValidInteger("Not a valid int");
+                        Console.WriteLine("Enter maximum servings");
+                        int maxServings = ConsoleUtils.ReadValidInteger("Not a valid int");
+
+                        filters.SetServingsConstraints(minServings, maxServings);
+                        break;
+                    case "7":
+                        Console.WriteLine("Enter minimum rating between 0 and 10");
+                        int ratingInput = -1;
+                        do {
+                            ratingInput = ConsoleUtils.ReadValidInteger("Not a valid int");
+                        } while (ratingInput < 0 && ratingInput > 10);
+        
+                        filters.SetMinimumRating(ratingInput);
+                        break;
+                    case "8":
+                        filters = new Search();
+                        Console.WriteLine("Filters Cleared");
+                        break;
+                    case "9":
+                        List<Recipe> filteredRecipes = filters.PerformSearch(recipeOps.recipes);
+                        int count = 0;
+                        foreach (Recipe recipe in filteredRecipes){
+                            count++;
+                            Console.WriteLine($"{count}: {recipe.ToString()}");
+                        }
+                        if (count == 0) {
+                            Console.WriteLine("No recipes matching filters found");
+                        }
+
+                        break;
+                    case "10":
+                        back = true;
+                        break;
+                    
+                }
+            }
         }
 
         static User LoginOrCreateUser(string username, string password)
