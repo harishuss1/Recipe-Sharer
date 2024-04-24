@@ -145,4 +145,42 @@ public class RecipeOperations
         }
         return r;
     }
+
+    public List<Recipe> GetFavoriteRecipes(User user){
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user), "User cannot be null.");
+        }
+        List<Recipe> r = new List<Recipe>();
+        foreach (Recipe recipe in recipes){
+            foreach (Recipe fave in user.UserFavouriteRecipes){
+                //Will use id here when we have a db
+                if (recipe.Equals(fave)){
+                    r.Add(recipe);
+                }
+            }
+        }
+        return r;
+    }
+
+    public void ViewFavoriteRecipes(User user){
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user), "User cannot be null.");
+        }
+        if (user.UserFavouriteRecipes.Count == 0){
+            Console.WriteLine("No Favorite Recipes Found");
+        }
+        int count = 0;
+        List<Recipe> r = new List<Recipe>();
+        foreach (Recipe recipe in recipes){
+            foreach (Recipe fave in user.UserFavouriteRecipes){
+                //Will use id here when we have a db
+                if (recipe.Equals(fave)){
+                    count++;
+                    Console.WriteLine($"{count}: {recipe.ToString()}");
+                }
+            }
+        }
+    }
 }

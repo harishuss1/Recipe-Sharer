@@ -48,7 +48,7 @@ class Program
                         RateMenu();
                         break;
                     case "3":
-                        // UserMenu();
+                        UserMenu();
                         break;
                     case "4":
                         // SearchMenu();
@@ -218,11 +218,82 @@ class Program
         static void UserMenu()
         {
             // Implement user profile menu logic here
+            bool back = false;
+            while (!back){
+                Console.WriteLine("\nUser Options:");
+                Console.WriteLine("1.Add a Recipe to favorites");
+                Console.WriteLine("2.Remove a Recipe from favorites");
+                Console.WriteLine("3.Change Password");
+                Console.WriteLine("4.Back");
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        recipeOps.ViewRecipes();
+                        if (recipeOps.recipes.Count == 0){
+                            break;
+                        }
+                        bool validToFavorite = false;
+                        int toFavorite = -1;
+
+                        Console.WriteLine("Select Recipe number you want to favorite");
+                        while (validToFavorite == false){
+                            toFavorite = ConsoleUtils.ReadValidInteger("not a valid choice") -1;
+                            if (toFavorite >= 0 && toFavorite < recipeOps.recipes.Count){
+                                validToFavorite = true;
+                            }
+                            else { Console.WriteLine("Invalid Recipe Selected"); }
+                        }
+
+                        currentUser.AddToFavorites(recipeOps.recipes[toFavorite]);
+
+                        break;
+                    case "2":
+                        recipeOps.ViewFavoriteRecipes(currentUser);
+                        if (recipeOps.GetFavoriteRecipes(currentUser).Count == 0){
+                            break;
+                        }
+                        bool validToRemove = false;
+                        int toRemove = -1;
+
+                        Console.WriteLine("Select Recipe number you want to remove");
+                        while (validToRemove == false){
+                            toRemove = ConsoleUtils.ReadValidInteger("not a valid choice") -1;
+                            if (toRemove >= 0 && toRemove < recipeOps.recipes.Count){
+                                validToRemove = true;
+                            }
+                            else { Console.WriteLine("Invalid Recipe Selected"); }
+                        }
+
+                        currentUser.RemoveRecipeFromFavorites(recipeOps.GetFavoriteRecipes(currentUser)[toRemove]);
+                        break;
+                    case "3":
+                        Console.WriteLine("input old password");
+                        string oldPassword = ConsoleUtils.ReadNonEmptyString("needs to be not empty");
+                        Console.WriteLine("input new password");
+                        string newPassword = ConsoleUtils.ReadNonEmptyString("needs to be not empty");
+
+                        try {
+                            currentUser.ChangePassword(newPassword, oldPassword);
+                            Console.WriteLine("Password Successfully changed.");
+                        } 
+                        catch (Exception e){
+                            Console.WriteLine(e);
+                        }
+
+                        break;
+                    case "4":
+                        back = true;
+                        break;
+                }
+            }
+
         }
 
         static void SearchMenu()
         {
             // Implement search menu logic here
+
         }
 
         static User LoginOrCreateUser(string username, string password)
