@@ -64,7 +64,7 @@ public static Recipe GetValidRecipe(User currentUser)
         };
     }
 
-    private static string ReadNonEmptyString(string errorMessage)
+    public static string ReadNonEmptyString(string errorMessage)
     {
         string input = Console.ReadLine();
         while (string.IsNullOrWhiteSpace(input))
