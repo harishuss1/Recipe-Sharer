@@ -53,7 +53,7 @@ public class RecipeOperationsTests
     public void AddRecipeTestThrowsArgumentExceptionWhenRecipeHasNullOwner()
     {
         // Arrange
-        User _user = new User("testperson", "testpwd123");
+        User _user = new User(null, "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
         Recipe recipe = new Recipe(_user, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
