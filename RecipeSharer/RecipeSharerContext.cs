@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 
+namespace Context;
 using Recipes;
 using Users;
 
 public class RecipeSharerContext: DbContext {
-      public DbSet<User>? users {get; set;}
-      public DbSet<Recipe>? recipes {get; set;}
-      public DbSet<Ingredient>? ingredients {get; set;}
-      public DbSet<Rating>? ratings {get; set;}
+      public DbSet<User>? Users {get; set;}
+      public DbSet<Recipe>? Recipes {get; set;}
+      public DbSet<Ingredient>? Ingredients {get; set;}
+      public DbSet<Rating>? Ratings {get; set;}
       // table for tags
       // table for steps
 
