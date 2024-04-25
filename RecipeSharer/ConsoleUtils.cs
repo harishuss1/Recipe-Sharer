@@ -57,11 +57,8 @@ public static Recipe GetValidRecipe(User currentUser)
         List<string> tags = Recipe.GetTags();
 
         // Create and return the recipe object
-        return new Recipe(currentUser, name, description, ingredients, prepTime, cookTime, servings)
-        {
-            Steps = steps,
-            Tags = tags
-        };
+        Recipe r = new() { Owner=currentUser, Name = name, ShortDescription = description, Ingredients = ingredients, PreparationTime= prepTime, CookingTime=cookTime, Servings=servings, Steps=steps, Tags=tags};
+        return r;
     }
 
     private static string ReadNonEmptyString(string errorMessage)
@@ -102,7 +99,7 @@ public static Recipe GetValidRecipe(User currentUser)
     private static Ingredient ParseIngredient(string input)
     {
         // Example parsing logic, adjust as necessary for your Ingredient class
-        return new Ingredient(input, 1, "unit",null); // Placeholder, adjust constructor as necessary
+        return new Ingredient(){Name=input, Quantity=1, UnitOfMass="unit",Type=null}; // Placeholder, adjust constructor as necessary
     }
 
 }

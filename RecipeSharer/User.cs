@@ -13,8 +13,19 @@ public class User
     // username property
     public string Username;
     // 
-    public byte[] Salt{get; set;}
-    public byte[] Password {get; set;}
+    private byte[] _salt;
+    private byte[] _password;
+    public string Password { 
+        set {
+            if (value.Length < UserGlobalVars.PASSWORD_LENGTH || value == null) {
+                throw new ArgumentOutOfRangeException("PASSWORD WAS NOT LONG ENOUGH");
+            }
+
+            Tuple<byte[], byte[]> hash = CreatePassword(value);
+            _salt = hash.Item1;
+            _password = hash.Item2;
+            
+    } }
 
     public List<Recipe> UserRecipes;
 
@@ -35,19 +46,18 @@ public class User
             UserFavouriteRecipes.Remove(recipe);
         }
     }
+
     // Constructor
-    public User(string name, string password){
-        if (password.Length < UserGlobalVars.PASSWORD_LENGTH || password == null) {
-                throw new ArgumentOutOfRangeException("---PASSWORD WAS NOT LONG ENOUGH---");
-            }
+    // public User(string name, string password){
+    
             
-        Username = name;
-        Tuple<byte[], byte[]> hash = CreatePassword(password);
-        Salt = hash.Item1;
-        Password = hash.Item2;
-        UserRecipes = new List<Recipe>();
-        UserFavouriteRecipes = new List<Recipe>();
-    }
+    //     Username = name;
+    //     Tuple<byte[], byte[]> hash = CreatePassword(password);
+    //     Salt = hash.Item1;
+    //     Password = hash.Item2;
+    //     UserRecipes = new List<Recipe>();
+    //     UserFavouriteRecipes = new List<Recipe>();
+    // }
     
      public static Tuple<byte[], byte[]> CreatePassword(string password) {
         byte[] salt = new byte[8];
@@ -89,14 +99,14 @@ public class User
             throw new ArgumentOutOfRangeException("PASSWORD WAS NOT LONG ENOUGH");
         }
 
-        if (!VerifyPassword(oldPassword, Salt, Password)){
+        if (!VerifyPassword(oldPassword, _salt, _password)){
             throw new Exception("OLD PASSWORD DOES NOT MATCH");
         }
 
         else {
             Tuple<byte[], byte[]> hash = CreatePassword(newPassword);
-            Salt = hash.Item1;
-            Password = hash.Item2;
+            _salt = hash.Item1;
+            _password = hash.Item2;
         }
     }
 

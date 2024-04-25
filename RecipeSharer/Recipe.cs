@@ -15,15 +15,15 @@ private string name;
         }
     }
 
-    private User owner;
+    private User _owner;
     public User Owner
     {
-        get { return owner; }
+        get { return _owner; }
         set
         {
             if (value == null)
                 throw new ArgumentException("Owner cannot be null.");
-            owner = value;
+            _owner = value;
         }
     }
 
@@ -81,21 +81,7 @@ private string name;
     public List<Rating> Ratings { get; set; }
     public List<string> Tags { get; set; }
 
-    public Recipe(User owner, string name, string description, List<Ingredient> ingredients, TimeSpan prepTime, TimeSpan cookingTime, int servings)
-    {
-        Owner = owner;
-        Name = name;
-        ShortDescription = description;
-        PreparationTime = prepTime;
-        CookingTime = cookingTime;
-        Servings = servings;
-        Ingredients = ingredients;
-        Steps = new List<string>();
-        Ratings = new List<Rating>();
-        Tags = new List<string>();
-    }
-
-public static List<string> GetSteps()
+    public static List<string> GetSteps()
     {
         List<string> steps = new List<string>();
         Console.WriteLine("Enter cooking steps (type 'done' to finish):");

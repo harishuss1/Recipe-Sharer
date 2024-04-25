@@ -7,13 +7,13 @@ public class Ingredient
     public string UnitOfMass { get; set; }
     public string Type {get; set;}
 
-    public Ingredient(string name, double quantity, string unitOfMass, string type)
-    {
-        Name = name;
-        Quantity = Math.Round(quantity, 2);
-        UnitOfMass = unitOfMass;
-        Type = type;
-    }
+    // public Ingredient(string name, double quantity, string unitOfMass, string type)
+    // {
+    //     Name = name;
+    //     Quantity = Math.Round(quantity, 2);
+    //     UnitOfMass = unitOfMass;
+    //     Type = type;
+    // }
 
     public void RecipeScaler(int multiplier)
     {

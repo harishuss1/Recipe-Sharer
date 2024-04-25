@@ -16,7 +16,7 @@ public class RatingOperations
             throw new ArgumentOutOfRangeException("Score must be between 0 and 10.");
         }
 
-        Rating rating = new Rating(user, score);
+        Rating rating = new() { User = user, Score = score};
         recipe.Ratings.Add(rating);
     }
 

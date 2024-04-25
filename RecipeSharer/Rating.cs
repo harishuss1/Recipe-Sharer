@@ -18,10 +18,16 @@ public class Rating
             _score = value;
         }
     }
-
-    public Rating(User user, int score)
-    {
-        User = user;
-        Score = score; 
-    }
 }
+
+
+// var rating = new Rating(a, b);
+
+// var rating = new Rating
+// {
+// a = a,
+// b = b,
+// };
+
+// var rating = new Rating();
+// rating.a = a;
