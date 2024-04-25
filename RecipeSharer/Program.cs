@@ -316,7 +316,7 @@ class Program
                         Console.WriteLine("Enter ingredients (type 'done' to finish):");
                         string ingredientInput;
                         List<String> ingredientList = new List<string>();
-                        while ((ingredientInput = Console.ReadLine().ToLower()) != "done")
+                        while ((ingredientInput = Console.ReadLine()) != "done")
                         {
                             // Assuming the existence of a method to parse ingredient strings
                             ingredientList.Add((ingredientInput));
