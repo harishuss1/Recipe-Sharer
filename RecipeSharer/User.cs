@@ -66,6 +66,9 @@ public class User
         Password = password;
     }
 
+    public User() { }
+
+
     public static Tuple<byte[], byte[]> CreatePassword(string password)
     {
         byte[] salt = new byte[8];

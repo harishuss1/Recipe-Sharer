@@ -3,7 +3,7 @@ using Users;
 
 public class Recipe
 {
-private string name;
+    private string name;
     public string Name
     {
         get { return name; }
@@ -105,7 +105,8 @@ private string name;
         return tags;
     }
 
-    public override string ToString(){
+    public override string ToString()
+    {
         return $"Recipe Name: {name}, Description: {ShortDescription}, Total Time: {TotalTime}";
     }
 }
