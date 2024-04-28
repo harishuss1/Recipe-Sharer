@@ -8,14 +8,10 @@ public class User
 {
     public const int PASSWORD_LENGTH = 8;
 
-    // admin user? 
-    // maybe another class for usersOperation if we think there are too many methods in this class
-    // public class Users
-
-    // username property
-    public int Id {get; set;}
+    [Key]
+    public int Id { get; set; }
+    [Required]
     public string Username;
-    // 
     private byte[] _salt;
     private byte[] _password;
     public string Password
@@ -34,9 +30,9 @@ public class User
         }
     }
 
-    public List<Recipe> UserRecipes;
+    public List<Recipe> UserRecipes { get; set; }
 
-    public List<Recipe> UserFavouriteRecipes;
+    public List<Recipe> UserFavouriteRecipes { get; set; }
 
     public void AddToFavorites(Recipe recipe)
     {
@@ -54,17 +50,21 @@ public class User
         }
     }
 
-    // Constructor
-    // public User(string name, string password){
+    public User(string username, string password)
+    {
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new ArgumentException("Username cannot be empty.");
+        }
 
+        if (string.IsNullOrEmpty(password) || password.Length < PASSWORD_LENGTH)
+        {
+            throw new ArgumentException("Password must be at least " + PASSWORD_LENGTH + " characters long.");
+        }
 
-    //     Username = name;
-    //     Tuple<byte[], byte[]> hash = CreatePassword(password);
-    //     Salt = hash.Item1;
-    //     Password = hash.Item2;
-    //     UserRecipes = new List<Recipe>();
-    //     UserFavouriteRecipes = new List<Recipe>();
-    // }
+        Username = username;
+        Password = password;
+    }
 
     public static Tuple<byte[], byte[]> CreatePassword(string password)
     {
