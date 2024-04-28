@@ -6,6 +6,8 @@ namespace Users;
 
 public class User
 {
+    public const int PASSWORD_LENGTH = 8;
+
     // admin user? 
     // maybe another class for usersOperation if we think there are too many methods in this class
     // public class Users
@@ -20,7 +22,7 @@ public class User
     {
         set
         {
-            if (value.Length < UserGlobalVars.PASSWORD_LENGTH || value == null)
+            if (value.Length < PASSWORD_LENGTH || value == null)
             {
                 throw new ArgumentOutOfRangeException("PASSWORD WAS NOT LONG ENOUGH");
             }
@@ -106,7 +108,7 @@ public class User
 
     public void ChangePassword(string newPassword, string oldPassword)
     {
-        if (newPassword.Length < UserGlobalVars.PASSWORD_LENGTH)
+        if (newPassword.Length < PASSWORD_LENGTH)
         {
             throw new ArgumentOutOfRangeException("PASSWORD WAS NOT LONG ENOUGH");
         }
