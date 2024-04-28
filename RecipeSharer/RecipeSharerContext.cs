@@ -9,8 +9,9 @@ public class RecipeSharerContext: DbContext {
       public DbSet<Recipe>? Recipes {get; set;}
       public DbSet<Ingredient>? Ingredients {get; set;}
       public DbSet<Rating>? Ratings {get; set;}
-      // table for tags
-      // table for steps
+      public DbSet<Tag> Tags {get; set;} // Assuming you have a Tag model
+      public DbSet<Step> Steps {get; set;} // Assuming you have a Step model
+
 
       public string HostName {get; set;}
       public string Port { get; set; }
