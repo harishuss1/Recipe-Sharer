@@ -18,7 +18,7 @@ public class RecipeOperations
     }
 
     // Add a new recipe
-    public void AddRecipe(User user,Recipe recipe)
+    public void AddRecipe(User user, Recipe recipe)
     {
         if (recipe.Owner == null)
             throw new ArgumentException("Recipe must have an owner.");
@@ -26,26 +26,26 @@ public class RecipeOperations
         {
             throw new ArgumentException("Recipe name cannot be null or empty.", nameof(recipe.Name));
         }
-        recipe.Owner= user;
+        recipe.Owner = user;
         recipes.Add(recipe);
     }
 
     // Remove a recipe
     public void RemoveRecipe(User user, Recipe recipe)
-{
-    if (recipe.Owner == null)
-        throw new ArgumentException("Recipe must have an owner.");
-    if (recipe.Owner != user)
-        throw new ArgumentException("Only the owner can remove the recipe.");
-    recipes.Remove(recipe);
-}
+    {
+        if (recipe.Owner == null)
+            throw new ArgumentException("Recipe must have an owner.");
+        if (recipe.Owner != user)
+            throw new ArgumentException("Only the owner can remove the recipe.");
+        recipes.Remove(recipe);
+    }
 
     // Update a recipe
-    public void UpdateRecipe(User user,Recipe existingRecipe, Recipe newDetails)
+    public void UpdateRecipe(User user, Recipe existingRecipe, Recipe newDetails)
     {
         if (existingRecipe.Owner != newDetails.Owner || existingRecipe.Owner != user)
-        throw new ArgumentException("Only the owner can update the recipe.");
-        
+            throw new ArgumentException("Only the owner can update the recipe.");
+
         if (existingRecipe.Owner != newDetails.Owner)
             throw new ArgumentException("Cannot change the owner of the recipe.");
 
@@ -62,58 +62,61 @@ public class RecipeOperations
     // add steps to a recipe
     public List<string> AddStepsToRecipe(TextReader reader)
     {
-    var steps = new List<string>();
-    string step;
-    while ((step = reader.ReadLine()) != null)
-    {
-        if (step.Trim().Equals("Done!", StringComparison.OrdinalIgnoreCase))
+        var steps = new List<string>();
+        string step;
+        while ((step = reader.ReadLine()) != null)
         {
-            break;
-        }
+            if (step.Trim().Equals("Done!", StringComparison.OrdinalIgnoreCase))
+            {
+                break;
+            }
 
-        steps.Add(step.Trim());
-    }
-    return steps;
+            steps.Add(step.Trim());
+        }
+        return steps;
     }
 
     // add ingredient to recipe
-    public void addIngredient(Recipe recipe, Ingredient ingredient){
+    public void addIngredient(Recipe recipe, Ingredient ingredient)
+    {
         recipe.Ingredients.Add(ingredient);
     }
 
     //View all recipes
-    public void ViewRecipes(){
+    public void ViewRecipes()
+    {
         int count = 0;
-        foreach (Recipe recipe in recipes){
-                count++;
-                Console.WriteLine($"{count}: {recipe.ToString()}");
+        foreach (Recipe recipe in recipes)
+        {
+            count++;
+            Console.WriteLine($"{count}: {recipe.ToString()}");
         }
-        if (count == 0){
+        if (count == 0)
+        {
             Console.WriteLine("No Recipes Found");
         }
     }
 
     //View user's recipe lists
-    public void ViewUserRecipes(User owner){
-        int count = 0;
-        foreach (Recipe recipe in recipes){
-            if (recipe.Owner == owner){
-                count++;
-                Console.WriteLine($"{count}: {recipe.ToString()}");
-            }
-        }
-        if (count == 0){
+    public void ViewUserRecipes(User owner)
+    {
+        var userRecipes = recipes.Where(r => r.Owner == owner).ToList();
+
+        if (userRecipes.Count == 0)
+        {
             Console.WriteLine("No Recipes Found");
+        }
+        else
+        {
+            for (int i = 0; i < userRecipes.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}: {userRecipes[i].ToString()}");
+            }
         }
     }
 
-    public List<Recipe> GetUserRecipes(User owner){
-        List<Recipe> r = new List<Recipe>();
-        foreach (Recipe recipe in recipes){
-            if (recipe.Owner == owner){
-                r.Add(recipe);
-            }
-        }
-        return r;
+    public List<Recipe> GetUserRecipes(User owner)
+    {
+        return recipes.Where(r => r.Owner == owner).ToList();
     }
 }
