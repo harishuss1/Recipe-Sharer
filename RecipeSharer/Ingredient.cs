@@ -17,6 +17,11 @@ public class Ingredient
 
     public void RecipeScaler(int multiplier)
     {
+        if (multiplier <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(multiplier), "Multiplier must be greater than zero.");
+        }
+        
         double scaledQuantity = Quantity * multiplier;
         Console.WriteLine($"Scaled {Name} to {multiplier}x: {scaledQuantity} {UnitOfMass}");
     }
@@ -41,13 +46,16 @@ public class Ingredient
             }
             Console.WriteLine("Invalid input. Please choose 1, 2, or 3.");
         }
-
-        return choice;
+        return choice; 
     }
 
     // idk how to convert the unit also ;-; it just does the quantity
     public static double ConvertUnit(double quantity, string currentUnit, string type)
     {
+        if (quantity <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity must be greater than zero.");
+        }
         switch (currentUnit.ToLower())
         {
             case "cups":

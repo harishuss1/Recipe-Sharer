@@ -61,7 +61,7 @@ public class ConsoleUtils
         return r;
     }
 
-    private static string ReadNonEmptyString(string errorMessage)
+    public static string ReadNonEmptyString(string errorMessage)
     {
         string input = Console.ReadLine();
         while (string.IsNullOrWhiteSpace(input))

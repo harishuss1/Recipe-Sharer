@@ -8,6 +8,8 @@ public class RecipeOperations
     // Not sure if i should manage everything locally or from the database
     // Will be discuseed among teamates
 
+    // will need a ViewRecipe method? with data pulled from the db 
+
     //Also might will be using Our Validation class after when refactoring code.
     public List<Recipe> recipes;
 
@@ -71,7 +73,16 @@ public class RecipeOperations
                 break;
             }
 
-            steps.Add(step.Trim());
+            // checks if the step is empty after trimming
+            if (!string.IsNullOrWhiteSpace(step))
+            {
+                steps.Add(step.Trim());
+            }
+
+            else
+            {
+                throw new InvalidOperationException("Empty step found. Please provide a non-empty step.");
+            }
         }
         return steps;
     }
@@ -79,12 +90,22 @@ public class RecipeOperations
     // add ingredient to recipe
     public void addIngredient(Recipe recipe, Ingredient ingredient)
     {
+        if (ingredient == null)
+        {
+            throw new ArgumentNullException(nameof(ingredient), "Ingredient cannot be null.");
+        }
         recipe.Ingredients.Add(ingredient);
     }
 
     //View all recipes
     public void ViewRecipes()
+
     {
+        if (recipes == null || recipes.Count == 0)
+        {
+            Console.WriteLine("No Recipes Found");
+            return;
+        }
         int count = 0;
         foreach (Recipe recipe in recipes)
         {
@@ -106,7 +127,12 @@ public class RecipeOperations
         {
             Console.WriteLine("No Recipes Found");
         }
+        //Get user's recipe lists
         else
+        if (owner == null)
+        {
+            throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
+        }
         {
             for (int i = 0; i < userRecipes.Count; i++)
             {
@@ -117,6 +143,47 @@ public class RecipeOperations
 
     public List<Recipe> GetUserRecipes(User owner)
     {
+        if (owner == null)
+        {
+            throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
+        }
+
         return recipes.Where(r => r.Owner == owner).ToList();
+    }
+
+public List<Recipe> GetFavoriteRecipes(User user)
+{
+    if (user == null)
+    {
+        throw new ArgumentNullException(nameof(user), "User cannot be null.");
+    }
+
+    return recipes.Where(recipe => user.UserFavouriteRecipes.Contains(recipe)).ToList();
+}
+
+    public void ViewFavoriteRecipes(User user)
+    {
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user), "User cannot be null.");
+        }
+        if (user.UserFavouriteRecipes.Count == 0)
+        {
+            Console.WriteLine("No Favorite Recipes Found");
+        }
+        int count = 0;
+        List<Recipe> r = new List<Recipe>();
+        foreach (Recipe recipe in recipes)
+        {
+            foreach (Recipe fave in user.UserFavouriteRecipes)
+            {
+                //Will use id here when we have a db
+                if (recipe.Equals(fave))
+                {
+                    count++;
+                    Console.WriteLine($"{count}: {recipe.ToString()}");
+                }
+            }
+        }
     }
 }
