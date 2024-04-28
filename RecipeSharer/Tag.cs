@@ -5,6 +5,6 @@ public class Tag
 
     int recipeid;
 
-    String Tag;
+    String Tags;
 
 }
