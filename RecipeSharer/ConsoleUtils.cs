@@ -51,10 +51,10 @@ public static Recipe GetValidRecipe(User currentUser)
         List<Ingredient> ingredients = GetIngredients();
 
         // Get steps
-        List<string> steps = Recipe.GetSteps();
+        List<Step> steps = Recipe.GetSteps();
 
         // Get tags
-        List<string> tags = Recipe.GetTags();
+        List<Tag> tags = Recipe.GetTags();
 
         // Create and return the recipe object
         Recipe r = new() { Owner=currentUser, Name = name, ShortDescription = description, Ingredients = ingredients, PreparationTime= prepTime, CookingTime=cookTime, Servings=servings, Steps=steps, Tags=tags};

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography;
 using Recipes;
 
@@ -11,24 +12,17 @@ public class User
 // public class Users
 
     // username property
-    public string Username;
+    [Key]
+    public int UserId{get;set;}
+    public string Username{get; set;}
     // 
-    private byte[] _salt;
-    private byte[] _password;
-    public string Password { 
-        set {
-            if (value.Length < UserGlobalVars.PASSWORD_LENGTH || value == null) {
-                throw new ArgumentOutOfRangeException("PASSWORD WAS NOT LONG ENOUGH");
-            }
+    public byte[] Salt{get;set;}
+    public byte[] Password {get;set;}
 
-            Tuple<byte[], byte[]> hash = CreatePassword(value);
-            _salt = hash.Item1;
-            _password = hash.Item2;
-            
-    } }
-
+    [InverseProperty("Owner")]
     public List<Recipe> UserRecipes;
 
+    //[InverseProperty("FavoritedBy")]
     public List<Recipe> UserFavouriteRecipes;
     
     public void AddToFavorites(Recipe recipe)
@@ -48,16 +42,20 @@ public class User
     }
 
     // Constructor
-    // public User(string name, string password){
+    public User(string name, string password){
     
             
-    //     Username = name;
-    //     Tuple<byte[], byte[]> hash = CreatePassword(password);
-    //     Salt = hash.Item1;
-    //     Password = hash.Item2;
-    //     UserRecipes = new List<Recipe>();
-    //     UserFavouriteRecipes = new List<Recipe>();
-    // }
+        Username = name;
+        Tuple<byte[], byte[]> hash = CreatePassword(password);
+        Salt = hash.Item1;
+        Password = hash.Item2;
+        UserRecipes = new List<Recipe>();
+        UserFavouriteRecipes = new List<Recipe>();
+    }
+
+    public User(){
+        //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    }
     
      public static Tuple<byte[], byte[]> CreatePassword(string password) {
         byte[] salt = new byte[8];
@@ -99,14 +97,14 @@ public class User
             throw new ArgumentOutOfRangeException("PASSWORD WAS NOT LONG ENOUGH");
         }
 
-        if (!VerifyPassword(oldPassword, _salt, _password)){
+        if (!VerifyPassword(oldPassword, Salt, Password)){
             throw new Exception("OLD PASSWORD DOES NOT MATCH");
         }
 
         else {
             Tuple<byte[], byte[]> hash = CreatePassword(newPassword);
-            _salt = hash.Item1;
-            _password = hash.Item2;
+            Salt = hash.Item1;
+            Password = hash.Item2;
         }
     }
 

@@ -1,19 +1,29 @@
 namespace Recipes;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Ingredient
 {
+    [Key]
+    public int IngredientId {get; set;}
     public string Name { get; set; }
     public double Quantity { get; set; }
     public string UnitOfMass { get; set; }
     public string Type {get; set;}
+    [ForeignKey("RecipeId")]
+    public Recipe Recipe {get; set;}
 
-    // public Ingredient(string name, double quantity, string unitOfMass, string type)
-    // {
-    //     Name = name;
-    //     Quantity = Math.Round(quantity, 2);
-    //     UnitOfMass = unitOfMass;
-    //     Type = type;
-    // }
+    public Ingredient(string name, double quantity, string unitOfMass, string type)
+    {
+        Name = name;
+        Quantity = Math.Round(quantity, 2);
+        UnitOfMass = unitOfMass;
+        Type = type;
+    }
+
+    public Ingredient(){
+        
+    }
 
     public void RecipeScaler(int multiplier)
     {
