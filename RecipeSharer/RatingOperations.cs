@@ -46,7 +46,7 @@ public class RatingOperations
         var rating = _context.Ratings.FirstOrDefault(r => r.User == user && r.Recipe == recipe);
         if (rating != null)
         {
-            _context.Entry(rating).State = EntityState.Deleted;
+            _context.Ratings.Remove(rating);
             _context.SaveChanges();
         }
         else
@@ -71,7 +71,6 @@ public class RatingOperations
         if (rating != null)
         {
             rating.Score = newScore;
-            _context.Entry(rating).State = EntityState.Modified;
             _context.SaveChanges();
         }
         else
