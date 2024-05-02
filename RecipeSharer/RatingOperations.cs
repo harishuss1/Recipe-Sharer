@@ -1,5 +1,6 @@
-using Context;
 namespace Recipes;
+using Context;
+using Microsoft.EntityFrameworkCore;
 using Users;
 
 public class RatingOperations
@@ -22,74 +23,80 @@ public class RatingOperations
             throw new ArgumentOutOfRangeException("Score must be between 0 and 10.");
         }
 
-        using var context = new RecipeSharerContext();
-        Rating rating = new() { User = user, Score = score };
-        context.Ratings?.Add(rating);
-        context.SaveChanges();
+        var userInDb = _context.Users.Find(user.UserId);
+        var recipeInDb = _context.Recipes.Find(recipe.RecipeId);
+
+        if (userInDb == null || recipeInDb == null)
+        {
+            throw new ArgumentException("User or Recipe not found in the database.");
+        }
+
+        Rating rating = new() { User = userInDb, Recipe = recipeInDb, Score = score };
+        _context.Ratings.Add(rating);
+        _context.SaveChanges();
     }
 
     public void RemoveRating(User user, Recipe recipe)
-{
-    if (user == null || recipe == null)
     {
-        throw new ArgumentException("User or Recipe cannot be null.");
-    }
+        if (user == null || recipe == null)
+        {
+            throw new ArgumentException("User or Recipe cannot be null.");
+        }
 
-    using var context = new RecipeSharerContext();
-    var rating = context.Ratings?.FirstOrDefault(r => r.User == user && r.Recipe == recipe);
-    if (rating != null)
-    {
-        context.Ratings?.Remove(rating);
-        context.SaveChanges();
+        var rating = _context.Ratings.FirstOrDefault(r => r.User == user && r.Recipe == recipe);
+        if (rating != null)
+        {
+            _context.Entry(rating).State = EntityState.Deleted;
+            _context.SaveChanges();
+        }
+        else
+        {
+            Console.WriteLine("No rating from this user found.");
+        }
     }
-    else
-    {
-        Console.WriteLine("No rating from this user found.");
-    }
-}
     public void UpdateRating(User user, Recipe recipe, int newScore)
-{
-    if (user == null || recipe == null)
     {
-        throw new ArgumentException("User or Recipe cannot be null.");
-    }
+        if (user == null || recipe == null)
+        {
+            throw new ArgumentException("User or Recipe cannot be null.");
+        }
 
-    if (newScore < 0 || newScore > 10)
-    {
-        throw new ArgumentOutOfRangeException("Rating must be between 0 and 10.");
-    }
+        if (newScore < 0 || newScore > 10)
+        {
+            throw new ArgumentOutOfRangeException("Rating must be between 0 and 10.");
+        }
 
-    using var context = new RecipeSharerContext();
-    var rating = context.Ratings?.FirstOrDefault(r => r.User == user && r.Recipe == recipe);
-    if (rating != null)
-    {
-        rating.Score = newScore;
-        context.SaveChanges();
+
+        var rating = _context.Ratings?.FirstOrDefault(r => r.User == user && r.Recipe == recipe);
+        if (rating != null)
+        {
+            rating.Score = newScore;
+            _context.Entry(rating).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+        else
+        {
+            Console.WriteLine("No rating from this user found.");
+        }
     }
-    else
-    {
-        Console.WriteLine("No rating from this user found.");
-    }
-}
 
     public double ViewRating(Recipe recipe)
-{
-    if (recipe == null)
     {
-        throw new ArgumentNullException(nameof(recipe), "Recipe can't be null");
+        if (recipe == null)
+        {
+            throw new ArgumentNullException(nameof(recipe), "Recipe can't be null");
+        }
+
+        var averageScore = _context.Ratings
+            .Where(r => r.Recipe == recipe)
+            .Average(r => (double?)r.Score);
+
+        if (averageScore == null)
+        {
+            Console.WriteLine("No ratings available for this recipe.");
+            return 0;
+        }
+
+        return averageScore.Value;
     }
-
-    using var context = new RecipeSharerContext();
-    var ratings = context.Ratings.Where(r => r.Recipe == recipe).ToList();
-
-    if (ratings.Count == 0)
-    {
-        Console.WriteLine("No ratings available for this recipe.");
-        return 0;
-    }
-
-    double totalScore = ratings.Sum(r => r.Score);
-    double averageScore = totalScore / ratings.Count;
-    return averageScore;
-}
 }
