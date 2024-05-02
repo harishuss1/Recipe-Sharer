@@ -118,6 +118,11 @@ public class ConsoleUtils
         return choice; 
     }
 
+    public void ScaledRecipe(int multiplier, Ingredient ingredients)
+    {
+        Console.WriteLine($"Scaled {ingredients.Name} to {multiplier} x: {ingredients.RecipeScaler(multiplier)} {ingredients.UnitOfMass}");   
+    }
+
     private static Ingredient ParseIngredient(string input)
     {
         // Example parsing logic, adjust as necessary for your Ingredient class
