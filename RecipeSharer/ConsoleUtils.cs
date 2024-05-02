@@ -145,7 +145,7 @@ public class ConsoleUtils
 
     public void ScaledRecipe(int multiplier, Ingredient ingredients)
     {
-        Console.WriteLine($"Scaled {ingredients.Name} to {multiplier} x: {ingredients.RecipeScaler(multiplier)} {ingredients.UnitOfMass}");   
+        Console.WriteLine($"Scaled {ingredients.Name} to {multiplier}x: {ingredients.RecipeScaler(multiplier)} {ingredients.UnitOfMass}");   
     }
 
     private static Ingredient ParseIngredient(string input)
