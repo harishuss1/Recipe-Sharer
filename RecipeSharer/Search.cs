@@ -7,7 +7,7 @@ using Recipes;
 public class Search
 {
     public List<string> Ingredients { get; private set; }
-    public List<string> Tags { get; private set; }
+    public List<Tag> Tags { get; private set; }
     public string Keyword { get; private set; }
     public TimeSpan? MinDuration { get; private set; }
     public TimeSpan? MaxDuration { get; private set; }
@@ -20,7 +20,7 @@ public class Search
     public Search()
     {
         Ingredients = new List<string>();
-        Tags = new List<string>();
+        Tags = new List<Tag>();
         UserFavorites = new List<Recipe>();
     }
 
@@ -40,9 +40,9 @@ public class Search
     /// Adds a tag that each recipe must include.
     /// </summary>
     /// <param name="tag">The tag to add to the search criteria.</param>
-    public void AddTag(string tag)
+    public void AddTag(Tag tag)
     {
-        if (string.IsNullOrWhiteSpace(tag))
+        if (string.IsNullOrWhiteSpace(tag.Name))
             throw new ArgumentException("Tag cannot be empty or whitespace.");
         Tags.Add(tag);
     }

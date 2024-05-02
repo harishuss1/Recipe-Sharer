@@ -57,8 +57,8 @@ public class RecipeOperations
         existingRecipe.PreparationTime = newDetails.PreparationTime;
         existingRecipe.CookingTime = newDetails.CookingTime;
         existingRecipe.Servings = newDetails.Servings;
-        existingRecipe.Steps = new List<string>(newDetails.Steps);
-        existingRecipe.Tags = new List<string>(newDetails.Tags);
+        existingRecipe.Steps = new List<Step>(newDetails.Steps);
+        existingRecipe.Tags = new List<Tag>(newDetails.Tags);
     }
 
     // add steps to a recipe

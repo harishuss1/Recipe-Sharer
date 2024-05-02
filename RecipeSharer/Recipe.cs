@@ -1,8 +1,12 @@
 namespace Recipes;
 using Users;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Recipe
 {
+    [Key]
+    public int RecipeId {get;set;}
     private string name;
     public string Name
     {
@@ -16,6 +20,8 @@ public class Recipe
     }
 
     private User _owner;
+    
+    [ForeignKey("OwnerId")]
     public User Owner
     {
         get { return _owner; }
@@ -76,31 +82,43 @@ public class Recipe
             servings = value;
         }
     }
-    public List<string> Steps { get; set; }
+    public List<Step> Steps { get; set; }
     public List<Ingredient> Ingredients { get; set; }
     public List<Rating> Ratings { get; set; }
-    public List<string> Tags { get; set; }
 
-    public static List<string> GetSteps()
+    // [InverseProperty("TaggedRecipes")]
+    public List<Tag> Tags { get; set; }
+
+    //[InverseProperty("UserFavouriteRecipes")]
+    public List<User> FavoritedBy {get; set;}
+
+    public Recipe(){
+        // Jump Rope
+    }
+
+    public static List<Step> GetSteps()
     {
-        List<string> steps = new List<string>();
+        List<Step> steps = new List<Step>();
         Console.WriteLine("Enter cooking steps (type 'done' to finish):");
         string step;
         while ((step = Console.ReadLine().ToLower()) != "done")
         {
-            steps.Add(step);
+            Step s = new Step();
+            s.Description = step;
+            steps.Add(s);
         }
         return steps;
     }
-
-    public static List<string> GetTags()
+    public static List<Tag> GetTags()
     {
-        List<string> tags = new List<string>();
+        List<Tag> tags = new List<Tag>();
         Console.WriteLine("Enter tags (type 'done' to finish):");
         string tag;
         while ((tag = Console.ReadLine().ToLower()) != "done")
         {
-            tags.Add(tag);
+            Tag t = new Tag();
+            t.Name = tag;
+            tags.Add(t);
         }
         return tags;
     }
