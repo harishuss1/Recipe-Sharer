@@ -36,6 +36,18 @@ public class ConsoleUtils
         return steps;
     }
 
+    public List<Tag> GetTagsFromUser()
+    {
+        var tags = new List<Tag>();
+        string input;
+        while ((input = Console.ReadLine()) != "Done!")
+        {
+            tags.Add(new Tag { Name = input });
+        }
+
+        return tags;
+    }
+
     public static Recipe GetValidRecipe(User currentUser)
     {
         Console.WriteLine("Please enter the recipe details:");

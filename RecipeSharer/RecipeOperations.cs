@@ -76,50 +76,76 @@ public class RecipeOperations
 
     // add steps to a recipe
     public void AddStepsToRecipe(int recipeId, List<Step> steps)
-{
-    if (steps == null || steps.Count == 0)
     {
-        throw new ArgumentNullException(nameof(steps), "Steps cannot be null or empty.");
-    }
-
-    var recipeInDb = _context.Recipes.Find(recipeId);
-
-    if (recipeInDb == null)
-    {
-        throw new ArgumentException("Recipe not found in the database.");
-    }
-
-    foreach (var step in steps)
-    {
-        if (string.IsNullOrWhiteSpace(step.Description))
+        if (steps == null || steps.Count == 0)
         {
-            throw new InvalidOperationException("Empty step found. Please provide a non-empty step.");
+            throw new ArgumentNullException(nameof(steps), "Steps cannot be null or empty.");
         }
 
-        recipeInDb.Steps.Add(step);
-    }
+        var recipeInDb = _context.Recipes.Find(recipeId);
 
-    _context.SaveChanges();
-}
+        if (recipeInDb == null)
+        {
+            throw new ArgumentException("Recipe not found in the database.");
+        }
+
+        foreach (var step in steps)
+        {
+            if (string.IsNullOrWhiteSpace(step.Description))
+            {
+                throw new InvalidOperationException("Empty step found. Please provide a non-empty step.");
+            }
+
+            recipeInDb.Steps.Add(step);
+        }
+
+        _context.SaveChanges();
+    }
+    public void AddTagsToRecipe(int recipeId, List<Tag> tags)
+    {
+        if (tags == null || tags.Count == 0)
+        {
+            throw new ArgumentNullException(nameof(tags), "Tags cannot be null or empty.");
+        }
+
+        var recipeInDb = _context.Recipes.Find(recipeId);
+
+        if (recipeInDb == null)
+        {
+            throw new ArgumentException("Recipe not found in the database.");
+        }
+
+        foreach (var tag in tags)
+        {
+            if (string.IsNullOrWhiteSpace(tag.Name))
+            {
+                throw new InvalidOperationException("Empty tag found. Please provide a non-empty tag.");
+            }
+
+            recipeInDb.Tags.Add(tag);
+        }
+
+        _context.SaveChanges();
+    }
 
     // add ingredient to recipe
     public void addIngredient(int recipeId, Ingredient ingredient)
-{
-    if (ingredient == null)
     {
-        throw new ArgumentNullException(nameof(ingredient), "Ingredient cannot be null.");
+        if (ingredient == null)
+        {
+            throw new ArgumentNullException(nameof(ingredient), "Ingredient cannot be null.");
+        }
+
+        var recipeInDb = _context.Recipes.Find(recipeId);
+
+        if (recipeInDb == null)
+        {
+            throw new ArgumentException("Recipe not found in the database.");
+        }
+
+        recipeInDb.Ingredients.Add(ingredient);
+        _context.SaveChanges();
     }
-
-    var recipeInDb = _context.Recipes.Find(recipeId);
-
-    if (recipeInDb == null)
-    {
-        throw new ArgumentException("Recipe not found in the database.");
-    }
-
-    recipeInDb.Ingredients.Add(ingredient);
-    _context.SaveChanges();
-}
 
     //View all recipes
     public List<Recipe> ViewRecipes()
@@ -171,23 +197,23 @@ public class RecipeOperations
     }
 
     public List<Recipe> ViewFavoriteRecipes(int userId)
-{
-    var userInDb = _context.Users.Find(userId);
-
-    if (userInDb == null)
     {
-        throw new ArgumentException("User not found in the database.");
+        var userInDb = _context.Users.Find(userId);
+
+        if (userInDb == null)
+        {
+            throw new ArgumentException("User not found in the database.");
+        }
+
+        var favoriteRecipes = _context.Recipes
+            .Where(r => userInDb.UserFavouriteRecipes.Contains(r))
+            .ToList();
+
+        if (favoriteRecipes.Count == 0)
+        {
+            throw new ArgumentException("No Favorite Recipes Found");
+        }
+
+        return favoriteRecipes;
     }
-
-    var favoriteRecipes = _context.Recipes
-        .Where(r => userInDb.UserFavouriteRecipes.Contains(r))
-        .ToList();
-
-    if (favoriteRecipes.Count == 0)
-    {
-        throw new ArgumentException("No Favorite Recipes Found");
-    }
-
-    return favoriteRecipes;
-}
 }
