@@ -36,29 +36,6 @@ public class Ingredient
         Console.WriteLine($"Scaled {Name} to {multiplier}x: {scaledQuantity} {UnitOfMass}");
     }
 
-    public static int GetUserMultiplier()
-    {
-        Console.WriteLine("Choose a multiplier:");
-        Console.WriteLine("1. 1x");
-        Console.WriteLine("2. 2x");
-        Console.WriteLine("3. 3x");
-
-        int choice;
-        while (true)
-        {
-            if (int.TryParse(Console.ReadLine(), out int input))
-            {
-                if (input >= 1 && input <= 3)
-                {
-                    choice = input;
-                    break;
-                }
-            }
-            Console.WriteLine("Invalid input. Please choose 1, 2, or 3.");
-        }
-        return choice; 
-    }
-
     // idk how to convert the unit also ;-; it just does the quantity
     public static double ConvertUnit(double quantity, string currentUnit, string type)
     {
