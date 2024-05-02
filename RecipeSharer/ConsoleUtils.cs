@@ -22,6 +22,19 @@ public class ConsoleUtils
 
         return rating;
     }
+    public List<Step> GetStepsFromUser()
+    {
+        var steps = new List<Step>();
+        string input;
+        int stepNumber = 1;
+        while ((input = Console.ReadLine()) != "Done!")
+        {
+            steps.Add(new Step { Number = stepNumber, Description = input });
+            stepNumber++;
+        }
+
+        return steps;
+    }
 
     public static Recipe GetValidRecipe(User currentUser)
     {

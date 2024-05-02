@@ -75,30 +75,32 @@ public class RecipeOperations
     }
 
     // add steps to a recipe
-    public List<string> AddStepsToRecipe(TextReader reader)
+    public void AddStepsToRecipe(int recipeId, List<Step> steps)
+{
+    if (steps == null || steps.Count == 0)
     {
-        var steps = new List<string>();
-        string step;
-        while ((step = reader.ReadLine()) != null)
-        {
-            if (step.Trim().Equals("Done!", StringComparison.OrdinalIgnoreCase))
-            {
-                break;
-            }
-
-            // checks if the step is empty after trimming
-            if (!string.IsNullOrWhiteSpace(step))
-            {
-                steps.Add(step.Trim());
-            }
-
-            else
-            {
-                throw new InvalidOperationException("Empty step found. Please provide a non-empty step.");
-            }
-        }
-        return steps;
+        throw new ArgumentNullException(nameof(steps), "Steps cannot be null or empty.");
     }
+
+    var recipeInDb = _context.Recipes.Find(recipeId);
+
+    if (recipeInDb == null)
+    {
+        throw new ArgumentException("Recipe not found in the database.");
+    }
+
+    foreach (var step in steps)
+    {
+        if (string.IsNullOrWhiteSpace(step.Description))
+        {
+            throw new InvalidOperationException("Empty step found. Please provide a non-empty step.");
+        }
+
+        recipeInDb.Steps.Add(step);
+    }
+
+    _context.SaveChanges();
+}
 
     // add ingredient to recipe
     public void addIngredient(int recipeId, Ingredient ingredient)
