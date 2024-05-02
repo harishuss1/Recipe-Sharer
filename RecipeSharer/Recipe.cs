@@ -93,7 +93,6 @@ public class Recipe
     public List<User> FavoritedBy {get; set;}
 
     public Recipe(){
-        // Jump Rope
     }
 
     public static List<Step> GetSteps()

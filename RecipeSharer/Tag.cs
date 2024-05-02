@@ -13,6 +13,5 @@ public class Tag
     public string Name {get; set;}
 
     public Tag(){
-        //LowTierGod
     }
 }
