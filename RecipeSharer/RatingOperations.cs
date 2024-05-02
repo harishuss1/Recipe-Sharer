@@ -1,11 +1,17 @@
+using Context;
 namespace Recipes;
 using Users;
 
 public class RatingOperations
 {
+    private readonly RecipeSharerContext _context;
+
+    public RatingOperations(RecipeSharerContext context)
+    {
+        _context = context;
+    }
     public void AddRating(User user, Recipe recipe, int score)
     {
-
         if (user == null || recipe == null)
         {
             throw new ArgumentException("User or Recipe cannot be null.");
@@ -16,68 +22,74 @@ public class RatingOperations
             throw new ArgumentOutOfRangeException("Score must be between 0 and 10.");
         }
 
+        using var context = new RecipeSharerContext();
         Rating rating = new() { User = user, Score = score };
-        recipe.Ratings.Add(rating);
+        context.Ratings?.Add(rating);
+        context.SaveChanges();
     }
 
     public void RemoveRating(User user, Recipe recipe)
+{
+    if (user == null || recipe == null)
     {
-        if (user == null || recipe == null)
-        {
-            Console.WriteLine("User or Recipe cannot be null.");
-            return;
-        }
-
-        var rating = recipe.Ratings.FirstOrDefault(r => r.User == user);
-        if (rating != null)
-        {
-            recipe.Ratings.Remove(rating);
-        }
-        else
-        {
-            Console.WriteLine("No rating from this user found.");
-        }
+        throw new ArgumentException("User or Recipe cannot be null.");
     }
+
+    using var context = new RecipeSharerContext();
+    var rating = context.Ratings?.FirstOrDefault(r => r.User == user && r.Recipe == recipe);
+    if (rating != null)
+    {
+        context.Ratings?.Remove(rating);
+        context.SaveChanges();
+    }
+    else
+    {
+        Console.WriteLine("No rating from this user found.");
+    }
+}
     public void UpdateRating(User user, Recipe recipe, int newScore)
+{
+    if (user == null || recipe == null)
     {
-        if (user == null || recipe == null)
-        {
-            Console.WriteLine("User or Recipe cannot be null.");
-            return;
-        }
-
-        if (newScore < 0 || newScore > 10)
-        {
-            Console.WriteLine("Rating must be between 0 and 10.");
-            return;
-        }
-
-        var rating = recipe.Ratings.FirstOrDefault(r => r.User == user);
-        if (rating != null)
-        {
-            rating.Score = newScore;
-        }
-        else
-        {
-            Console.WriteLine("No rating from this user found.");
-        }
+        throw new ArgumentException("User or Recipe cannot be null.");
     }
+
+    if (newScore < 0 || newScore > 10)
+    {
+        throw new ArgumentOutOfRangeException("Rating must be between 0 and 10.");
+    }
+
+    using var context = new RecipeSharerContext();
+    var rating = context.Ratings?.FirstOrDefault(r => r.User == user && r.Recipe == recipe);
+    if (rating != null)
+    {
+        rating.Score = newScore;
+        context.SaveChanges();
+    }
+    else
+    {
+        Console.WriteLine("No rating from this user found.");
+    }
+}
 
     public double ViewRating(Recipe recipe)
+{
+    if (recipe == null)
     {
-        if (recipe == null)
-        {
-            throw new ArgumentNullException(nameof(recipe), "Recipe can't be null");
-        }
-        
-        if (recipe.Ratings.Count == 0)
-        {
-            Console.WriteLine("No ratings available for this recipe.");
-            return 0;
-        }
-
-        double totalScore = recipe.Ratings.Sum(r => r.Score);
-        double averageScore = totalScore / recipe.Ratings.Count;
-        return averageScore;
+        throw new ArgumentNullException(nameof(recipe), "Recipe can't be null");
     }
+
+    using var context = new RecipeSharerContext();
+    var ratings = context.Ratings.Where(r => r.Recipe == recipe).ToList();
+
+    if (ratings.Count == 0)
+    {
+        Console.WriteLine("No ratings available for this recipe.");
+        return 0;
+    }
+
+    double totalScore = ratings.Sum(r => r.Score);
+    double averageScore = totalScore / ratings.Count;
+    return averageScore;
+}
 }

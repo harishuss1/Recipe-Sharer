@@ -15,7 +15,7 @@
 *.sln.docstates
 *.sln
 *.vscode
-Migrations/
+
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
