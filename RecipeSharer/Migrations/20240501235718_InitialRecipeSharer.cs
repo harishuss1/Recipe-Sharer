@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RecipeSharer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialLibrary : Migration
+    public partial class InitialRecipeSharer : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

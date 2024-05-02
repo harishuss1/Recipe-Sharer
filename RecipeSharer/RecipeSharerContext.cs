@@ -27,6 +27,7 @@ public class RecipeSharerContext: DbContext {
       }
       
       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
-            optionsBuilder.UseOracle($"User Id={UserName};Password={Password};Data Source={HostName}:{Port}/{ServiceName}");
+            optionsBuilder.UseOracle($"Data Source={HostName}:{(Port)}/{ServiceName}; " +
+            $"User Id={UserName}; Password={Password}");
       }
 }

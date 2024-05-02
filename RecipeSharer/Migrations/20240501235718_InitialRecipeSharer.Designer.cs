@@ -12,8 +12,8 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace RecipeSharer.Migrations
 {
     [DbContext(typeof(RecipeSharerContext))]
-    [Migration("20240501233510_InitialLibrary")]
-    partial class InitialLibrary
+    [Migration("20240501235718_InitialRecipeSharer")]
+    partial class InitialRecipeSharer
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
