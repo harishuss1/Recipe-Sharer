@@ -27,6 +27,11 @@ public class Ingredient
 
     public void RecipeScaler(int multiplier)
     {
+        if (multiplier <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(multiplier), "Multiplier must be greater than zero.");
+        }
+        
         double scaledQuantity = Quantity * multiplier;
         Console.WriteLine($"Scaled {Name} to {multiplier}x: {scaledQuantity} {UnitOfMass}");
     }
@@ -45,19 +50,22 @@ public class Ingredient
             {
                 if (input >= 1 && input <= 3)
                 {
-                    choice = input; 
-                    break; 
+                    choice = input;
+                    break;
                 }
             }
             Console.WriteLine("Invalid input. Please choose 1, 2, or 3.");
         }
-
         return choice; 
     }
 
     // idk how to convert the unit also ;-; it just does the quantity
     public static double ConvertUnit(double quantity, string currentUnit, string type)
     {
+        if (quantity <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity must be greater than zero.");
+        }
         switch (currentUnit.ToLower())
         {
             case "cups":
@@ -74,7 +82,7 @@ public class Ingredient
                 else
                 {
                     // Keep cups as is for other types of ingredients
-                    return Math.Round(quantity, 2);;
+                    return Math.Round(quantity, 2); ;
                 }
             case "g":
                 if (type.ToLower() == "solid")
@@ -85,7 +93,7 @@ public class Ingredient
                 else
                 {
                     // Keep grams as is for other types of ingredients
-                    return Math.Round(quantity , 2);
+                    return Math.Round(quantity, 2);
                 }
             case "tablespoons":
                 if (type.ToLower() == "solid")

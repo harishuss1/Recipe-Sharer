@@ -5,7 +5,7 @@ public class RatingOperations
 {
     public void AddRating(User user, Recipe recipe, int score)
     {
-        
+
         if (user == null || recipe == null)
         {
             throw new ArgumentException("User or Recipe cannot be null.");
@@ -16,7 +16,7 @@ public class RatingOperations
             throw new ArgumentOutOfRangeException("Score must be between 0 and 10.");
         }
 
-        Rating rating = new() { User = user, Score = score};
+        Rating rating = new() { User = user, Score = score };
         recipe.Ratings.Add(rating);
     }
 
@@ -65,6 +65,11 @@ public class RatingOperations
 
     public double ViewRating(Recipe recipe)
     {
+        if (recipe == null)
+        {
+            throw new ArgumentNullException(nameof(recipe), "Recipe can't be null");
+        }
+        
         if (recipe.Ratings.Count == 0)
         {
             Console.WriteLine("No ratings available for this recipe.");

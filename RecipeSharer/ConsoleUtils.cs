@@ -4,26 +4,26 @@ using Users;
 public class ConsoleUtils
 {
     public int GetValidRatingFromUser()
-{
-    int rating;
-    do
     {
-        Console.Write("Please enter a rating from 0 to 10: ");
-        string input = Console.ReadLine();
-        if (int.TryParse(input, out rating) && rating >= 0 && rating <= 10)
+        int rating;
+        do
         {
-            break;
-        }
-        else
-        {
-            Console.WriteLine("Invalid rating. Please enter a number from 1 to 10.");
-        }
-    } while (true);
+            Console.Write("Please enter a rating from 0 to 10: ");
+            string input = Console.ReadLine();
+            if (int.TryParse(input, out rating) && rating >= 0 && rating <= 10)
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid rating. Please enter a number from 1 to 10.");
+            }
+        } while (true);
 
-    return rating;
-}
+        return rating;
+    }
 
-public static Recipe GetValidRecipe(User currentUser)
+    public static Recipe GetValidRecipe(User currentUser)
     {
         Console.WriteLine("Please enter the recipe details:");
 
@@ -57,11 +57,11 @@ public static Recipe GetValidRecipe(User currentUser)
         List<Tag> tags = Recipe.GetTags();
 
         // Create and return the recipe object
-        Recipe r = new() { Owner=currentUser, Name = name, ShortDescription = description, Ingredients = ingredients, PreparationTime= prepTime, CookingTime=cookTime, Servings=servings, Steps=steps, Tags=tags};
+        Recipe r = new() { Owner = currentUser, Name = name, ShortDescription = description, Ingredients = ingredients, PreparationTime = prepTime, CookingTime = cookTime, Servings = servings, Steps = steps, Tags = tags };
         return r;
     }
 
-    private static string ReadNonEmptyString(string errorMessage)
+    public static string ReadNonEmptyString(string errorMessage)
     {
         string input = Console.ReadLine();
         while (string.IsNullOrWhiteSpace(input))
@@ -99,7 +99,7 @@ public static Recipe GetValidRecipe(User currentUser)
     private static Ingredient ParseIngredient(string input)
     {
         // Example parsing logic, adjust as necessary for your Ingredient class
-        return new Ingredient(){Name=input, Quantity=1, UnitOfMass="unit",Type=null}; // Placeholder, adjust constructor as necessary
+        return new Ingredient() { Name = input, Quantity = 1, UnitOfMass = "unit", Type = null }; // Placeholder, adjust constructor as necessary
     }
 
 }

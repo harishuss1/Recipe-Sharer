@@ -9,16 +9,16 @@ public class Profile
 
 
     //To-do: Create system for profile picture, need to figure that out.
-    private string? _pfpPath;
-    public string ProfilePicturePath
+    private byte[] _profilePicture;
+    public byte[] ProfilePicture
     {
         get
         {
-            return _pfpPath ?? "DEFAULTPATH";
+            return _profilePicture ?? new byte[0]; // return an empty byte array if _profilePicture is null
         }
         set
         {
-            _pfpPath = value;
+            _profilePicture = value;
         }
     }
 
@@ -31,7 +31,7 @@ public class Profile
 
     public override string ToString()
     {
-        return $"Name: {User.Username}, Description: {Description}, ProfilePicturePath: {ProfilePicturePath}";
+        return $"Name: {User.Username}, Description: {Description}, ProfilePicture: {ProfilePicture.Length} bytes";
     }
 
 }

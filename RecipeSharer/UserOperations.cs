@@ -2,18 +2,35 @@ namespace Users;
 
 public class UserOperation
 {
+    private List<User> _users;
 
-// MakeAccount()
-    //make an account for a user?
-// UpdateUserInfo()
-    // update password, profile picture or description
-// RemoveUserInfo()
-    // remove profile picture or description
-// userAuthentication method(username, password)
+    public UserOperation()
+    {
+        _users = new List<User>();
+    }
 
-// addRecipeToFavorites method
+    public User Register(string username, string password)
+    {
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new ArgumentException("Username cannot be empty.");
+        }
 
-// removeRecipeFromFavorite
+        if (string.IsNullOrEmpty(password))
+        {
+            throw new ArgumentException("Password cannot be empty.");
+        }
 
-// DeleteAccount(username)
+        if (_users.Any(u => u.Username == username))
+        {
+            throw new ArgumentException("Username already exists.");
+        }
+
+        var user = new User(username, password);
+        _users.Add(user);
+
+        return user;
+    }
+
+    // Other methods...
 }
