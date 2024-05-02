@@ -1,11 +1,18 @@
 namespace Recipes;
+using Context;
+using Microsoft.EntityFrameworkCore;
 using Users;
 
 public class RatingOperations
 {
+    private readonly RecipeSharerContext _context;
+
+    public RatingOperations(RecipeSharerContext context)
+    {
+        _context = context;
+    }
     public void AddRating(User user, Recipe recipe, int score)
     {
-
         if (user == null || recipe == null)
         {
             throw new ArgumentException("User or Recipe cannot be null.");
@@ -16,22 +23,31 @@ public class RatingOperations
             throw new ArgumentOutOfRangeException("Score must be between 0 and 10.");
         }
 
-        Rating rating = new() { User = user, Score = score };
-        recipe.Ratings.Add(rating);
+        var userInDb = _context.Users.Find(user.UserId);
+        var recipeInDb = _context.Recipes.Find(recipe.RecipeId);
+
+        if (userInDb == null || recipeInDb == null)
+        {
+            throw new ArgumentException("User or Recipe not found in the database.");
+        }
+
+        Rating rating = new() { User = userInDb, Recipe = recipeInDb, Score = score };
+        _context.Ratings.Add(rating);
+        _context.SaveChanges();
     }
 
     public void RemoveRating(User user, Recipe recipe)
     {
         if (user == null || recipe == null)
         {
-            Console.WriteLine("User or Recipe cannot be null.");
-            return;
+            throw new ArgumentException("User or Recipe cannot be null.");
         }
 
-        var rating = recipe.Ratings.FirstOrDefault(r => r.User == user);
+        var rating = _context.Ratings.FirstOrDefault(r => r.User == user && r.Recipe == recipe);
         if (rating != null)
         {
-            recipe.Ratings.Remove(rating);
+            _context.Ratings.Remove(rating);
+            _context.SaveChanges();
         }
         else
         {
@@ -42,20 +58,20 @@ public class RatingOperations
     {
         if (user == null || recipe == null)
         {
-            Console.WriteLine("User or Recipe cannot be null.");
-            return;
+            throw new ArgumentException("User or Recipe cannot be null.");
         }
 
         if (newScore < 0 || newScore > 10)
         {
-            Console.WriteLine("Rating must be between 0 and 10.");
-            return;
+            throw new ArgumentOutOfRangeException("Rating must be between 0 and 10.");
         }
 
-        var rating = recipe.Ratings.FirstOrDefault(r => r.User == user);
+
+        var rating = _context.Ratings?.FirstOrDefault(r => r.User == user && r.Recipe == recipe);
         if (rating != null)
         {
             rating.Score = newScore;
+            _context.SaveChanges();
         }
         else
         {
@@ -69,15 +85,17 @@ public class RatingOperations
         {
             throw new ArgumentNullException(nameof(recipe), "Recipe can't be null");
         }
-        
-        if (recipe.Ratings.Count == 0)
+
+        var averageScore = _context.Ratings
+            .Where(r => r.Recipe == recipe)
+            .Average(r => (double?)r.Score);
+
+        if (averageScore == null)
         {
             Console.WriteLine("No ratings available for this recipe.");
             return 0;
         }
 
-        double totalScore = recipe.Ratings.Sum(r => r.Score);
-        double averageScore = totalScore / recipe.Ratings.Count;
-        return averageScore;
+        return averageScore.Value;
     }
 }
