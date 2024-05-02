@@ -16,6 +16,5 @@ public class Step
 
 
     public Step(){
-        //This is how you tie a noose
     }
 }

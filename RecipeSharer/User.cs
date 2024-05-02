@@ -22,6 +22,20 @@ public class User
 
     //[InverseProperty("FavoritedBy")]
     public List<Recipe> UserFavouriteRecipes;
+    private byte[] _profilePicture;
+    public byte[] ProfilePicture
+    {
+        get
+        {
+            return _profilePicture ?? new byte[0]; // return an empty byte array if _profilePicture is null
+        }
+        set
+        {
+            _profilePicture = value;
+        }
+    }
+
+    private string? Description { get; set; }
     
     public void AddToFavorites(Recipe recipe)
     {

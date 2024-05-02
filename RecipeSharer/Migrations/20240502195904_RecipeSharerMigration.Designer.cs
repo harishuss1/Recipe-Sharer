@@ -12,8 +12,8 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace RecipeSharer.Migrations
 {
     [DbContext(typeof(RecipeSharerContext))]
-    [Migration("20240501235718_InitialRecipeSharer")]
-    partial class InitialRecipeSharer
+    [Migration("20240502195904_RecipeSharerMigration")]
+    partial class RecipeSharerMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -185,6 +185,10 @@ namespace RecipeSharer.Migrations
                     OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<byte[]>("Password")
+                        .IsRequired()
+                        .HasColumnType("RAW(2000)");
+
+                    b.Property<byte[]>("ProfilePicture")
                         .IsRequired()
                         .HasColumnType("RAW(2000)");
 
