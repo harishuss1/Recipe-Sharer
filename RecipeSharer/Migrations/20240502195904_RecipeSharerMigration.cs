@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RecipeSharer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialRecipeSharer : Migration
+    public partial class RecipeSharerMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -128,6 +128,7 @@ namespace RecipeSharer.Migrations
                     Username = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
                     Salt = table.Column<byte[]>(type: "RAW(2000)", nullable: false),
                     Password = table.Column<byte[]>(type: "RAW(2000)", nullable: false),
+                    ProfilePicture = table.Column<byte[]>(type: "RAW(2000)", nullable: false),
                     RecipeId = table.Column<int>(type: "NUMBER(10)", nullable: true)
                 },
                 constraints: table =>
