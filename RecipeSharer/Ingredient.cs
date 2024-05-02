@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+
 namespace Recipes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -60,7 +62,7 @@ public class Ingredient
     }
 
     // idk how to convert the unit also ;-; it just does the quantity
-    public static double ConvertUnit(double quantity, string currentUnit, string type)
+    public static Tuple<double, string> ConvertUnit(double quantity, string currentUnit, string type)
     {
         if (quantity <= 0)
         {
@@ -72,63 +74,70 @@ public class Ingredient
                 if (type.ToLower() == "solid")
                 {
                     // Convert cups to grams for solid ingredients
-                    return Math.Round(quantity * 236.588, 2);
+                    currentUnit = "g";
+                    return new Tuple<double, string> (Math.Round(quantity * 236.588, 2), currentUnit);
                 }
                 else if (type.ToLower() == "liquid")
                 {
                     // Convert cups to milliliters for liquid ingredients
-                    return Math.Round(quantity * 236.588, 2);
+                    currentUnit = "ml";
+                    return new Tuple<double, string> (Math.Round(quantity * 236.588, 2), currentUnit);
                 }
                 else
                 {
                     // Keep cups as is for other types of ingredients
-                    return Math.Round(quantity, 2); ;
+                    return new Tuple<double, string> (Math.Round(quantity, 2), currentUnit);;
                 }
             case "g":
                 if (type.ToLower() == "solid")
                 {
                     // Convert grams to cups for solid ingredients
-                    return Math.Round(quantity / 236.588, 2);
+                    currentUnit = "cups";
+                    return new Tuple<double, string> (Math.Round(quantity / 236.588, 2), currentUnit);
                 }
                 else
                 {
                     // Keep grams as is for other types of ingredients
-                    return Math.Round(quantity, 2);
+                    return new Tuple<double, string> (Math.Round(quantity , 2), currentUnit);
                 }
             case "tablespoons":
                 if (type.ToLower() == "solid")
                 {
                     // Convert tablespoons to grams for solid ingredients
-                    return Math.Round(quantity * 14.7868, 2);
+                    currentUnit = "g";
+                    return new Tuple<double, string> (Math.Round(quantity * 14.7868, 2), currentUnit);
                 }
                 else if (type.ToLower() == "liquid")
                 {
                     // Convert tablespoons to milliliters for liquid ingredients
-                    return Math.Round(quantity * 14.7868, 2);
+                    currentUnit = "ml";
+                    return new Tuple<double, string> (Math.Round(quantity * 14.7868, 2), currentUnit);
                 }
                 else
                 {
                     // Keep tablespoons as is for other types of ingredients
-                    return Math.Round(quantity, 2);
+                    return new Tuple<double, string> (Math.Round(quantity, 2), currentUnit);
                 }
             case "teaspoons":
                 if (type.ToLower() == "solid")
                 {
                     // Convert teaspoons to grams for solid ingredients
-                    return Math.Round(quantity * 4.92892, 2);
+                    currentUnit = "g";
+                    return new Tuple<double, string> (Math.Round(quantity * 4.92892, 2), currentUnit);
                 }
                 else if (type.ToLower() == "liquid")
                 {
                     // Convert teaspoons to milliliters for liquid ingredients
-                    return Math.Round(quantity * 4.92892, 2);
+                    currentUnit = "ml";
+                    return new Tuple<double, string> (Math.Round(quantity * 4.92892, 2), currentUnit);
                 }
                 else
                 {
                     // Keep teaspoons as is for other types of ingredients
-                    return quantity;
+                    return new Tuple<double, string>(Math.Round(quantity, 2), currentUnit);
                 }
             default:
-                return quantity; // Return quantity unchanged for unknown units
+                return new Tuple<double, string>(Math.Round(quantity,2), currentUnit); // Return quantity unchanged for unknown units
         }
     }
 
