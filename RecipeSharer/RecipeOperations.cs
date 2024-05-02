@@ -20,7 +20,7 @@ public class RecipeOperations
     }
 
     // Add a new recipe
-    public void AddRecipe(User user,Recipe recipe)
+    public void AddRecipe(User user, Recipe recipe)
     {
         if (recipe.Owner == null)
             throw new ArgumentException("Recipe must have an owner.");
@@ -28,7 +28,7 @@ public class RecipeOperations
         {
             throw new ArgumentException("Recipe name cannot be null or empty.", nameof(recipe.Name));
         }
-        recipe.Owner= user;
+        recipe.Owner = user;
         recipes.Add(recipe);
     }
 
@@ -43,11 +43,11 @@ public class RecipeOperations
     }
 
     // Update a recipe
-    public void UpdateRecipe(User user,Recipe existingRecipe, Recipe newDetails)
+    public void UpdateRecipe(User user, Recipe existingRecipe, Recipe newDetails)
     {
         if (existingRecipe.Owner != newDetails.Owner || existingRecipe.Owner != user)
-        throw new ArgumentException("Only the owner can update the recipe.");
-        
+            throw new ArgumentException("Only the owner can update the recipe.");
+
         if (existingRecipe.Owner != newDetails.Owner)
             throw new ArgumentException("Cannot change the owner of the recipe.");
 
@@ -76,7 +76,7 @@ public class RecipeOperations
             // checks if the step is empty after trimming
             if (!string.IsNullOrWhiteSpace(step))
             {
-            steps.Add(step.Trim());
+                steps.Add(step.Trim());
             }
 
             else
@@ -99,6 +99,7 @@ public class RecipeOperations
 
     //View all recipes
     public void ViewRecipes()
+
     {
         if (recipes == null || recipes.Count == 0)
         {
@@ -106,77 +107,79 @@ public class RecipeOperations
             return;
         }
         int count = 0;
-        foreach (Recipe recipe in recipes){
-                count++;
-                Console.WriteLine($"{count}: {recipe.ToString()}");
+        foreach (Recipe recipe in recipes)
+        {
+            count++;
+            Console.WriteLine($"{count}: {recipe.ToString()}");
+        }
+        if (count == 0)
+        {
+            Console.WriteLine("No Recipes Found");
         }
     }
 
     //View user's recipe lists
     public void ViewUserRecipes(User owner)
     {
-        if (owner == null)
+        var userRecipes = recipes.Where(r => r.Owner == owner).ToList();
+
+        if (userRecipes.Count == 0)
         {
-            throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
-        }
-        int count = 0;
-        foreach (Recipe recipe in recipes){
-            if (recipe.Owner == owner){
-                count++;
-                Console.WriteLine($"{count}: {recipe.ToString()}");
-            }
-        }
-        if (count == 0){
             Console.WriteLine("No Recipes Found");
         }
-    }
-
-    //Get user's recipe lists
-    public List<Recipe> GetUserRecipes(User owner){
+        //Get user's recipe lists
+        else
         if (owner == null)
         {
             throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
         }
-        List<Recipe> r = new List<Recipe>();
-        foreach (Recipe recipe in recipes){
-            if (recipe.Owner == owner){
-                r.Add(recipe);
+        {
+            for (int i = 0; i < userRecipes.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}: {userRecipes[i].ToString()}");
             }
         }
-        return r;
     }
 
-    public List<Recipe> GetFavoriteRecipes(User user){
+    public List<Recipe> GetUserRecipes(User owner)
+    {
+        if (owner == null)
+        {
+            throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
+        }
+
+        return recipes.Where(r => r.Owner == owner).ToList();
+    }
+
+public List<Recipe> GetFavoriteRecipes(User user)
+{
+    if (user == null)
+    {
+        throw new ArgumentNullException(nameof(user), "User cannot be null.");
+    }
+
+    return recipes.Where(recipe => user.UserFavouriteRecipes.Contains(recipe)).ToList();
+}
+
+    public void ViewFavoriteRecipes(User user)
+    {
         if (user == null)
         {
             throw new ArgumentNullException(nameof(user), "User cannot be null.");
         }
-        List<Recipe> r = new List<Recipe>();
-        foreach (Recipe recipe in recipes){
-            foreach (Recipe fave in user.UserFavouriteRecipes){
-                //Will use id here when we have a db
-                if (recipe.Equals(fave)){
-                    r.Add(recipe);
-                }
-            }
-        }
-        return r;
-    }
-
-    public void ViewFavoriteRecipes(User user){
-        if (user == null)
+        if (user.UserFavouriteRecipes.Count == 0)
         {
-            throw new ArgumentNullException(nameof(user), "User cannot be null.");
-        }
-        if (user.UserFavouriteRecipes.Count == 0){
             Console.WriteLine("No Favorite Recipes Found");
         }
         int count = 0;
         List<Recipe> r = new List<Recipe>();
-        foreach (Recipe recipe in recipes){
-            foreach (Recipe fave in user.UserFavouriteRecipes){
+        foreach (Recipe recipe in recipes)
+        {
+            foreach (Recipe fave in user.UserFavouriteRecipes)
+            {
                 //Will use id here when we have a db
-                if (recipe.Equals(fave)){
+                if (recipe.Equals(fave))
+                {
                     count++;
                     Console.WriteLine($"{count}: {recipe.ToString()}");
                 }
