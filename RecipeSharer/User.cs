@@ -22,7 +22,7 @@ public class User
 
     //[InverseProperty("FavoritedBy")]
     public List<Recipe> UserFavouriteRecipes;
-    private byte[] _profilePicture;
+    private byte[]? _profilePicture;
     public byte[] ProfilePicture
     {
         get
@@ -72,6 +72,12 @@ public class User
     }
 
     public User() { }
+
+    public User CreateUser(string username, string password)
+    {
+        User user = new User(username, password);
+        return user;
+    }
 
 
     public static Tuple<byte[], byte[]> CreatePassword(string password)
@@ -148,6 +154,16 @@ public class User
     public void AddUser(User user)
     {
         // Add user to the database
+    }
+
+    public void UpdateProfilePicture(byte[] newProfilePic)
+    {
+        _profilePicture = newProfilePic;
+    }
+
+    public void RemoveProfilePic()
+    {
+        _profilePicture = null;
     }
 
 
