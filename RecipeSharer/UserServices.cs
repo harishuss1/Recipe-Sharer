@@ -15,6 +15,7 @@ public class UserServices
         _context = context;
     }
 
+    // get a list of all the users in the db 
     public List<User> GetUsers()
     {
         List<User> users;
@@ -57,6 +58,7 @@ public class UserServices
         return user;
     }
 
+    // adds a new user to the db
     public User AddUser(string username, string password)
     {
         if(GetUser(username) != null)
@@ -67,5 +69,18 @@ public class UserServices
         _context.Users.Add(user);
         _context.SaveChanges();
         return user;
+    }
+
+    // deletes a user when the username and password is correct
+    public bool DeleteUser(string username, string password)
+    {
+        User user = GetUser(username);
+        if(user.DeleteUser(password))
+        {
+            _context.Remove(user);
+            _context.SaveChanges();
+            return true;
+        }
+        return false;
     }
 }

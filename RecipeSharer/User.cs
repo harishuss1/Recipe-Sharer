@@ -163,9 +163,14 @@ public class User
         return false;
     }
 
-    public void AddUser(User user)
+    // makes user enter their password to confirm deleting
+    public bool DeleteUser(string password)
     {
-        // Add user to the database
+        if(UserLogin(Username, password))
+        {
+            return true;
+        }
+        return false;
     }
 
     public void UpdateProfilePicture(byte[] newProfilePic)
