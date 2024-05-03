@@ -72,6 +72,12 @@ public class Recipe
     public TimeSpan TotalTime => PreparationTime + CookingTime;
 
     private int servings;
+    private User owner;
+    private string description;
+    private List<Ingredient> ingredients;
+    private TimeSpan prepTime;
+    private TimeSpan cookingTime1;
+
     public int Servings
     {
         get { return servings; }
@@ -93,6 +99,17 @@ public class Recipe
     public List<User> FavoritedBy {get; set;}
 
     public Recipe(){
+    }
+
+    public Recipe(User owner, string name, string description, List<Ingredient> ingredients, TimeSpan prepTime, TimeSpan cookingTime1, int servings)
+    {
+        this.owner = owner;
+        this.name = name;
+        this.description = description;
+        this.ingredients = ingredients;
+        this.prepTime = prepTime;
+        this.cookingTime1 = cookingTime1;
+        this.servings = servings;
     }
 
     public static List<Step> GetSteps()

@@ -4,25 +4,42 @@ using System;
 using Users;
 using System.Collections.Generic;
 using System.Linq;
-// Tests for Adding Recipes
-// - Ensure that a recipe can be added with valid details.
-// - Check handling of adding a recipe with missing or invalid fields.
+using Moq;
+using Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-// Tests for Updating Recipes
-// - Verify that a recipe can be updated by its owner.
-// - Test updating a recipe with invalid changes (e.g., empty name or description).
 
-// Tests for Removing Recipes
-// - Ensure that a recipe can be removed by its owner.
-// - Test attempt to remove a recipe by a non-owner.
-
-// Tests for Rating Recipes -> should be in another file (RatingTest.cs)
-// - Verify that a recipe can be rated.
-// - Check that rating updates affect the overall recipe rating correctly.
 
 [TestClass]
 public class RecipeOperationsTests
 {
+
+
+//     private static (Mock<RecipeSharerContext>, Mock<DbSet<Recipe>>) GetMocks()
+//   {
+//     var mockContext = new Mock<RecipeSharerContext>();
+//     var mockRecipes = new Mock<DbSet<Recipe>>();
+//     mockContext.Setup(mock => mock.Recipes).Returns(mockRecipes.Object);
+
+//     return (mockContext, mockRecipes);
+//   }
+
+//   private static void ConfigureDbSetMock<T>(
+//     IQueryable<T> data, Mock<DbSet<T>> mockDbSet) where T : class
+//   {
+//     mockDbSet.As<IQueryable<T>>().Setup(mock => mock.Provider)
+//       .Returns(data.Provider);
+//     mockDbSet.As<IQueryable<T>>().Setup(mock => mock.Expression)
+//       .Returns(data.Expression);
+//     mockDbSet.As<IQueryable<T>>().Setup(mock => mock.ElementType)
+//       .Returns(data.ElementType);
+//     mockDbSet.As<IQueryable<T>>().Setup(mock => mock.GetEnumerator())
+//       .Returns(data.GetEnumerator());
+//   }
+
+
+
     // Test for AddRecipe method
     [TestMethod]
     public void AddRecipeTestAddsValidRecipe()
@@ -33,7 +50,7 @@ public class RecipeOperationsTests
         Recipe recipe = new Recipe(_user, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act
-        recipeOperations.AddRecipe(_user,recipe);
+        recipeOperations.AddRecipe(_user, recipe);
 
         // Assert
         // iterates through each item in the recipes list and if it finds an item that equals the recipe object using the Equals() method, it sets recipeFound to true. 
@@ -81,10 +98,10 @@ public class RecipeOperationsTests
         User owner = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
         Recipe recipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
-        recipeOperations.AddRecipe(owner,recipe);
+        recipeOperations.AddRecipe(owner, recipe);
 
         // Act
-        recipeOperations.RemoveRecipe(owner,recipe);
+        recipeOperations.RemoveRecipe(owner, recipe);
 
         // Assert
         bool recipeFound = false;
@@ -107,10 +124,10 @@ public class RecipeOperationsTests
         User owner = new User("testperson", "testpwd123");
         RecipeOperations recipeOperations = new RecipeOperations();
         Recipe recipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
-        recipeOperations.AddRecipe(owner,recipe);
+        recipeOperations.AddRecipe(owner, recipe);
 
         // Act
-        recipeOperations.RemoveRecipe(owner,recipe);
+        recipeOperations.RemoveRecipe(owner, recipe);
 
         // Assert
         bool recipeNotFound = true;
@@ -134,7 +151,7 @@ public class RecipeOperationsTests
         Recipe recipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act
-        recipeOperations.RemoveRecipe(owner,recipe);
+        recipeOperations.RemoveRecipe(owner, recipe);
 
         // Assert
         bool recipeNotFound = true;
@@ -160,8 +177,8 @@ public class RecipeOperationsTests
         Recipe newDetails = new Recipe(existingRecipe.Owner, "Vanilla Cake", "Delicious vanilla cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
         // Act
-        recipeOperations.AddRecipe(owner,existingRecipe);
-        recipeOperations.UpdateRecipe(owner,existingRecipe, newDetails);
+        recipeOperations.AddRecipe(owner, existingRecipe);
+        recipeOperations.UpdateRecipe(owner, existingRecipe, newDetails);
 
         // Assert
         Assert.AreEqual(newDetails.Name, existingRecipe.Name);
@@ -187,7 +204,7 @@ public class RecipeOperationsTests
         Recipe newDetails = new Recipe(owner2, "Vanilla Cake", "Delicious vanilla cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
         // Act and Assert
-        Assert.ThrowsException<ArgumentException>(() => recipeOperations.UpdateRecipe(owner,existingRecipe, newDetails));
+        Assert.ThrowsException<ArgumentException>(() => recipeOperations.UpdateRecipe(owner, existingRecipe, newDetails));
     }
 
     [TestMethod]
@@ -199,7 +216,7 @@ public class RecipeOperationsTests
         Recipe newDetails = new Recipe(owner, "Vanilla Cake", "Delicious vanilla cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
         // Act and Assert
-        Assert.ThrowsException<NullReferenceException>(() => recipeOperations.UpdateRecipe(owner,null, newDetails));
+        Assert.ThrowsException<NullReferenceException>(() => recipeOperations.UpdateRecipe(owner, null, newDetails));
     }
 
     [TestMethod]
@@ -211,7 +228,7 @@ public class RecipeOperationsTests
         Recipe existingRecipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act and Assert
-        Assert.ThrowsException<NullReferenceException>(() => recipeOperations.UpdateRecipe(owner,existingRecipe, null));
+        Assert.ThrowsException<NullReferenceException>(() => recipeOperations.UpdateRecipe(owner, existingRecipe, null));
     }
 
     [TestMethod]
