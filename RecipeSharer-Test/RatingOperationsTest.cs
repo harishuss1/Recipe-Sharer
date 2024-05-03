@@ -30,21 +30,21 @@ public class RatingOperationsTests
     }
 
     [TestInitialize]
-public void TestInitialize()
-{
-    _user = new User
+    public void TestInitialize()
     {
-        UserId = 1,
-        Username = "Test User"
-    };
+        _user = new User
+        {
+            UserId = 1,
+            Username = "Test User"
+        };
 
-    _recipe = new Recipe
-    {
-        RecipeId = 1,
-        Name = "Test Recipe"
-    };
+        _recipe = new Recipe
+        {
+            RecipeId = 1,
+            Name = "Test Recipe"
+        };
 
-}
+    }
 
     [TestMethod]
     public void AddRating_ValidInputs_ShouldAddRating()
