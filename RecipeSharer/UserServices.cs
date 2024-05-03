@@ -28,5 +28,34 @@ public class UserServices
         }
         return users;
     }
+    public User GetUser(string username)
+    {
+        User user;
+        List<User> users;
+        // getting all the users from the db
+        try
+        {
+            users = GetUsers();
+        }
+        catch
+        {
+            return null;
+        }
+        // getting a specific user based on what was retrieved from the db
+        try
+        {
+            var user_result = from usr in users
+                                where usr.Username == username
+                                select usr;
+            user = user_result.First();
+
+        }
+        catch
+        {
+            return null;
+        }
+        return user;
+    }
+
     
 }
