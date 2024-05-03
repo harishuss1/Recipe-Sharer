@@ -23,7 +23,7 @@ public class User
     //[InverseProperty("FavoritedBy")]
     public List<Recipe> UserFavouriteRecipes;
     private byte[]? _profilePicture;
-    public byte[] ProfilePicture
+    public byte[]? ProfilePicture
     {
         get
         {
@@ -35,7 +35,18 @@ public class User
         }
     }
 
-    public string? Description { get; set; }
+    private string? _description;
+
+    public string? Description {
+        get
+        {
+            return _description;
+        }
+        set
+        {
+            _description = value;
+        } 
+    }
     
     public void AddToFavorites(Recipe recipe)
     {
@@ -139,6 +150,7 @@ public class User
         }
     }
 
+    // verifies that the username and password exists
     public bool UserLogin(string username, string password)
     {
         if(!(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)))
@@ -164,6 +176,16 @@ public class User
     public void RemoveProfilePic()
     {
         _profilePicture = null;
+    }
+
+    public void UpdateDescription(string newDesc)
+    {
+        _description = newDesc;
+    }
+
+    public void RemoveDescription()
+    {
+        _description = null;
     }
 
 
