@@ -35,7 +35,7 @@ public class User
         }
     }
 
-    private string? Description { get; set; }
+    public string? Description { get; set; }
     
     public void AddToFavorites(Recipe recipe)
     {
@@ -133,6 +133,18 @@ public class User
         }
     }
 
+    public bool UserLogin(string username, string password)
+    {
+        if(!(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)))
+        {
+            if(username==Username && VerifyPassword(password, Salt, Password))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void AddUser(User user)
     {
         // Add user to the database
@@ -155,5 +167,3 @@ public class User
         return UserId == other.UserId;
     }
 }
-
-
