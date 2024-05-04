@@ -71,6 +71,21 @@ public class UserServices
         return user;
     }
 
+    public void ChangePassword(User user, string oldPassword, string newPassword)
+    {
+        try
+        {
+            user.ChangePassword(oldPassword, newPassword);
+            _context.SaveChanges();
+            
+        }
+        catch
+        {
+            throw new ArgumentException("Password was not changed");
+        }
+
+    }
+
     // deletes a user when the username and password is correct
     public bool DeleteUser(string username, string password)
     {
