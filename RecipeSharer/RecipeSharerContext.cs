@@ -26,20 +26,7 @@ public class RecipeSharerContext : DbContext
             // ServiceName = Environment.GetEnvironmentVariable("ORACLE_DB_SERVICE");
             // UserName = Environment.GetEnvironmentVariable("ORACLE_DB_USER");
             // Password = Environment.GetEnvironmentVariable("ORACLE_DB_PASSWORD");
-            Console.WriteLine("Enter Host Name:");
-            HostName = Console.ReadLine() ?? "";
 
-            Console.WriteLine("Enter Port:");
-            Port = Console.ReadLine() ?? "";
-
-            Console.WriteLine("Enter Service Name:");
-            ServiceName = Console.ReadLine() ?? "";
-
-            Console.WriteLine("Enter User Name:");
-            UserName = Console.ReadLine() ?? "";
-
-            Console.WriteLine("Enter Password:");
-            Password = Console.ReadLine() ?? "";
 
       }
 

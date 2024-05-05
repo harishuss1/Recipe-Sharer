@@ -1,10 +1,10 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Recipes;
 using Users;
 using Moq;
-using System.Linq.Expressions;
+using System.Linq;
 [TestClass]
 public class RatingOperationsTests
 {

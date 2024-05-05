@@ -10,7 +10,7 @@ public class RecipeTests
     public void ConstructorTestWithValidDataAndReturnsValidRecipeObject()
     {
         // Arrange
-        User owner = new User("testperson", "testpwd123");
+        User owner1 = new User("testperson", "testpwd123");
         string name = "Chocolate Cake";
         string description = "Delicious chocolate cake recipe";
         TimeSpan prepTime = TimeSpan.FromMinutes(30);
@@ -18,11 +18,10 @@ public class RecipeTests
         int servings = 8;
 
         // Act
-        Recipe recipe = new Recipe(owner, name, description, new List<Ingredient>(), prepTime, cookingTime, servings);
+        Recipe recipe = new Recipe(owner1, name, description, new List<Ingredient>(), prepTime, cookingTime, servings);
 
         // Assert
-        // should I do 1 test for each assert...?
-        Assert.AreEqual(owner, recipe.Owner);
+        Assert.AreEqual(owner1, recipe.Owner);
         Assert.AreEqual(name, recipe.Name);
         Assert.AreEqual(description, recipe.ShortDescription);
         Assert.AreEqual(prepTime, recipe.PreparationTime);
