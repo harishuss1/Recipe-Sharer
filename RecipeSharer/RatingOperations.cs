@@ -5,7 +5,7 @@ using Users;
 
 public class RatingOperations
 {
-    private readonly RecipeSharerContext _context;
+    private  RecipeSharerContext _context { get; set; }
 
     public RatingOperations(RecipeSharerContext context)
     {

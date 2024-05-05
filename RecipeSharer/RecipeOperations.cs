@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Users;
 public class RecipeOperations
 {
-    private readonly RecipeSharerContext _context;
+    private RecipeSharerContext _context  { get; set; }
 
     public RecipeOperations(RecipeSharerContext context)
     {

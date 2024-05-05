@@ -10,8 +10,8 @@ public class RecipeSharerContext : DbContext
       public virtual DbSet<Recipe>? Recipes { get; set; }
       public virtual DbSet<Ingredient>? Ingredients { get; set; }
       public virtual DbSet<Rating>? Ratings { get; set; }
-      public virtual DbSet<Tag> Tags { get; set; }
-      public virtual DbSet<Step> Steps { get; set; }
+      public virtual DbSet<Tag>? Tags { get; set; }
+      public virtual DbSet<Step>? Steps { get; set; }
 
 
       public string HostName { get; set; }

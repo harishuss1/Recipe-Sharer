@@ -25,9 +25,11 @@ public class ConsoleUtils
     public List<Step> GetStepsFromUser()
     {
         var steps = new List<Step>();
+        Console.WriteLine("Enter cooking steps (type 'done' to finish):");
+
         string input;
         int stepNumber = 1;
-        while ((input = Console.ReadLine()) != "Done!")
+        while ((input = Console.ReadLine().ToLower()) != "Done!")
         {
             steps.Add(new Step { Number = stepNumber, Description = input });
             stepNumber++;
@@ -38,9 +40,11 @@ public class ConsoleUtils
 
     public List<Tag> GetTagsFromUser()
     {
+        Console.WriteLine("Enter tags (type 'done' to finish):");
+
         var tags = new List<Tag>();
         string input;
-        while ((input = Console.ReadLine()) != "Done!")
+        while ((input = Console.ReadLine().ToLower()) != "Done!")
         {
             tags.Add(new Tag { Name = input });
         }
