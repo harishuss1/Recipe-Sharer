@@ -120,12 +120,7 @@ public class UserServices
 
     public void AddToFavorites(Recipe recipe, User user)
     {
-        if (user.UserFavouriteRecipes == null)
-        {
-            user.UserFavouriteRecipes = new List<Recipe>(); 
-        }
-
-        if(!user.UserFavouriteRecipes.Contains(recipe))
+        if(user.AddToFavorites(recipe))
         {
             // checks to see if the recipe already exists in the db
             var existingRecipe = _context.Recipes.FirstOrDefault(r => r.RecipeId == recipe.RecipeId);
@@ -141,5 +136,18 @@ public class UserServices
         }
         user.UserFavouriteRecipes.Add(recipe);
         _context.SaveChanges();
+    }
+
+    public void RemoveRecipeFromFavorites(Recipe recipe, User user)
+    {
+        if(user.RemoveRecipeFromFavorites(recipe))
+        {
+            var existingRecipe = _context.Recipes.FirstOrDefault(r => r.RecipeId == recipe.RecipeId);
+            if(existingRecipe != null)
+            {
+                _context.Recipes.Remove(existingRecipe);
+                _context.SaveChanges();
+            }
+        }
     }
 }

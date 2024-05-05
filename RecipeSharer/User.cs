@@ -48,7 +48,7 @@ public class User
         } 
     }
     
-    public void AddToFavorites(Recipe recipe)
+    public bool AddToFavorites(Recipe recipe)
     {
         if (UserFavouriteRecipes == null)
         {
@@ -58,15 +58,24 @@ public class User
         if (!UserFavouriteRecipes.Contains(recipe))
         {
             UserFavouriteRecipes.Add(recipe);
+            return true;
         }
+        return false;
     }
 
-    public void RemoveRecipeFromFavorites(Recipe recipe)
+    public bool RemoveRecipeFromFavorites(Recipe recipe)
     {
+        if (UserFavouriteRecipes == null)
+        {
+            return false;
+        }
+
         if (UserFavouriteRecipes.Contains(recipe))
         {
             UserFavouriteRecipes.Remove(recipe);
+            return true;
         }
+        return false;
     }
 
     public User(string username, string password, byte[] profilePicture, string description, List<Recipe> userFavouriteRecipes)
@@ -98,7 +107,7 @@ public class User
         return user;
     }
 
-
+    // creating a password
     public static Tuple<byte[], byte[]> CreatePassword(string password)
     {
         byte[] salt = new byte[8];
@@ -122,6 +131,7 @@ public class User
         return new Tuple<byte[], byte[]>(salt, encrypted_password);
     }
 
+    // verifies that the password is correct 
     public static bool VerifyPassword(string password, byte[] salt, byte[] encrypted_password)
     {
         int iterations = 1000;
@@ -139,6 +149,7 @@ public class User
         return true;
     }
 
+    // change password method
     public void ChangePassword(string newPassword, string oldPassword)
     {
         if (newPassword.Length < PASSWORD_LENGTH)
