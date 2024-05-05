@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Runtime;
 using Context;
 using Recipes;
 using Users;
@@ -87,9 +89,18 @@ public class UserServices
 
     }
 
-    public void ChangeProfilePic(User user, byte[] profilePic)
+    public void UpdateUserProfile(User user, byte[] profilePic, string description, List<Recipe> userFavouriteRecipes)
     {
-
+        User profile = GetUser(user.Username);
+        try
+        {
+            profile.UpdateUserProfile(user, profilePic, description, userFavouriteRecipes);
+            _context.SaveChanges();
+        }
+        catch
+        {
+            throw new ArgumentException("Profile not updated");
+        }
     }
 
     // deletes a user when the username and password is correct
