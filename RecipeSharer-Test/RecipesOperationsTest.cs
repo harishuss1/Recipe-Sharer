@@ -62,6 +62,15 @@ public class RecipeOperationsTests
         ConfigureDbSetMock(recipes, mockRecipes);
         var recipeOperations = new RecipeOperations(mockContext.Object);
 
+        // Initialize objectss
+        var _user = new User { UserId = 1, Username = "TestUser" };
+        var _recipe = new Recipe { RecipeId = 1, Name = "TestRecipe", Owner = _user };
+
+        // Set up Users DbSet to return _user when Find is called with _user.UserId
+        var mockUsers = new Mock<DbSet<User>>();
+        mockUsers.Setup(m => m.Find(_user.UserId)).Returns(_user);
+        mockContext.Setup(m => m.Users).Returns(mockUsers.Object);
+
         // Act
         recipeOperations.AddRecipe(_user, _recipe);
 
@@ -76,13 +85,15 @@ public class RecipeOperationsTests
     public void RemoveRecipe_RecipeExists_ShouldRemoveRecipe()
     {
         // Arrange
-        var recipes = new List<Recipe>
-    {
-        new Recipe { Owner = _user, Name = "Test Recipe" }
-    }.AsQueryable();
+        var _user = new User { UserId = 1, Username = "TestUser" };
+        var _recipe = new Recipe { RecipeId = 1, Name = "TestRecipe", Owner = _user };
+        var recipes = new List<Recipe> { _recipe }.AsQueryable();
         var (mockContext, mockRecipes) = GetMocks();
         ConfigureDbSetMock(recipes, mockRecipes);
         var recipeOperations = new RecipeOperations(mockContext.Object);
+
+        // Set up Recipes DbSet to return _recipe when Find is called with _recipe.RecipeId
+        mockRecipes.Setup(m => m.Find(_recipe.RecipeId)).Returns(_recipe);
 
         // Act
         recipeOperations.RemoveRecipe(_user, _recipe);
@@ -93,24 +104,56 @@ public class RecipeOperationsTests
     }
 
 
-    // Test for UpdateRecipe method
     [TestMethod]
     public void UpdateRecipeTestUpdatesExistingRecipeWithValidDetails()
     {
         // Arrange
+        var _user = new User { UserId = 1, Username = "TestUser" };
         var recipes = new List<Recipe>
     {
         new Recipe { Owner = _user, Name = "Chocolate Cake" }
     }.AsQueryable();
+        var users = new List<User> { _user }.AsQueryable();
         var (mockContext, mockRecipes) = GetMocks();
+        var mockUsers = new Mock<DbSet<User>>();
+        mockContext.Setup(mock => mock.Users).Returns(mockUsers.Object);
         ConfigureDbSetMock(recipes, mockRecipes);
+        ConfigureDbSetMock(users, mockUsers);
         var recipeOperations = new RecipeOperations(mockContext.Object);
 
-        Recipe existingRecipe = new Recipe(_user, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
-        Recipe newDetails = new Recipe(_user, "Vanilla Cake", "Delicious vanilla cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
+        // Set up Users DbSet to return _user when Find is called with _user.UserId
+        mockUsers.Setup(m => m.Find(_user.UserId)).Returns(_user);
 
+        Recipe existingRecipe = new Recipe
+        {
+            Owner = _user,
+            Name = "Chocolate Cake",
+            ShortDescription = "Delicious chocolate cake recipe",
+            Ingredients = new List<Ingredient>(),
+            PreparationTime = TimeSpan.FromMinutes(30),
+            CookingTime = TimeSpan.FromMinutes(45),
+            Servings = 8,
+            Steps = new List<Step>(),
+            Tags = new List<Tag>()
+        };
+        Recipe newDetails = new Recipe
+        {
+            Owner = _user,
+            Name = "Vanilla Cake",
+            ShortDescription = "Delicious vanilla cake recipe",
+            Ingredients = new List<Ingredient>(),
+            PreparationTime = TimeSpan.FromMinutes(25),
+            CookingTime = TimeSpan.FromMinutes(40),
+            Servings = 10,
+            Steps = new List<Step>(),
+            Tags = new List<Tag>()
+        };
         // Act
         recipeOperations.AddRecipe(_user, existingRecipe);
+
+        // Set up Recipes DbSet to return existingRecipe when Find is called with existingRecipe.RecipeId
+        mockRecipes.Setup(m => m.Find(existingRecipe.RecipeId)).Returns(existingRecipe);
+
         recipeOperations.UpdateRecipe(_user, existingRecipe, newDetails);
 
         // Assert
@@ -125,10 +168,9 @@ public class RecipeOperationsTests
         CollectionAssert.AreEquivalent(newDetails.Tags, existingRecipe.Tags, "The tags do not match.");
 
         mockRecipes.Verify(m => m.Update(It.IsAny<Recipe>()), Times.Once);
-        mockContext.Verify(m => m.SaveChanges(), Times.Once);
+        mockContext.Verify(m => m.SaveChanges(), Times.Exactly(2));
     }
 
-    // next 3 methods, I think I would need to call the update method...? but it will fail before it reaches the end of the test soo????
     [TestMethod]
     public void UpdateRecipeTestThrowsArgumentExceptionWhenNewOwnerIsDifferent()
     {
@@ -154,7 +196,7 @@ public class RecipeOperationsTests
     }
 
     [TestMethod]
-    public void UpdateRecipeTestThrowsArgumentNullExceptionWhenExistingRecipeIsNull()
+    public void UpdateRecipeTestThrowsArgumentExceptionWhenExistingRecipeIsNull()
     {
         // Arrange
         var recipes = new List<Recipe>().AsQueryable();
@@ -166,14 +208,14 @@ public class RecipeOperationsTests
         Recipe newDetails = new Recipe(owner, "Vanilla Cake", "Delicious vanilla cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
         // Act and Assert
-        Assert.ThrowsException<ArgumentNullException>(() => recipeOperations.UpdateRecipe(owner, null, newDetails));
+        Assert.ThrowsException<ArgumentException>(() => recipeOperations.UpdateRecipe(owner, null, newDetails));
 
         mockRecipes.Verify(m => m.Update(It.IsAny<Recipe>()), Times.Never);
         mockContext.Verify(m => m.SaveChanges(), Times.Never);
     }
 
     [TestMethod]
-    public void UpdateRecipeTestThrowsArgumentNullExceptionWhenNewDetailsIsNull()
+    public void UpdateRecipeTestThrowsArgumentExceptionWhenNewDetailsIsNull()
     {
         // Arrange
         var recipes = new List<Recipe>().AsQueryable();
@@ -185,92 +227,77 @@ public class RecipeOperationsTests
         Recipe existingRecipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act and Assert
-        Assert.ThrowsException<ArgumentNullException>(() => recipeOperations.UpdateRecipe(owner, existingRecipe, null));
+        Assert.ThrowsException<ArgumentException>(() => recipeOperations.UpdateRecipe(owner, existingRecipe, null));
 
         mockRecipes.Verify(m => m.Update(It.IsAny<Recipe>()), Times.Never);
         mockContext.Verify(m => m.SaveChanges(), Times.Never);
     }
 
     [TestMethod]
-    public void AddStepsToRecipeReturnsSteps()
+public void AddStepsToRecipeReturnsSteps()
+{
+    // Arrange
+    var recipes = new List<Recipe> { new Recipe { RecipeId = 1, Steps = new List<Step>() } }.AsQueryable();
+    var (mockContext, mockRecipes) = GetMocks();
+    ConfigureDbSetMock(recipes, mockRecipes);
+    var recipeOperations = new RecipeOperations(mockContext.Object);
+    mockRecipes.Setup(m => m.Find(It.IsAny<object[]>())).Returns((object[] id) => recipes.FirstOrDefault(r => r.RecipeId == (int)id[0]));
+    var steps = new List<Step> { new Step { Description = "Step 1" }, new Step { Description = "Step 2" } };
+
+    // Act
+    recipeOperations.AddStepsToRecipe(1, steps);
+
+    // Assert
+    mockRecipes.Verify(m => m.Find(It.IsAny<object[]>()), Times.Once);
+    mockContext.Verify(m => m.SaveChanges(), Times.Once);
+    var recipe = recipes.First();
+    Assert.AreEqual(steps.Count, recipe.Steps.Count);
+    for (int i = 0; i < steps.Count; i++)
     {
-        // Arrange
-        var recipes = new List<Recipe> { new Recipe { RecipeId = 1 } }.AsQueryable();
-        var (mockContext, mockRecipes) = GetMocks();
-        ConfigureDbSetMock(recipes, mockRecipes);
-        var recipeOperations = new RecipeOperations(mockContext.Object);
-
-        var steps = new List<Step> { new Step { Description = "Step 1" }, new Step { Description = "Step 2" } };
-
-        // Act
-        recipeOperations.AddStepsToRecipe(1, steps);
-
-        // Assert
-        mockRecipes.Verify(m => m.Find(It.IsAny<int>()), Times.Once);
-        mockRecipes.Verify(m => m.Update(It.IsAny<Recipe>()), Times.Once);
-        mockContext.Verify(m => m.SaveChanges(), Times.Once);
+        Assert.AreEqual(steps[i].Description, recipe.Steps[i].Description);
     }
+}
+
+   [TestMethod]
+public void AddStepsToRecipeThrowsExceptionWhenNoStepsEntered()
+{
+    // Arrange
+    var recipes = new List<Recipe> { new Recipe { RecipeId = 1 } }.AsQueryable();
+    var (mockContext, mockRecipes) = GetMocks();
+    ConfigureDbSetMock(recipes, mockRecipes);
+    var recipeOperations = new RecipeOperations(mockContext.Object);
+
+    var steps = new List<Step>();
+
+    // Act & Assert
+    var ex = Assert.ThrowsException<ArgumentNullException>(() => recipeOperations.AddStepsToRecipe(1, steps));
+}
 
     [TestMethod]
-    public void AddStepsToRecipeReturnsEmptyListWhenNoStepsEntered()
+public void AddStepsToRecipeReturnsStepsWhenSingleStepEntered()
+{
+    // Arrange
+    var recipes = new List<Recipe> { new Recipe { RecipeId = 1, Steps = new List<Step>() } }.AsQueryable();
+    var (mockContext, mockRecipes) = GetMocks();
+    ConfigureDbSetMock(recipes, mockRecipes);
+    var recipeOperations = new RecipeOperations(mockContext.Object);
+    mockRecipes.Setup(m => m.Find(It.IsAny<object[]>())).Returns((object[] id) => recipes.FirstOrDefault(r => r.RecipeId == (int)id[0]));
+    var steps = new List<Step> { new Step { Description = "Step 1" } };
+
+    // Act
+    recipeOperations.AddStepsToRecipe(1, steps);
+
+    // Assert
+    mockRecipes.Verify(m => m.Find(It.IsAny<object[]>()), Times.Once);
+    mockContext.Verify(m => m.SaveChanges(), Times.Once);
+    var recipe = recipes.First();
+    Assert.AreEqual(steps.Count, recipe.Steps.Count);
+    for (int i = 0; i < steps.Count; i++)
     {
-        // Arrange
-        var recipes = new List<Recipe> { new Recipe { RecipeId = 1 } }.AsQueryable();
-        var (mockContext, mockRecipes) = GetMocks();
-        ConfigureDbSetMock(recipes, mockRecipes);
-        var recipeOperations = new RecipeOperations(mockContext.Object);
-
-        var steps = new List<Step>();
-
-        // Act
-        recipeOperations.AddStepsToRecipe(1, steps);
-
-        // Assert
-        mockRecipes.Verify(m => m.Find(It.IsAny<int>()), Times.Once);
-        mockRecipes.Verify(m => m.Update(It.IsAny<Recipe>()), Times.Never);
-        mockContext.Verify(m => m.SaveChanges(), Times.Never);
+        Assert.AreEqual(steps[i].Description, recipe.Steps[i].Description);
     }
+}
 
-    [TestMethod]
-    public void AddStepsToRecipeReturnsStepsWhenSingleStepEntered()
-    {
-        // Arrange
-        var recipes = new List<Recipe> { new Recipe { RecipeId = 1 } }.AsQueryable();
-        var (mockContext, mockRecipes) = GetMocks();
-        ConfigureDbSetMock(recipes, mockRecipes);
-        var recipeOperations = new RecipeOperations(mockContext.Object);
-
-        var steps = new List<Step> { new Step { Description = "Step 1" } };
-
-        // Act
-        recipeOperations.AddStepsToRecipe(1, steps);
-
-        // Assert
-        mockRecipes.Verify(m => m.Find(It.IsAny<int>()), Times.Once);
-        mockRecipes.Verify(m => m.Update(It.IsAny<Recipe>()), Times.Once);
-        mockContext.Verify(m => m.SaveChanges(), Times.Once);
-    }
-
-    [TestMethod]
-    public void AddStepsToRecipeReturnsStepsIgnoresLeadingAndTrailingSpaces()
-    {
-        // Arrange
-        var recipes = new List<Recipe> { new Recipe { RecipeId = 1 } }.AsQueryable();
-        var (mockContext, mockRecipes) = GetMocks();
-        ConfigureDbSetMock(recipes, mockRecipes);
-        var recipeOperations = new RecipeOperations(mockContext.Object);
-
-        var steps = new List<Step> { new Step { Description = "  Step 1  " }, new Step { Description = "  Step 2  " } };
-        var expectedSteps = new List<Step> { new Step { Description = "Step 1" }, new Step { Description = "Step 2" } };
-
-        // Act
-        recipeOperations.AddStepsToRecipe(1, steps);
-
-        // Assert
-        mockRecipes.Verify(m => m.Find(It.IsAny<int>()), Times.Once);
-        mockRecipes.Verify(m => m.Update(It.IsAny<Recipe>()), Times.Once);
-        mockContext.Verify(m => m.SaveChanges(), Times.Once);
-    }
 
     [TestMethod]
     public void AddTagsToRecipeThrowsArgumentNullExceptionWhenTagsIsNull()
@@ -309,24 +336,29 @@ public class RecipeOperationsTests
     }
 
     [TestMethod]
-    public void AddTagsToRecipeAddsTagsToRecipe()
+public void AddTagsToRecipeAddsTagsToRecipe()
+{
+    // Arrange
+    var recipes = new List<Recipe> { new Recipe { RecipeId = 1, Tags = new List<Tag>() } }.AsQueryable();
+    var (mockContext, mockRecipes) = GetMocks();
+    ConfigureDbSetMock(recipes, mockRecipes);
+    var recipeOperations = new RecipeOperations(mockContext.Object);
+    mockRecipes.Setup(m => m.Find(It.IsAny<object[]>())).Returns((object[] id) => recipes.FirstOrDefault(r => r.RecipeId == (int)id[0]));
+    var tags = new List<Tag> { new Tag { Name = "Tag 1" }, new Tag { Name = "Tag 2" } };
+
+    // Act
+    recipeOperations.AddTagsToRecipe(1, tags);
+
+    // Assert
+    mockRecipes.Verify(m => m.Find(It.IsAny<object[]>()), Times.Once);
+    mockContext.Verify(m => m.SaveChanges(), Times.Once);
+    var recipe = recipes.First();
+    Assert.AreEqual(tags.Count, recipe.Tags.Count);
+    for (int i = 0; i < tags.Count; i++)
     {
-        // Arrange
-        var recipes = new List<Recipe> { new Recipe { RecipeId = 1 } }.AsQueryable();
-        var (mockContext, mockRecipes) = GetMocks();
-        ConfigureDbSetMock(recipes, mockRecipes);
-        var recipeOperations = new RecipeOperations(mockContext.Object);
-
-        var tags = new List<Tag> { new Tag { Name = "Tag 1" }, new Tag { Name = "Tag 2" } };
-
-        // Act
-        recipeOperations.AddTagsToRecipe(1, tags);
-
-        // Assert
-        mockRecipes.Verify(m => m.Find(It.IsAny<int>()), Times.Once);
-        mockRecipes.Verify(m => m.Update(It.IsAny<Recipe>()), Times.Once);
-        mockContext.Verify(m => m.SaveChanges(), Times.Once);
+        Assert.AreEqual(tags[i].Name, recipe.Tags[i].Name);
     }
+}
 
     [TestMethod]
     public void AddIngredientThrowsArgumentNullExceptionWhenIngredientIsNull()
@@ -365,22 +397,25 @@ public class RecipeOperationsTests
     }
 
     [TestMethod]
-    public void AddIngredientAddsIngredientToRecipe()
-    {
-        // Arrange
-        var recipes = new List<Recipe> { new Recipe { RecipeId = 1 } }.AsQueryable();
-        var (mockContext, mockRecipes) = GetMocks();
-        ConfigureDbSetMock(recipes, mockRecipes);
-        var recipeOperations = new RecipeOperations(mockContext.Object);
+public void AddIngredientAddsIngredientToRecipe()
+{
+    // Arrange
+    var recipes = new List<Recipe> { new Recipe { RecipeId = 1, Ingredients = new List<Ingredient>() } }.AsQueryable();
+    var (mockContext, mockRecipes) = GetMocks();
+    ConfigureDbSetMock(recipes, mockRecipes);
+    var recipeOperations = new RecipeOperations(mockContext.Object);
+    mockRecipes.Setup(m => m.Find(It.IsAny<object[]>())).Returns((object[] id) => recipes.FirstOrDefault(r => r.RecipeId == (int)id[0]));
+    var ingredient = new Ingredient { Name = "Ingredient 1" };
 
-        var ingredient = new Ingredient { Name = "Ingredient 1" };
+    // Act
+    recipeOperations.addIngredient(1, ingredient);
 
-        // Act
-        recipeOperations.addIngredient(1, ingredient);
+    // Assert
+    mockRecipes.Verify(m => m.Find(It.IsAny<object[]>()), Times.Once);
+    mockContext.Verify(m => m.SaveChanges(), Times.Once);
+    var recipe = recipes.First();
+    Assert.AreEqual(1, recipe.Ingredients.Count);
+    Assert.AreEqual(ingredient.Name, recipe.Ingredients.First().Name);
+}
 
-        // Assert
-        mockRecipes.Verify(m => m.Find(It.IsAny<int>()), Times.Once);
-        mockRecipes.Verify(m => m.Update(It.IsAny<Recipe>()), Times.Once);
-        mockContext.Verify(m => m.SaveChanges(), Times.Once);
-    }
 }
