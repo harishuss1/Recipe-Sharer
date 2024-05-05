@@ -64,7 +64,7 @@ public class User
         }
     }
 
-    public User(string username, string password)
+    public User(string username, string password, byte[] profilePicture, string description, List<Recipe> userFavouriteRecipes)
     {
         if (string.IsNullOrEmpty(username))
         {
@@ -80,13 +80,16 @@ public class User
         Tuple<byte[], byte[]> hash = CreatePassword(password);
         Salt = hash.Item1;
         Password = hash.Item2;
+        ProfilePicture = profilePicture;
+        Description = description;
+        UserFavouriteRecipes = userFavouriteRecipes;
     }
 
     public User() { }
 
-    public User CreateUser(string username, string password)
+    public User CreateUser(string username, string password, byte[] profilePicture, string description, List<Recipe> userFavouriteRecipes) 
     {
-        User user = new User(username, password);
+        User user = new User(username, password, profilePicture, description, userFavouriteRecipes);
         return user;
     }
 
@@ -173,24 +176,52 @@ public class User
         return false;
     }
 
-    public void UpdateProfilePicture(byte[] newProfilePic)
+
+    public void UpdateUserProfile(User user, byte[] profilePic, string description, List<Recipe> userFavouriteRecipes)
     {
-        _profilePicture = newProfilePic;
+        if(user.Username == Username)
+        {
+            if(VerifyProfilePic(profilePic) && VerifyDescription(description) && VerifyUserFavoriteRecipes(userFavouriteRecipes))
+            {
+                ProfilePicture = profilePic;
+                Description = description;
+                UserFavouriteRecipes = userFavouriteRecipes;
+            }
+        }
     }
 
-    public void RemoveProfilePic()
+    public void RemoveUserProfile()
     {
-        _profilePicture = null;
+        ProfilePicture = null;
+        Description = "";
+        UserFavouriteRecipes = new List<Recipe>();
     }
 
-    public void UpdateDescription(string newDesc)
+    public static bool VerifyProfilePic(byte[] pic)
     {
-        _description = newDesc;
+        if(pic == null || pic.Length == 0)
+        {
+            return false;
+        }
+        return true;
     }
 
-    public void RemoveDescription()
+    public static bool VerifyDescription(string description)
     {
-        _description = null;
+        if(string.IsNullOrEmpty(description))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public static bool VerifyUserFavoriteRecipes(List<Recipe> userFavouriteRecipes)
+    {
+        if(userFavouriteRecipes.Count < 1)
+        {
+            return false;
+        }
+        return true;
     }
 
 

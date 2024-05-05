@@ -1,3 +1,5 @@
+using Recipes;
+
 namespace Users;
 
 public class UserOperation
@@ -9,7 +11,7 @@ public class UserOperation
         _users = new List<User>();
     }
 
-    public User Register(string username, string password)
+    public User Register(string username, string password, byte[] profilePic, string description, List<Recipe> userFavouriteRecipes)
     {
         if (string.IsNullOrEmpty(username))
         {
@@ -26,7 +28,7 @@ public class UserOperation
             throw new ArgumentException("Username already exists.");
         }
 
-        var user = new User(username, password);
+        var user = new User(username, password, profilePic, description, userFavouriteRecipes);
         _users.Add(user);
 
         return user;

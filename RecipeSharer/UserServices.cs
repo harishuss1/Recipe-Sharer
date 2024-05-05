@@ -1,4 +1,5 @@
 using Context;
+using Recipes;
 using Users;
 
 namespace RecipeSharer;
@@ -59,13 +60,13 @@ public class UserServices
     }
 
     // adds a new user to the db
-    public User AddUser(string username, string password)
+    public User AddUser(string username, string password, byte[] profilePic, string description, List<Recipe> userFavouriteRecipes)
     {
         if(GetUser(username) != null)
         {
             throw new ArgumentException("This user already exists");
         }
-        User user = new(username, password);
+        User user = new(username, password, profilePic, description, userFavouriteRecipes);
         _context.Users.Add(user);
         _context.SaveChanges();
         return user;
@@ -83,6 +84,11 @@ public class UserServices
         {
             throw new ArgumentException("Password was not changed");
         }
+
+    }
+
+    public void ChangeProfilePic(User user, byte[] profilePic)
+    {
 
     }
 
