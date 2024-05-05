@@ -50,6 +50,11 @@ public class User
     
     public void AddToFavorites(Recipe recipe)
     {
+        if (UserFavouriteRecipes == null)
+        {
+            UserFavouriteRecipes = new List<Recipe>();
+        }
+        
         if (!UserFavouriteRecipes.Contains(recipe))
         {
             UserFavouriteRecipes.Add(recipe);

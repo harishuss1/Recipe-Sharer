@@ -74,6 +74,7 @@ public class UserServices
         return user;
     }
 
+    // changes a users password and saves the change in the db
     public void ChangePassword(User user, string oldPassword, string newPassword)
     {
         try
@@ -89,6 +90,7 @@ public class UserServices
 
     }
 
+    // updates a user's info 
     public void UpdateUserProfile(User user, byte[] profilePic, string description, List<Recipe> userFavouriteRecipes)
     {
         User profile = GetUser(user.Username);
@@ -114,5 +116,30 @@ public class UserServices
             return true;
         }
         return false;
+    }
+
+    public void AddToFavorites(Recipe recipe, User user)
+    {
+        if (user.UserFavouriteRecipes == null)
+        {
+            user.UserFavouriteRecipes = new List<Recipe>(); 
+        }
+
+        if(!user.UserFavouriteRecipes.Contains(recipe))
+        {
+            // checks to see if the recipe already exists in the db
+            var existingRecipe = _context.Recipes.FirstOrDefault(r => r.RecipeId == recipe.RecipeId);
+        
+            if(existingRecipe == null)
+            {
+                _context.Recipes.Add(recipe);
+            }
+            else
+            {
+                _context.Attach(existingRecipe);
+            }
+        }
+        user.UserFavouriteRecipes.Add(recipe);
+        _context.SaveChanges();
     }
 }
