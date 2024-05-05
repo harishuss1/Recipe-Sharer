@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Users;
 public class RecipeOperations
 {
-    private RecipeSharerContext _context  { get; set; }
+    private RecipeSharerContext _context { get; set; }
 
     public RecipeOperations(RecipeSharerContext context)
     {
@@ -45,34 +45,37 @@ public class RecipeOperations
             throw new ArgumentException("Recipe not found.");
         }
     }
-
     public void UpdateRecipe(User user, Recipe existingRecipe, Recipe newDetails)
+{
+    if (existingRecipe == null || newDetails == null)
+        throw new ArgumentException("Existing recipe and new details cannot be null");
+
+    if (existingRecipe.Owner != user)
+        throw new ArgumentException("Only the owner can update the recipe.");
+
+    if (existingRecipe.Owner != newDetails.Owner)
+        throw new ArgumentException("Cannot change the owner of the recipe.");
+
+    var recipeToUpdate = _context.Recipes.Find(existingRecipe.RecipeId);
+    if (recipeToUpdate != null)
     {
-        if (existingRecipe.Owner != newDetails.Owner || existingRecipe.Owner != user)
-            throw new ArgumentException("Only the owner can update the recipe.");
+        recipeToUpdate.Name = newDetails.Name;
+        recipeToUpdate.ShortDescription = newDetails.ShortDescription;
+        recipeToUpdate.Ingredients = newDetails.Ingredients;
+        recipeToUpdate.PreparationTime = newDetails.PreparationTime;
+        recipeToUpdate.CookingTime = newDetails.CookingTime;
+        recipeToUpdate.Servings = newDetails.Servings;
+        recipeToUpdate.Steps = new List<Step>(newDetails.Steps);
+        recipeToUpdate.Tags = new List<Tag>(newDetails.Tags);
 
-        if (existingRecipe.Owner != newDetails.Owner)
-            throw new ArgumentException("Cannot change the owner of the recipe.");
-
-        var recipeToUpdate = _context.Recipes.Find(existingRecipe.RecipeId);
-        if (recipeToUpdate != null)
-        {
-            recipeToUpdate.Name = newDetails.Name;
-            recipeToUpdate.ShortDescription = newDetails.ShortDescription;
-            recipeToUpdate.Ingredients = newDetails.Ingredients;
-            recipeToUpdate.PreparationTime = newDetails.PreparationTime;
-            recipeToUpdate.CookingTime = newDetails.CookingTime;
-            recipeToUpdate.Servings = newDetails.Servings;
-            recipeToUpdate.Steps = new List<Step>(newDetails.Steps);
-            recipeToUpdate.Tags = new List<Tag>(newDetails.Tags);
-
-            _context.SaveChanges();
-        }
-        else
-        {
-            throw new ArgumentException("Recipe not found.");
-        }
+        _context.Recipes.Update(recipeToUpdate);
+        _context.SaveChanges();
     }
+    else
+    {
+        throw new ArgumentException("Recipe not found.");
+    }
+}
 
     // add steps to a recipe
     public void AddStepsToRecipe(int recipeId, List<Step> steps)
