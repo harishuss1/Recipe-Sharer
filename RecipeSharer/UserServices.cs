@@ -9,11 +9,9 @@ namespace RecipeSharer;
 // db interactions related to users
 public class UserServices
 {
-    private RecipeSharerContext _context;
+    private RecipeSharerContext _context { get; set; }
 
-    private UserServices(){}
-
-    public void setRecipeSharerContext (RecipeSharerContext context)
+    public UserServices(RecipeSharerContext context)
     {
         _context = context;
     }
@@ -59,6 +57,20 @@ public class UserServices
             return null;
         }
         return user;
+    }
+
+    public bool UserLogin(string username, string password)
+    {
+        User user;
+        try
+        {
+            user = GetUser(username);
+            return user.UserLogin(username, password);
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     // adds a new user to the db

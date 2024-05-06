@@ -1,7 +1,7 @@
 using Users;
 using Moq;
 using Recipes;
-namespace RecipeSharer_TestMethod;
+namespace RecipeSharerTests;
 [TestClass]
 public class UserTestMethods
 {
