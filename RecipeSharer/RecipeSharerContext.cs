@@ -6,12 +6,12 @@ using Users;
 
 public class RecipeSharerContext : DbContext
 {
-      public DbSet<User>? Users { get; set; }
-      public DbSet<Recipe>? Recipes { get; set; }
-      public DbSet<Ingredient>? Ingredients { get; set; }
-      public DbSet<Rating>? Ratings { get; set; }
-      public DbSet<Tag> Tags { get; set; } // Assuming you have a Tag model
-      public DbSet<Step> Steps { get; set; } // Assuming you have a Step model
+      public virtual DbSet<User>? Users { get; set; }
+      public virtual DbSet<Recipe>? Recipes { get; set; }
+      public virtual DbSet<Ingredient>? Ingredients { get; set; }
+      public virtual DbSet<Rating>? Ratings { get; set; }
+      public virtual DbSet<Tag> Tags { get; set; } // Assuming you have a Tag model
+      public virtual DbSet<Step> Steps { get; set; } // Assuming you have a Step model
 
 
       public string HostName { get; set; }
