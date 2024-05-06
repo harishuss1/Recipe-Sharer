@@ -27,7 +27,7 @@ public class User
     {
         get
         {
-            return _profilePicture ?? new byte[0]; // return an empty byte array if _profilePicture is null
+            return _profilePicture; // return an empty byte array if _profilePicture is null
         }
         set
         {
@@ -193,51 +193,41 @@ public class User
     }
 
 
-    public void UpdateUserProfile(User user, byte[] profilePic, string description, List<Recipe> userFavouriteRecipes)
+    public bool UpdateUserProfile(User user, byte[] profilePic, string description, List<Recipe> userFavouriteRecipes)
     {
         if(user.Username == Username)
         {
-            if(VerifyProfilePic(profilePic) && VerifyDescription(description) && VerifyUserFavoriteRecipes(userFavouriteRecipes))
+            if  (VerifyProfilePic(profilePic) && VerifyDescription(description) && VerifyUserFavoriteRecipes(userFavouriteRecipes))
             {
                 ProfilePicture = profilePic;
                 Description = description;
                 UserFavouriteRecipes = userFavouriteRecipes;
+                return true;
             }
         }
+        return false;
     }
 
     public void RemoveUserProfile()
     {
         ProfilePicture = null;
         Description = "";
-        UserFavouriteRecipes = new List<Recipe>();
+        UserFavouriteRecipes.Clear();
     }
 
     public static bool VerifyProfilePic(byte[] pic)
     {
-        if(pic == null || pic.Length == 0)
-        {
-            return false;
-        }
-        return true;
+        return pic != null && pic.Length > 0;
     }
 
     public static bool VerifyDescription(string description)
     {
-        if(string.IsNullOrEmpty(description))
-        {
-            return false;
-        }
-        return true;
+        return !string.IsNullOrEmpty(description);
     }
 
     public static bool VerifyUserFavoriteRecipes(List<Recipe> userFavouriteRecipes)
     {
-        if(userFavouriteRecipes.Count < 1)
-        {
-            return false;
-        }
-        return true;
+        return userFavouriteRecipes != null && userFavouriteRecipes.Count > 0;
     }
 
 

@@ -105,6 +105,20 @@ public class UserServices
         }
     }
 
+    // removes the users profile in the db
+    public void RemoveUserProfile(User user)
+    {
+        // Retrieve the user from the database
+        var userFromDb = GetUser(user.Username);
+
+        if (userFromDb != null)
+        {
+            user.RemoveUserProfile();
+
+            _context.SaveChanges();
+        }
+    }
+
     // deletes a user when the username and password is correct
     public bool DeleteUser(string username, string password)
     {
