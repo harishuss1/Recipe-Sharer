@@ -201,12 +201,12 @@ public class UserServicesTest
     public void ChangePasswordTest()
     {
         // Arrange
-        var user = new User("user1", "oldpassword", null, null, null);
+        var user = new User("user1", "oldpassword", new byte[10], "new description", new List<Recipe>());
         var mockContext = new Mock<RecipeSharerContext>();
         var service = new UserServices(mockContext.Object);
 
         // Act
-        service.ChangePassword(user, "oldpassword", "newpassword");
+        service.ChangePassword(user, "newpassword", "oldpassword");
 
         // Assert
         mockContext.Verify(mock => mock.SaveChanges(), Times.Once());
@@ -217,7 +217,7 @@ public class UserServicesTest
     public void UpdateUserProfileTest()
     {
         // Arrange
-        var user = new User("user1", "testpassword1", null, null, null);
+        var user = new User("user1", "testpassword1", new byte[10], "test description", new List<Recipe>());
         var mockUsers = new Mock<DbSet<User>>();
         var mockContext = new Mock<RecipeSharerContext>();
         mockContext.Setup(mock => mock.Users).Returns(mockUsers.Object);
@@ -225,10 +225,11 @@ public class UserServicesTest
         var service = new UserServices(mockContext.Object);
 
         // Act
-        service.UpdateUserProfile(user, null, "New description", null);
+        service.UpdateUserProfile(user, null, "New description", new List<Recipe>());
 
         // Assert
         mockContext.Verify(mock => mock.SaveChanges(), Times.Once());
+        Assert.AreEqual("New description", user.Description);
     }
 
     [TestMethod]
@@ -244,6 +245,9 @@ public class UserServicesTest
 
         // Assert
         mockContext.Verify(mock => mock.SaveChanges(), Times.Once());
+        Assert.AreEqual("", user.Description);
+        Assert.IsNull(user.ProfilePicture);
+        Assert.AreEqual(0, user.UserFavouriteRecipes.Count);
     }
 
     [TestMethod]
@@ -269,7 +273,7 @@ public class UserServicesTest
     public void AddToFavoritesTest()
     {
         // Arrange
-        var user = new User("user1", "testpassword1", null, null, new List<Recipe>());
+        var user = new User("user1", "testpassword1", new byte[10], "test description", new List<Recipe>());
         var recipe = new Recipe();
         var mockContext = new Mock<RecipeSharerContext>();
         var service = new UserServices(mockContext.Object);
@@ -286,7 +290,7 @@ public class UserServicesTest
     public void RemoveRecipeFromFavorites_RemovesFromFavorites()
     {
         // Arrange
-        var user = new User("user1", "testpassword1", null, null, new List<Recipe>());
+        var user = new User("user1", "testpassword1", new byte[10], "test description", new List<Recipe>());
         var recipe = new Recipe();
         user.AddToFavorites(recipe);
         var mockContext = new Mock<RecipeSharerContext>();
