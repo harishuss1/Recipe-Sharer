@@ -1,6 +1,8 @@
 namespace RecipeSearch;
 using Recipes;
 using Context;
+using Users;
+
 /// <summary>
 /// Provides functionality to search through a collection of recipes based on various criteria.
 /// </summary>
@@ -28,6 +30,26 @@ public class Search
     }
 
     // Methods to add search criteria
+
+   public List<Recipe> GetUserRecipes(User owner)
+    {
+        if (owner == null)
+        {
+            throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
+        }
+
+        return _context.Recipes.Where(r => r.Owner == owner).ToList();
+    }
+
+        public List<Recipe> GetFavoriteRecipes(User user)
+    {
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user), "User cannot be null.");
+        }
+
+        return _context.Recipes.Where(recipe => user.UserFavouriteRecipes.Contains(recipe)).ToList();
+    }
 
     /// <summary>
     /// Sets the ingredients that each recipe must contain.

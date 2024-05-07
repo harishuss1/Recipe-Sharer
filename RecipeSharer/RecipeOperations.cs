@@ -179,25 +179,6 @@ public class RecipeOperations
         return userRecipes;
     }
 
-    public List<Recipe> GetUserRecipes(User owner)
-    {
-        if (owner == null)
-        {
-            throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
-        }
-
-        return _context.Recipes.Where(r => r.Owner == owner).ToList();
-    }
-
-    public List<Recipe> GetFavoriteRecipes(User user)
-    {
-        if (user == null)
-        {
-            throw new ArgumentNullException(nameof(user), "User cannot be null.");
-        }
-
-        return _context.Recipes.Where(recipe => user.UserFavouriteRecipes.Contains(recipe)).ToList();
-    }
 
     public List<Recipe> ViewFavoriteRecipes(int userId)
     {

@@ -72,11 +72,6 @@ public class Recipe
     public TimeSpan TotalTime => PreparationTime + CookingTime;
 
     private int servings;
-    private User owner;
-    private string description;
-    private List<Ingredient> ingredients;
-    private TimeSpan prepTime;
-    private TimeSpan cookingTime1;
 
     public int Servings
     {
@@ -115,32 +110,6 @@ public class Recipe
     FavoritedBy = new List<User>();
 }
 
-    public static List<Step> GetSteps()
-    {
-        List<Step> steps = new List<Step>();
-        Console.WriteLine("Enter cooking steps (type 'done' to finish):");
-        string step;
-        while ((step = Console.ReadLine().ToLower()) != "done")
-        {
-            Step s = new Step();
-            s.Description = step;
-            steps.Add(s);
-        }
-        return steps;
-    }
-    public static List<Tag> GetTags()
-    {
-        List<Tag> tags = new List<Tag>();
-        Console.WriteLine("Enter tags (type 'done' to finish):");
-        string tag;
-        while ((tag = Console.ReadLine().ToLower()) != "done")
-        {
-            Tag t = new Tag();
-            t.Name = tag;
-            tags.Add(t);
-        }
-        return tags;
-    }
 
     public override string ToString()
     {
