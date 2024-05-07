@@ -181,6 +181,9 @@ namespace RecipeSharer.Migrations
 
                     OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
+                    b.Property<string>("Description")
+                        .HasColumnType("NVARCHAR2(2000)");
+
                     b.Property<byte[]>("Password")
                         .IsRequired()
                         .HasColumnType("RAW(2000)");
