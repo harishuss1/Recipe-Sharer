@@ -22,12 +22,14 @@ public class ConsoleUtils
 
         return rating;
     }
-    public List<Step> GetStepsFromUser()
+    public static List<Step> GetStepsFromUser()
     {
         var steps = new List<Step>();
+        Console.WriteLine("Enter cooking steps (type 'done' to finish):");
+
         string input;
         int stepNumber = 1;
-        while ((input = Console.ReadLine()) != "Done!")
+        while ((input = Console.ReadLine().ToLower()) != "Done!")
         {
             steps.Add(new Step { Number = stepNumber, Description = input });
             stepNumber++;
@@ -36,11 +38,13 @@ public class ConsoleUtils
         return steps;
     }
 
-    public List<Tag> GetTagsFromUser()
+    public static List<Tag> GetTagsFromUser()
     {
+        Console.WriteLine("Enter tags (type 'done' to finish):");
+
         var tags = new List<Tag>();
         string input;
-        while ((input = Console.ReadLine()) != "Done!")
+        while ((input = Console.ReadLine().ToLower()) != "Done!")
         {
             tags.Add(new Tag { Name = input });
         }
@@ -76,10 +80,10 @@ public class ConsoleUtils
         List<Ingredient> ingredients = GetIngredients();
 
         // Get steps
-        List<Step> steps = Recipe.GetSteps();
+        List<Step> steps = GetStepsFromUser();
 
         // Get tags
-        List<Tag> tags = Recipe.GetTags();
+        List<Tag> tags = GetTagsFromUser();
 
         // Create and return the recipe object
         Recipe r = new() { Owner = currentUser, Name = name, ShortDescription = description, Ingredients = ingredients, PreparationTime = prepTime, CookingTime = cookTime, Servings = servings, Steps = steps, Tags = tags };

@@ -1,5 +1,6 @@
 namespace RecipeSearch;
 using Recipes;
+using Context;
 using Users;
 
 /// <summary>
@@ -18,8 +19,11 @@ public class Search
     public int? MinServings { get; private set; }
     public string OwnerUsername { get; private set; }
 
-    public Search()
+    private readonly RecipeSharerContext _context;
+
+    public Search(RecipeSharerContext context)
     {
+        _context = context;
         Ingredients = new List<string>();
         Tags = new List<Tag>();
         UserFavorites = new List<Recipe>();
@@ -27,16 +31,25 @@ public class Search
 
     // Methods to add search criteria
 
-    public List<Recipe> GetUserRecipes(User owner)
+   public List<Recipe> GetUserRecipes(User owner)
+    {
+        if (owner == null)
         {
-            List<Recipe> recipes = new List<Recipe>();
-            if (owner == null)
-            {
-                throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
-            }
-
-            return recipes.Where(r => r.Owner == owner).ToList();
+            throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
         }
+
+        return _context.Recipes.Where(r => r.Owner == owner).ToList();
+    }
+
+        public List<Recipe> GetFavoriteRecipes(User user)
+    {
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user), "User cannot be null.");
+        }
+
+        return _context.Recipes.Where(recipe => user.UserFavouriteRecipes.Contains(recipe)).ToList();
+    }
 
     /// <summary>
     /// Sets the ingredients that each recipe must contain.
@@ -129,71 +142,73 @@ public class Search
     /// </summary>
     /// <param name="allRecipes">The list of all recipes to search through.</param>
     /// <returns>A list of recipes that match the search criteria.</returns>
-    public List<Recipe> PerformSearch(List<Recipe> allRecipes)
+    public List<Recipe> PerformSearch()
     {
-        List<Recipe> filteredRecipes = new List<Recipe>(allRecipes);
+        // Start with all recipes
+        IQueryable<Recipe> query = _context.Recipes;
 
         // Filter by ingredients
         if (Ingredients.Any())
         {
-            filteredRecipes = filteredRecipes.FindAll(r => Ingredients.All(ing => r.Ingredients.Select(i => i.Name).Contains(ing)));
+            query = query.Where(r => Ingredients.All(ing => r.Ingredients.Any(i => i.Name.Equals(ing, StringComparison.OrdinalIgnoreCase))));
         }
 
         // Filter by tags
         if (Tags.Any())
         {
-            filteredRecipes = filteredRecipes.FindAll(r => Tags.All(tag => r.Tags.Contains(tag)));
+            query = query.Where(r => Tags.All(tag => r.Tags.Any(t => t.Name.Equals(tag.Name, StringComparison.OrdinalIgnoreCase))));
         }
 
         // Filter by keyword in name or short description
         if (!string.IsNullOrEmpty(Keyword))
         {
-            filteredRecipes = filteredRecipes.FindAll(r => r.Name.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                                         (r.ShortDescription != null && r.ShortDescription.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0));
+            query = query.Where(r => r.Name.Contains(Keyword, StringComparison.OrdinalIgnoreCase) ||
+                                     (r.ShortDescription != null && r.ShortDescription.Contains(Keyword, StringComparison.OrdinalIgnoreCase)));
         }
 
         // Filter by minimum duration
         if (MinDuration.HasValue)
         {
-            filteredRecipes = filteredRecipes.FindAll(r => r.TotalTime >= MinDuration.Value);
+            query = query.Where(r => r.TotalTime >= MinDuration.Value);
         }
 
         // Filter by maximum duration
         if (MaxDuration.HasValue)
         {
-            filteredRecipes = filteredRecipes.FindAll(r => r.TotalTime <= MaxDuration.Value);
+            query = query.Where(r => r.TotalTime <= MaxDuration.Value);
         }
 
         // Filter by minimum rating
         if (MinimumRating.HasValue)
         {
-            filteredRecipes = filteredRecipes.FindAll(r => r.Ratings.Any() && r.Ratings.Average(rating => rating.Score) >= MinimumRating.Value);
+            query = query.Where(r => r.Ratings.Any() && r.Ratings.Average(rating => rating.Score) >= MinimumRating.Value);
         }
 
         // Filter by user favorites
         if (UserFavorites.Any())
         {
-            filteredRecipes = filteredRecipes.FindAll(r => UserFavorites.Contains(r));
+            query = query.Where(r => UserFavorites.Contains(r));
         }
 
         // Filter by minimum servings
         if (MinServings.HasValue)
         {
-            filteredRecipes = filteredRecipes.FindAll(r => r.Servings >= MinServings.Value);
+            query = query.Where(r => r.Servings >= MinServings.Value);
         }
 
         // Filter by maximum servings
         if (MaxServings.HasValue)
         {
-            filteredRecipes = filteredRecipes.FindAll(r => r.Servings <= MaxServings.Value);
+            query = query.Where(r => r.Servings <= MaxServings.Value);
         }
 
         // Filter by recipe owner's username
         if (!string.IsNullOrEmpty(OwnerUsername))
         {
-            filteredRecipes = filteredRecipes.FindAll(r => r.Owner.Username.Equals(OwnerUsername, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(r => r.Owner.Username.Equals(OwnerUsername, StringComparison.OrdinalIgnoreCase));
         }
 
-        return filteredRecipes;
+        // Execute the query and return the results
+        return query.ToList();
     }
 }
