@@ -87,12 +87,13 @@ public class UserServices
     }
 
     // changes a users password and saves the change in the db
-    public void ChangePassword(User user, string newPassword, string oldPassword)
+    public bool ChangePassword(User user, string newPassword, string oldPassword)
     {
         try
         {
             user.ChangePassword(newPassword, oldPassword);
             _context.SaveChanges();
+            return true;
             
         }
         catch
@@ -108,9 +109,16 @@ public class UserServices
         User profile = GetUser(user.Username);
         try
         {
-            profile.UpdateUserProfile(user, profilePic, description, userFavouriteRecipes);
-            _context.SaveChanges();
-            return true;
+            bool updated = profile.UpdateUserProfile(user, profilePic, description, userFavouriteRecipes);
+            if (updated)
+            {
+                _context.SaveChanges();
+                return true; 
+            }
+            else
+            {
+                return false; 
+            }
         }
         catch
         {

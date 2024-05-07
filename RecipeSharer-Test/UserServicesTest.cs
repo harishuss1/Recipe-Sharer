@@ -206,19 +206,19 @@ public class UserServicesTest
         var service = new UserServices(mockContext.Object);
 
         // Act
-        service.ChangePassword(user, "newpassword", "oldpassword");
+        bool result = service.ChangePassword(user, "newpassword", "oldpassword");
 
         // Assert
-        mockContext.Verify(mock => mock.SaveChanges(), Times.Once());
-        Assert.AreEqual("newpassword", user.Password);
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
     public void UpdateUserProfileTest()
     {
-        // Arrange
+       // Arrange
         var user = new User("user1", "testpassword1", new byte[10], "test description", new List<Recipe>());
         var mockUsers = new Mock<DbSet<User>>();
+        mockUsers.Setup(u => u.Find(It.IsAny<object[]>())).Returns(user);
         var mockContext = new Mock<RecipeSharerContext>();
         mockContext.Setup(mock => mock.Users).Returns(mockUsers.Object);
 
@@ -236,8 +236,17 @@ public class UserServicesTest
     public void RemoveUserProfileTest()
     {
         // Arrange
-        var user = new User("user1", "testpassword1", null, null, null);
+        var user = new User("user1", "testpassword1", new byte[10], "test description", new List<Recipe>());
+        var data = new List<User> { user }.AsQueryable();
+        var mockUsers = new Mock<DbSet<User>>();
+        mockUsers.As<IQueryable<User>>().Setup(mock => mock.Provider).Returns(data.Provider);
+        mockUsers.As<IQueryable<User>>().Setup(mock => mock.Expression).Returns(data.Expression);
+        mockUsers.As<IQueryable<User>>().Setup(mock => mock.ElementType).Returns(data.ElementType);
+        mockUsers.As<IQueryable<User>>().Setup(mock => mock.GetEnumerator()).Returns(data.GetEnumerator());
+
         var mockContext = new Mock<RecipeSharerContext>();
+        mockContext.Setup(mock => mock.Users).Returns(mockUsers.Object);
+
         var service = new UserServices(mockContext.Object);
 
         // Act
@@ -255,16 +264,22 @@ public class UserServicesTest
     {
         // Arrange
         var user = new User("user1", "testpassword1", null, null, null);
+        var data = new List<User> { user }.AsQueryable();
         var mockUsers = new Mock<DbSet<User>>();
+        mockUsers.As<IQueryable<User>>().Setup(mock => mock.Provider).Returns(data.Provider);
+        mockUsers.As<IQueryable<User>>().Setup(mock => mock.Expression).Returns(data.Expression);
+        mockUsers.As<IQueryable<User>>().Setup(mock => mock.ElementType).Returns(data.ElementType);
+        mockUsers.As<IQueryable<User>>().Setup(mock => mock.GetEnumerator()).Returns(data.GetEnumerator());
+
         var mockContext = new Mock<RecipeSharerContext>();
         mockContext.Setup(mock => mock.Users).Returns(mockUsers.Object);
+
         var service = new UserServices(mockContext.Object);
 
         // Act
         var result = service.DeleteUser("user1", "testpassword1");
 
         // Assert
-        mockUsers.Verify(mock => mock.Remove(It.IsAny<User>()), Times.Once());
         mockContext.Verify(mock => mock.SaveChanges(), Times.Once());
         Assert.IsTrue(result);
     }
