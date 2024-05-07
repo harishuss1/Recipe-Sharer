@@ -10,8 +10,8 @@ public class RecipeSharerContext : DbContext
       public virtual DbSet<Recipe>? Recipes { get; set; }
       public virtual DbSet<Ingredient>? Ingredients { get; set; }
       public virtual DbSet<Rating>? Ratings { get; set; }
-      public virtual DbSet<Tag> Tags { get; set; } // Assuming you have a Tag model
-      public virtual DbSet<Step> Steps { get; set; } // Assuming you have a Step model
+      public virtual DbSet<Tag>? Tags { get; set; }
+      public virtual DbSet<Step>? Steps { get; set; }
 
 
       public string HostName { get; set; }
@@ -21,25 +21,12 @@ public class RecipeSharerContext : DbContext
       public string Password { get; set; }
       public RecipeSharerContext()
       {
-            // HostName = Environment.GetEnvironmentVariable("ORACLE_DB_HOST");
-            // Port = Environment.GetEnvironmentVariable("ORACLE_DB_PORT");
-            // ServiceName = Environment.GetEnvironmentVariable("ORACLE_DB_SERVICE");
-            // UserName = Environment.GetEnvironmentVariable("ORACLE_DB_USER");
-            // Password = Environment.GetEnvironmentVariable("ORACLE_DB_PASSWORD");
-            Console.WriteLine("Enter Host Name:");
-            HostName = Console.ReadLine() ?? "";
+            HostName = Environment.GetEnvironmentVariable("ORACLE_DB_HOST");
+            Port = Environment.GetEnvironmentVariable("ORACLE_DB_PORT");
+            ServiceName = Environment.GetEnvironmentVariable("ORACLE_DB_SERVICE");
+            UserName = Environment.GetEnvironmentVariable("ORACLE_DB_USER");
+            Password = Environment.GetEnvironmentVariable("ORACLE_DB_PASSWORD");
 
-            Console.WriteLine("Enter Port:");
-            Port = Console.ReadLine() ?? "";
-
-            Console.WriteLine("Enter Service Name:");
-            ServiceName = Console.ReadLine() ?? "";
-
-            Console.WriteLine("Enter User Name:");
-            UserName = Console.ReadLine() ?? "";
-
-            Console.WriteLine("Enter Password:");
-            Password = Console.ReadLine() ?? "";
 
       }
 
