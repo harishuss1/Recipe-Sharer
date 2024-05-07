@@ -109,16 +109,9 @@ public class UserServices
         User profile = GetUser(user.Username);
         try
         {
-            bool updated = profile.UpdateUserProfile(user, profilePic, description, userFavouriteRecipes);
-            if (updated)
-            {
-                _context.SaveChanges();
-                return true; 
-            }
-            else
-            {
-                return false; 
-            }
+            profile.UpdateUserProfile(user, profilePic, description, userFavouriteRecipes);
+            _context.SaveChanges();
+            return true;
         }
         catch
         {
