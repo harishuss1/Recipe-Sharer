@@ -107,10 +107,10 @@ public class UserServicesTest
         mockUsers.As<IQueryable<User>>().Setup(mock => mock.Expression).Returns(data.Expression);
         mockUsers.As<IQueryable<User>>().Setup(mock => mock.ElementType).Returns(data.ElementType);
         mockUsers.As<IQueryable<User>>().Setup(mock => mock.GetEnumerator()).Returns(data.GetEnumerator());
- 
+
         var mockContext = new Mock<RecipeSharerContext>();
         mockContext.Setup(mock => mock.Users).Returns(mockUsers.Object);
-        
+
         var service = new UserServices(mockContext.Object);
 
         //Act
@@ -214,53 +214,53 @@ public class UserServicesTest
     }
 
     [TestMethod]
-public void UpdateUserProfileTest()
-{
-    // Arrange
-    var user = new User("user1", "testpassword1", null, null, null);
-    var mockUsers = new Mock<DbSet<User>>();
-    var data = new List<User> { user }.AsQueryable();
-    var mockSet = new Mock<DbSet<User>>();
-    mockSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(data.Provider);
-    mockSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(data.Expression);
-    mockSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(data.ElementType);
-    mockSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+    public void UpdateUserProfileTest()
+    {
+        // Arrange
+        var user = new User("user1", "testpassword1", null, null, null);
+        var mockUsers = new Mock<DbSet<User>>();
+        var data = new List<User> { user }.AsQueryable();
+        var mockSet = new Mock<DbSet<User>>();
+        mockSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(data.Provider);
+        mockSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(data.Expression);
+        mockSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(data.ElementType);
+        mockSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
-    var mockContext = new Mock<RecipeSharerContext>();
-    mockContext.Setup(c => c.Users).Returns(mockSet.Object);
+        var mockContext = new Mock<RecipeSharerContext>();
+        mockContext.Setup(c => c.Users).Returns(mockSet.Object);
 
-    var service = new UserServices(mockContext.Object);
+        var service = new UserServices(mockContext.Object);
 
-    // Act
-    service.UpdateUserProfile(user, null, "New description", null);
+        // Act
+        service.UpdateUserProfile(user, null, "New description", null);
 
-    // Assert
-    mockContext.Verify(mock => mock.SaveChanges(), Times.Once());
-}
+        // Assert
+        mockContext.Verify(mock => mock.SaveChanges(), Times.Once());
+    }
 
     [TestMethod]
-public void RemoveUserProfileTest()
-{
-    // Arrange
-    var user = new User("user1", "testpassword1", null, null, null);
-    var data = new List<User> { user }.AsQueryable();
-    var mockSet = new Mock<DbSet<User>>();
-    mockSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(data.Provider);
-    mockSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(data.Expression);
-    mockSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(data.ElementType);
-    mockSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+    public void RemoveUserProfileTest()
+    {
+        // Arrange
+        var user = new User("user1", "testpassword1", null, null, null);
+        var data = new List<User> { user }.AsQueryable();
+        var mockSet = new Mock<DbSet<User>>();
+        mockSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(data.Provider);
+        mockSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(data.Expression);
+        mockSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(data.ElementType);
+        mockSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
-    var mockContext = new Mock<RecipeSharerContext>();
-    mockContext.Setup(c => c.Users).Returns(mockSet.Object);
+        var mockContext = new Mock<RecipeSharerContext>();
+        mockContext.Setup(c => c.Users).Returns(mockSet.Object);
 
-    var service = new UserServices(mockContext.Object);
+        var service = new UserServices(mockContext.Object);
 
-    // Act
-    service.RemoveUserProfile(user);
+        // Act
+        service.RemoveUserProfile(user);
 
-    // Assert
-    mockContext.Verify(mock => mock.SaveChanges(), Times.Once());
-}
+        // Assert
+        mockContext.Verify(mock => mock.SaveChanges(), Times.Once());
+    }
 
     [TestMethod]
     public void DeleteUserTest()
@@ -287,7 +287,23 @@ public void RemoveUserProfileTest()
         // Arrange
         var user = new User("user1", "testpassword1", null, null, new List<Recipe>());
         var recipe = new Recipe();
+        var dataUsers = new List<User> { user }.AsQueryable();
+        var dataRecipes = new List<Recipe> { recipe }.AsQueryable();
+        var mockSetUsers = new Mock<DbSet<User>>();
+        var mockSetRecipes = new Mock<DbSet<Recipe>>();
+        mockSetUsers.As<IQueryable<User>>().Setup(m => m.Provider).Returns(dataUsers.Provider);
+        mockSetUsers.As<IQueryable<User>>().Setup(m => m.Expression).Returns(dataUsers.Expression);
+        mockSetUsers.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(dataUsers.ElementType);
+        mockSetUsers.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(dataUsers.GetEnumerator());
+        mockSetRecipes.As<IQueryable<Recipe>>().Setup(m => m.Provider).Returns(dataRecipes.Provider);
+        mockSetRecipes.As<IQueryable<Recipe>>().Setup(m => m.Expression).Returns(dataRecipes.Expression);
+        mockSetRecipes.As<IQueryable<Recipe>>().Setup(m => m.ElementType).Returns(dataRecipes.ElementType);
+        mockSetRecipes.As<IQueryable<Recipe>>().Setup(m => m.GetEnumerator()).Returns(dataRecipes.GetEnumerator());
+
         var mockContext = new Mock<RecipeSharerContext>();
+        mockContext.Setup(c => c.Users).Returns(mockSetUsers.Object);
+        mockContext.Setup(c => c.Recipes).Returns(mockSetRecipes.Object);
+
         var service = new UserServices(mockContext.Object);
 
         // Act
@@ -305,7 +321,23 @@ public void RemoveUserProfileTest()
         var user = new User("user1", "testpassword1", null, null, new List<Recipe>());
         var recipe = new Recipe();
         user.AddToFavorites(recipe);
+        var dataUsers = new List<User> { user }.AsQueryable();
+        var dataRecipes = new List<Recipe> { recipe }.AsQueryable();
+        var mockSetUsers = new Mock<DbSet<User>>();
+        var mockSetRecipes = new Mock<DbSet<Recipe>>();
+        mockSetUsers.As<IQueryable<User>>().Setup(m => m.Provider).Returns(dataUsers.Provider);
+        mockSetUsers.As<IQueryable<User>>().Setup(m => m.Expression).Returns(dataUsers.Expression);
+        mockSetUsers.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(dataUsers.ElementType);
+        mockSetUsers.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(dataUsers.GetEnumerator());
+        mockSetRecipes.As<IQueryable<Recipe>>().Setup(m => m.Provider).Returns(dataRecipes.Provider);
+        mockSetRecipes.As<IQueryable<Recipe>>().Setup(m => m.Expression).Returns(dataRecipes.Expression);
+        mockSetRecipes.As<IQueryable<Recipe>>().Setup(m => m.ElementType).Returns(dataRecipes.ElementType);
+        mockSetRecipes.As<IQueryable<Recipe>>().Setup(m => m.GetEnumerator()).Returns(dataRecipes.GetEnumerator());
+
         var mockContext = new Mock<RecipeSharerContext>();
+        mockContext.Setup(c => c.Users).Returns(mockSetUsers.Object);
+        mockContext.Setup(c => c.Recipes).Returns(mockSetRecipes.Object);
+
         var service = new UserServices(mockContext.Object);
 
         // Act
