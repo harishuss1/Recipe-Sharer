@@ -27,7 +27,7 @@ public class Ingredient
         
     }
 
-    public void RecipeScaler(int multiplier)
+    public double RecipeScaler(int multiplier)
     {
         if (multiplier <= 0)
         {
@@ -35,30 +35,7 @@ public class Ingredient
         }
         
         double scaledQuantity = Quantity * multiplier;
-        Console.WriteLine($"Scaled {Name} to {multiplier}x: {scaledQuantity} {UnitOfMass}");
-    }
-
-    public static int GetUserMultiplier()
-    {
-        Console.WriteLine("Choose a multiplier:");
-        Console.WriteLine("1. 1x");
-        Console.WriteLine("2. 2x");
-        Console.WriteLine("3. 3x");
-
-        int choice;
-        while (true)
-        {
-            if (int.TryParse(Console.ReadLine(), out int input))
-            {
-                if (input >= 1 && input <= 3)
-                {
-                    choice = input;
-                    break;
-                }
-            }
-            Console.WriteLine("Invalid input. Please choose 1, 2, or 3.");
-        }
-        return choice; 
+        return scaledQuantity;
     }
 
     // idk how to convert the unit also ;-; it just does the quantity

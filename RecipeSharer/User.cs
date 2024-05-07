@@ -22,24 +22,63 @@ public class User
 
     //[InverseProperty("FavoritedBy")]
     public List<Recipe> UserFavouriteRecipes;
-    
-    public void AddToFavorites(Recipe recipe)
+    private byte[]? _profilePicture;
+    public byte[]? ProfilePicture
     {
+        get
+        {
+            return _profilePicture; // return an empty byte array if _profilePicture is null
+        }
+        set
+        {
+            _profilePicture = value;
+        }
+    }
+
+    private string? _description;
+
+    public string? Description {
+        get
+        {
+            return _description;
+        }
+        set
+        {
+            _description = value;
+        } 
+    }
+    
+    public bool AddToFavorites(Recipe recipe)
+    {
+        if (UserFavouriteRecipes == null)
+        {
+            UserFavouriteRecipes = new List<Recipe>();
+        }
+        
         if (!UserFavouriteRecipes.Contains(recipe))
         {
             UserFavouriteRecipes.Add(recipe);
+            return true;
         }
+        return false;
     }
 
-    public void RemoveRecipeFromFavorites(Recipe recipe)
+    public bool RemoveRecipeFromFavorites(Recipe recipe)
     {
+        if (UserFavouriteRecipes == null)
+        {
+            return false;
+        }
+
         if (UserFavouriteRecipes.Contains(recipe))
         {
             UserFavouriteRecipes.Remove(recipe);
+            return true;
         }
+        return false;
     }
 
-    public User(string username, string password)
+    public User(string username, string password, byte[] profilePicture, string description, List<Recipe> userFavouriteRecipes)
     {
         if (string.IsNullOrEmpty(username))
         {
@@ -55,11 +94,20 @@ public class User
         Tuple<byte[], byte[]> hash = CreatePassword(password);
         Salt = hash.Item1;
         Password = hash.Item2;
+        ProfilePicture = profilePicture;
+        Description = description;
+        UserFavouriteRecipes = userFavouriteRecipes;
     }
 
     public User() { }
 
+    public User CreateUser(string username, string password, byte[] profilePicture, string description, List<Recipe> userFavouriteRecipes) 
+    {
+        User user = new User(username, password, profilePicture, description, userFavouriteRecipes);
+        return user;
+    }
 
+    // creating a password
     public static Tuple<byte[], byte[]> CreatePassword(string password)
     {
         byte[] salt = new byte[8];
@@ -83,6 +131,7 @@ public class User
         return new Tuple<byte[], byte[]>(salt, encrypted_password);
     }
 
+    // verifies that the password is correct 
     public static bool VerifyPassword(string password, byte[] salt, byte[] encrypted_password)
     {
         int iterations = 1000;
@@ -100,6 +149,7 @@ public class User
         return true;
     }
 
+    // change password method
     public void ChangePassword(string newPassword, string oldPassword)
     {
         if (newPassword.Length < PASSWORD_LENGTH)
@@ -119,9 +169,65 @@ public class User
         }
     }
 
-    public void AddUser(User user)
+    // verifies that the username and password exists
+    public bool UserLogin(string username, string password)
     {
-        // Add user to the database
+        if(!(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)))
+        {
+            if(username==Username && VerifyPassword(password, Salt, Password))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // makes user enter their password to confirm deleting
+    public bool DeleteUser(string password)
+    {
+        if(UserLogin(Username, password))
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    public bool UpdateUserProfile(User user, byte[] profilePic, string description, List<Recipe> userFavouriteRecipes)
+    {
+        if(user.Username == Username)
+        {
+            if  (VerifyProfilePic(profilePic) && VerifyDescription(description) && VerifyUserFavoriteRecipes(userFavouriteRecipes))
+            {
+                ProfilePicture = profilePic;
+                Description = description;
+                UserFavouriteRecipes = userFavouriteRecipes;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void RemoveUserProfile()
+    {
+        ProfilePicture = null;
+        Description = "";
+        UserFavouriteRecipes.Clear();
+    }
+
+    public static bool VerifyProfilePic(byte[] pic)
+    {
+        return pic != null && pic.Length > 0;
+    }
+
+    public static bool VerifyDescription(string description)
+    {
+        return !string.IsNullOrEmpty(description);
+    }
+
+    public static bool VerifyUserFavoriteRecipes(List<Recipe> userFavouriteRecipes)
+    {
+        return userFavouriteRecipes != null && userFavouriteRecipes.Count > 0;
     }
 
 
@@ -141,5 +247,3 @@ public class User
         return UserId == other.UserId;
     }
 }
-
-

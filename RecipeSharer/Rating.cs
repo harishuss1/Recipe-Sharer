@@ -27,7 +27,6 @@ public class Rating
         }
     }
     public Rating(){
-        //Josh
     }
 }
 

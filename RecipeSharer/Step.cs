@@ -5,17 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Step
 {
     [Key]
-    public int StepId{get;set;}
+    public int StepId { get; set; }
 
     [ForeignKey("RecipeId")]
-    public Recipe Recipe{get;set;}
+    public Recipe Recipe { get; set; }
 
-    public int Number{get; set;}
+    public int Number { get; set; }
 
-    public string Description{get;set;}
+    public string Description { get; set; }
 
 
-    public Step(){
-        //This is how you tie a noose
+    public Step()
+    {
     }
 }
