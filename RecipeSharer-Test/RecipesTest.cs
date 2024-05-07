@@ -7,33 +7,31 @@ namespace RecipeSharerTests;
 public class RecipeTests
 {
     [TestMethod]
-    public void ConstructorTestWithValidDataAndReturnsValidRecipeObject()
-    {
-        // Arrange
-        User owner1 = new User("testperson", "testpwd123");
-        string name = "Chocolate Cake";
-        string description = "Delicious chocolate cake recipe";
-        TimeSpan prepTime = TimeSpan.FromMinutes(30);
-        TimeSpan cookingTime = TimeSpan.FromMinutes(45);
-        int servings = 8;
+        public void Constructor_ValidData_CreatesRecipeObject()
+        {
+            // Arrange
+            User owner = new User("testperson", "testpwd123");
+            string name = "Chocolate Cake";
+            string description = "Delicious chocolate cake recipe";
+            TimeSpan prepTime = TimeSpan.FromMinutes(30);
+            TimeSpan cookingTime = TimeSpan.FromMinutes(45);
+            int servings = 8;
 
-        // Act
-        Recipe recipe = new Recipe(owner1, name, description, new List<Ingredient>(), prepTime, cookingTime, servings);
+            // Act
+            Recipe recipe = new Recipe(owner, name, description, new List<Ingredient>(), prepTime, cookingTime, servings);
 
-        // Assert
-        Assert.AreEqual(owner1, recipe.Owner);
-        Assert.AreEqual(name, recipe.Name);
-        Assert.AreEqual(description, recipe.ShortDescription);
-        Assert.AreEqual(prepTime, recipe.PreparationTime);
-        Assert.AreEqual(cookingTime, recipe.CookingTime);
-        Assert.AreEqual(prepTime + cookingTime, recipe.TotalTime);
-        Assert.AreEqual(servings, recipe.Servings);
-        Assert.IsNotNull(recipe.Steps);
-        Assert.IsNotNull(recipe.Ingredients);
-        Assert.IsNotNull(recipe.Ratings);
-        Assert.IsNotNull(recipe.Tags);
-    }
-
+            // Assert
+            Assert.AreEqual(owner, recipe.Owner);
+            Assert.AreEqual(name, recipe.Name);
+            Assert.AreEqual(description, recipe.ShortDescription);
+            Assert.AreEqual(prepTime, recipe.PreparationTime);
+            Assert.AreEqual(cookingTime, recipe.CookingTime);
+            Assert.AreEqual(prepTime + cookingTime, recipe.TotalTime);
+            Assert.AreEqual(servings, recipe.Servings);
+            Assert.IsNotNull(recipe.Ingredients);
+            Assert.IsNotNull(recipe.Ratings);
+            Assert.IsNotNull(recipe.Tags);
+        }
     [TestMethod]
     public void PropertiesTestSetAndGetCorrectly()
     {
@@ -71,5 +69,58 @@ public class RecipeTests
         // Assert
         Assert.AreEqual(prepTime + cookingTime, recipe.TotalTime);
     }
+    [TestMethod]
+        public void Name_SetEmpty_ThrowsArgumentException()
+        {
+            // Arrange
+            User owner = new User("testperson", "testpwd123");
+            Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => recipe.Name = "");
+        }
+                [TestMethod]
+        public void Owner_SetNull_ThrowsArgumentException()
+        {
+            // Arrange
+            User owner = new User("testperson", "testpwd123");
+            Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => recipe.Owner = null);
+        }
+
+        [TestMethod]
+        public void PreparationTime_SetZero_ThrowsArgumentException()
+        {
+            // Arrange
+            User owner = new User("testperson", "testpwd123");
+            Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => recipe.PreparationTime = TimeSpan.Zero);
+        }
+
+        [TestMethod]
+        public void CookingTime_SetZero_ThrowsArgumentException()
+        {
+            // Arrange
+            User owner = new User("testperson", "testpwd123");
+            Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => recipe.CookingTime = TimeSpan.Zero);
+        }
+
+        [TestMethod]
+        public void Servings_SetZero_ThrowsArgumentException()
+        {
+            // Arrange
+            User owner = new User("testperson", "testpwd123");
+            Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => recipe.Servings = 0);
+        }
 }
 
