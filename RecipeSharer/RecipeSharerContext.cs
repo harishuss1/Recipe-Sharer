@@ -21,11 +21,11 @@ public class RecipeSharerContext : DbContext
       public string Password { get; set; }
       public RecipeSharerContext()
       {
-            // HostName = Environment.GetEnvironmentVariable("ORACLE_DB_HOST");
-            // Port = Environment.GetEnvironmentVariable("ORACLE_DB_PORT");
-            // ServiceName = Environment.GetEnvironmentVariable("ORACLE_DB_SERVICE");
-            // UserName = Environment.GetEnvironmentVariable("ORACLE_DB_USER");
-            // Password = Environment.GetEnvironmentVariable("ORACLE_DB_PASSWORD");
+            HostName = Environment.GetEnvironmentVariable("ORACLE_DB_HOST");
+            Port = Environment.GetEnvironmentVariable("ORACLE_DB_PORT");
+            ServiceName = Environment.GetEnvironmentVariable("ORACLE_DB_SERVICE");
+            UserName = Environment.GetEnvironmentVariable("ORACLE_DB_USER");
+            Password = Environment.GetEnvironmentVariable("ORACLE_DB_PASSWORD");
 
 
       }

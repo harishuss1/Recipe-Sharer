@@ -100,17 +100,20 @@ public class Recipe
 
     public Recipe(){
     }
-
-    public Recipe(User owner, string name, string description, List<Ingredient> ingredients, TimeSpan prepTime, TimeSpan cookingTime1, int servings)
-    {
-        this.owner = owner;
-        this.name = name;
-        this.description = description;
-        this.ingredients = ingredients;
-        this.prepTime = prepTime;
-        this.cookingTime1 = cookingTime1;
-        this.servings = servings;
-    }
+    public Recipe(User owner, string name, string shortDescription, List<Ingredient> ingredients, TimeSpan preparationTime, TimeSpan cookingTime, int servings)
+{
+    Owner = owner;
+    Name = name;
+    ShortDescription = shortDescription;
+    Ingredients = ingredients ?? new List<Ingredient>();
+    PreparationTime = preparationTime;
+    CookingTime = cookingTime;
+    Servings = servings;
+    Steps = new List<Step>();
+    Ratings = new List<Rating>();
+    Tags = new List<Tag>();
+    FavoritedBy = new List<User>();
+}
 
     public static List<Step> GetSteps()
     {

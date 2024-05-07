@@ -5,7 +5,7 @@ using Users;
 
 public class RatingOperations
 {
-    private  RecipeSharerContext _context { get; set; }
+    private RecipeSharerContext _context { get; set; }
 
     public RatingOperations(RecipeSharerContext context)
     {
@@ -51,7 +51,7 @@ public class RatingOperations
         }
         else
         {
-            Console.WriteLine("No rating from this user found.");
+            throw new ArgumentException("No rating from this user found.");
         }
     }
     public void UpdateRating(User user, Recipe recipe, int newScore)
@@ -66,7 +66,6 @@ public class RatingOperations
             throw new ArgumentOutOfRangeException("Rating must be between 0 and 10.");
         }
 
-
         var rating = _context.Ratings?.FirstOrDefault(r => r.User == user && r.Recipe == recipe);
         if (rating != null)
         {
@@ -75,7 +74,7 @@ public class RatingOperations
         }
         else
         {
-            Console.WriteLine("No rating from this user found.");
+            throw new ArgumentException("No rating from this user found.");
         }
     }
 
