@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+
 namespace Recipes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -36,8 +38,7 @@ public class Ingredient
         return scaledQuantity;
     }
 
-    // idk how to convert the unit also ;-; it just does the quantity
-    public static double ConvertUnit(double quantity, string currentUnit, string type)
+    public static Tuple<double, string> ConvertUnit(double quantity, string currentUnit, string type)
     {
         if (quantity <= 0)
         {
@@ -45,68 +46,53 @@ public class Ingredient
         }
         switch (currentUnit.ToLower())
         {
-            case "cups":
-                if (type.ToLower() == "solid")
-                {
-                    // Convert cups to grams for solid ingredients
-                    return Math.Round(quantity * 236.588, 2);
-                }
-                else if (type.ToLower() == "liquid")
-                {
-                    // Convert cups to milliliters for liquid ingredients
-                    return Math.Round(quantity * 236.588, 2);
-                }
-                else
-                {
-                    // Keep cups as is for other types of ingredients
-                    return Math.Round(quantity, 2); ;
-                }
-            case "g":
-                if (type.ToLower() == "solid")
-                {
-                    // Convert grams to cups for solid ingredients
-                    return Math.Round(quantity / 236.588, 2);
-                }
-                else
-                {
-                    // Keep grams as is for other types of ingredients
-                    return Math.Round(quantity, 2);
-                }
-            case "tablespoons":
-                if (type.ToLower() == "solid")
-                {
-                    // Convert tablespoons to grams for solid ingredients
-                    return Math.Round(quantity * 14.7868, 2);
-                }
-                else if (type.ToLower() == "liquid")
-                {
-                    // Convert tablespoons to milliliters for liquid ingredients
-                    return Math.Round(quantity * 14.7868, 2);
-                }
-                else
-                {
-                    // Keep tablespoons as is for other types of ingredients
-                    return Math.Round(quantity, 2);
-                }
-            case "teaspoons":
-                if (type.ToLower() == "solid")
-                {
-                    // Convert teaspoons to grams for solid ingredients
-                    return Math.Round(quantity * 4.92892, 2);
-                }
-                else if (type.ToLower() == "liquid")
-                {
-                    // Convert teaspoons to milliliters for liquid ingredients
-                    return Math.Round(quantity * 4.92892, 2);
-                }
-                else
-                {
-                    // Keep teaspoons as is for other types of ingredients
-                    return quantity;
-                }
-            default:
-                return quantity; // Return quantity unchanged for unknown units
+        case "cups":
+            if (type.ToLower() == "solid")
+            {
+                // Convert cups to grams for solid ingredients
+                currentUnit = "g";
+                quantity *= 236.588;
+            }
+            else if (type.ToLower() == "liquid")
+            {
+                // Convert cups to milliliters for liquid ingredients
+                currentUnit = "ml";
+                quantity *= 236.588;
+            }
+            break;
+        case "tablespoons":
+            if (type.ToLower() == "solid")
+            {
+                // Convert tablespoons to grams for solid ingredients
+                currentUnit = "g";
+                quantity *= 14.7868;
+            }
+            else if (type.ToLower() == "liquid")
+            {
+                // Convert tablespoons to milliliters for liquid ingredients
+                currentUnit = "ml";
+                quantity *= 14.7868;
+            }
+            break;
+        case "teaspoons":
+            if (type.ToLower() == "solid")
+            {
+                // Convert teaspoons to grams for solid ingredients
+                currentUnit = "g";
+                quantity *= 4.92892;
+            }
+            else if (type.ToLower() == "liquid")
+            {
+                // Convert teaspoons to milliliters for liquid ingredients
+                currentUnit = "ml";
+                quantity *= 4.92892;
+            }
+            break;
+        default:
+            // For unknown units, return quantity unchanged
+            break;
         }
+        return new Tuple<double, string>(Math.Round(quantity, 2), currentUnit);
     }
 
     public override string ToString()
