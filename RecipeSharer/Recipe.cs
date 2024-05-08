@@ -1,8 +1,12 @@
 namespace Recipes;
 using Users;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Recipe
 {
+    [Key]
+    public int RecipeId {get;set;}
     private string name;
     public string Name
     {
@@ -16,6 +20,8 @@ public class Recipe
     }
 
     private User _owner;
+    
+    [ForeignKey("OwnerId")]
     public User Owner
     {
         get { return _owner; }
@@ -66,6 +72,7 @@ public class Recipe
     public TimeSpan TotalTime => PreparationTime + CookingTime;
 
     private int servings;
+
     public int Servings
     {
         get { return servings; }
@@ -76,34 +83,33 @@ public class Recipe
             servings = value;
         }
     }
-    public List<string> Steps { get; set; }
+    public List<Step> Steps { get; set; }
     public List<Ingredient> Ingredients { get; set; }
     public List<Rating> Ratings { get; set; }
-    public List<string> Tags { get; set; }
 
-    public static List<string> GetSteps()
-    {
-        List<string> steps = new List<string>();
-        Console.WriteLine("Enter cooking steps (type 'done' to finish):");
-        string step;
-        while ((step = Console.ReadLine().ToLower()) != "done")
-        {
-            steps.Add(step);
-        }
-        return steps;
-    }
+    // [InverseProperty("TaggedRecipes")]
+    public List<Tag> Tags { get; set; }
 
-    public static List<string> GetTags()
-    {
-        List<string> tags = new List<string>();
-        Console.WriteLine("Enter tags (type 'done' to finish):");
-        string tag;
-        while ((tag = Console.ReadLine().ToLower()) != "done")
-        {
-            tags.Add(tag);
-        }
-        return tags;
+    //[InverseProperty("UserFavouriteRecipes")]
+    public List<User> FavoritedBy {get; set;}
+
+    public Recipe(){
     }
+    public Recipe(User owner, string name, string shortDescription, List<Ingredient> ingredients, TimeSpan preparationTime, TimeSpan cookingTime, int servings)
+{
+    Owner = owner;
+    Name = name;
+    ShortDescription = shortDescription;
+    Ingredients = ingredients ?? new List<Ingredient>();
+    PreparationTime = preparationTime;
+    CookingTime = cookingTime;
+    Servings = servings;
+    Steps = new List<Step>();
+    Ratings = new List<Rating>();
+    Tags = new List<Tag>();
+    FavoritedBy = new List<User>();
+}
+
 
     public override string ToString()
     {

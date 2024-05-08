@@ -1,8 +1,16 @@
 namespace Recipes;
 using Users;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Rating
 {
+    [Key]
+    public int RatingId {get; set;}
+
+    [ForeignKey("RecipeId")]
+    public Recipe Recipe {get;set;}
+    [ForeignKey("UserId")]
     public User User { get; set; }
     private int _score;
 
@@ -17,6 +25,8 @@ public class Rating
             }
             _score = value;
         }
+    }
+    public Rating(){
     }
 }
 

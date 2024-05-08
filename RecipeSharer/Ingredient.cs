@@ -1,21 +1,31 @@
 namespace Recipes;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Ingredient
 {
+    [Key]
+    public int IngredientId {get; set;}
     public string Name { get; set; }
     public double Quantity { get; set; }
     public string UnitOfMass { get; set; }
-    public string Type { get; set; }
+    public string Type {get; set;}
+    [ForeignKey("RecipeId")]
+    public Recipe Recipe {get; set;}
 
-    // public Ingredient(string name, double quantity, string unitOfMass, string type)
-    // {
-    //     Name = name;
-    //     Quantity = Math.Round(quantity, 2);
-    //     UnitOfMass = unitOfMass;
-    //     Type = type;
-    // }
+    public Ingredient(string name, double quantity, string unitOfMass, string type)
+    {
+        Name = name;
+        Quantity = Math.Round(quantity, 2);
+        UnitOfMass = unitOfMass;
+        Type = type;
+    }
 
-    public void RecipeScaler(int multiplier)
+    public Ingredient(){
+        
+    }
+
+    public double RecipeScaler(int multiplier)
     {
         if (multiplier <= 0)
         {
@@ -23,30 +33,7 @@ public class Ingredient
         }
         
         double scaledQuantity = Quantity * multiplier;
-        Console.WriteLine($"Scaled {Name} to {multiplier}x: {scaledQuantity} {UnitOfMass}");
-    }
-
-    public static int GetUserMultiplier()
-    {
-        Console.WriteLine("Choose a multiplier:");
-        Console.WriteLine("1. 1x");
-        Console.WriteLine("2. 2x");
-        Console.WriteLine("3. 3x");
-
-        int choice;
-        while (true)
-        {
-            if (int.TryParse(Console.ReadLine(), out int input))
-            {
-                if (input >= 1 && input <= 3)
-                {
-                    choice = input;
-                    break;
-                }
-            }
-            Console.WriteLine("Invalid input. Please choose 1, 2, or 3.");
-        }
-        return choice; 
+        return scaledQuantity;
     }
 
     // idk how to convert the unit also ;-; it just does the quantity

@@ -22,6 +22,35 @@ public class ConsoleUtils
 
         return rating;
     }
+    public static List<Step> GetStepsFromUser()
+    {
+        var steps = new List<Step>();
+        Console.WriteLine("Enter cooking steps (type 'done' to finish):");
+
+        string input;
+        int stepNumber = 1;
+        while ((input = Console.ReadLine().ToLower()) != "Done!")
+        {
+            steps.Add(new Step { Number = stepNumber, Description = input });
+            stepNumber++;
+        }
+
+        return steps;
+    }
+
+    public static List<Tag> GetTagsFromUser()
+    {
+        Console.WriteLine("Enter tags (type 'done' to finish):");
+
+        var tags = new List<Tag>();
+        string input;
+        while ((input = Console.ReadLine().ToLower()) != "Done!")
+        {
+            tags.Add(new Tag { Name = input });
+        }
+
+        return tags;
+    }
 
     public static Recipe GetValidRecipe(User currentUser)
     {
@@ -51,10 +80,10 @@ public class ConsoleUtils
         List<Ingredient> ingredients = GetIngredients();
 
         // Get steps
-        List<string> steps = Recipe.GetSteps();
+        List<Step> steps = GetStepsFromUser();
 
         // Get tags
-        List<string> tags = Recipe.GetTags();
+        List<Tag> tags = GetTagsFromUser();
 
         // Create and return the recipe object
         Recipe r = new() { Owner = currentUser, Name = name, ShortDescription = description, Ingredients = ingredients, PreparationTime = prepTime, CookingTime = cookTime, Servings = servings, Steps = steps, Tags = tags };
@@ -95,6 +124,33 @@ public class ConsoleUtils
         return ingredients;
     }
 
+    public static int GetUserMultiplier()
+    {
+        Console.WriteLine("Choose a multiplier:");
+        Console.WriteLine("1. 1x");
+        Console.WriteLine("2. 2x");
+        Console.WriteLine("3. 3x");
+
+        int choice;
+        while (true)
+        {
+            if (int.TryParse(Console.ReadLine(), out int input))
+            {
+                if (input >= 1 && input <= 3)
+                {
+                    choice = input;
+                    break;
+                }
+            }
+            Console.WriteLine("Invalid input. Please choose 1, 2, or 3.");
+        }
+        return choice; 
+    }
+
+    public void ScaledRecipe(int multiplier, Ingredient ingredients)
+    {
+        Console.WriteLine($"Scaled {ingredients.Name} to {multiplier}x: {ingredients.RecipeScaler(multiplier)} {ingredients.UnitOfMass}");   
+    }
 
     private static Ingredient ParseIngredient(string input)
     {
