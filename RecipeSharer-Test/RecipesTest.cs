@@ -10,7 +10,7 @@ public class RecipeTests
         public void Constructor_ValidData_CreatesRecipeObject()
         {
             // Arrange
-            User owner = new User("testperson", "testpwd123");
+            User owner = new User("testperson", "testpwd123",null,null,null);
             string name = "Chocolate Cake";
             string description = "Delicious chocolate cake recipe";
             TimeSpan prepTime = TimeSpan.FromMinutes(30);
@@ -36,7 +36,7 @@ public class RecipeTests
     public void PropertiesTestSetAndGetCorrectly()
     {
         // Arrange
-        User owner = new User("testperson", "testpwd123");
+        User owner = new User("testperson", "testpwd123",null,null,null);
         Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
 
         // Act
@@ -59,7 +59,7 @@ public class RecipeTests
     public void TotalTime_CalculatedCorrectly()
     {
         // Arrange
-        User owner = new User("testperson", "testpwd123");
+        User owner = new User("testperson", "testpwd123",null,null,null);
         TimeSpan prepTime = TimeSpan.FromMinutes(30);
         TimeSpan cookingTime = TimeSpan.FromMinutes(45);
 
@@ -73,7 +73,7 @@ public class RecipeTests
         public void Name_SetEmpty_ThrowsArgumentException()
         {
             // Arrange
-            User owner = new User("testperson", "testpwd123");
+            User owner = new User("testperson", "testpwd123",null,null,null);
             Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
 
             // Act & Assert
@@ -83,7 +83,7 @@ public class RecipeTests
         public void Owner_SetNull_ThrowsArgumentException()
         {
             // Arrange
-            User owner = new User("testperson", "testpwd123");
+            User owner = new User("testperson", "testpwd123",null,null,null);
             Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
 
             // Act & Assert
@@ -94,7 +94,7 @@ public class RecipeTests
         public void PreparationTime_SetZero_ThrowsArgumentException()
         {
             // Arrange
-            User owner = new User("testperson", "testpwd123");
+            User owner = new User("testperson", "testpwd123",null,null,null);
             Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
 
             // Act & Assert
@@ -105,7 +105,7 @@ public class RecipeTests
         public void CookingTime_SetZero_ThrowsArgumentException()
         {
             // Arrange
-            User owner = new User("testperson", "testpwd123");
+            User owner = new User("testperson", "testpwd123",null,null,null);
             Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
 
             // Act & Assert
@@ -116,7 +116,7 @@ public class RecipeTests
         public void Servings_SetZero_ThrowsArgumentException()
         {
             // Arrange
-            User owner = new User("testperson", "testpwd123");
+            User owner = new User("testperson", "testpwd123",null,null,null);
             Recipe recipe = new Recipe(owner, "Spaghetti Bolognese", "Authentic spaghetti bolognese recipe", new List<Ingredient>(), TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(10), 4);
 
             // Act & Assert

@@ -183,8 +183,8 @@ public class RecipeOperationsTests
         ConfigureDbSetMock(recipes, mockRecipes);
         var recipeOperations = new RecipeOperations(mockContext.Object);
 
-        User owner = new User("testperson", "testpwd123");
-        User owner2 = new User("testperson2", "testpwd123");
+        User owner = new User("testperson", "testpwd123",null,null,null);
+        User owner2 = new User("testperson2", "testpwd123",null,null,null);
         Recipe existingRecipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
         Recipe newDetails = new Recipe(owner2, "Vanilla Cake", "Delicious vanilla cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
@@ -204,7 +204,7 @@ public class RecipeOperationsTests
         ConfigureDbSetMock(recipes, mockRecipes);
         var recipeOperations = new RecipeOperations(mockContext.Object);
 
-        User owner = new User("testperson", "testpwd123");
+        User owner = new User("testperson", "testpwd123",null,null,null);
         Recipe newDetails = new Recipe(owner, "Vanilla Cake", "Delicious vanilla cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(25), TimeSpan.FromMinutes(40), 10);
 
         // Act and Assert
@@ -223,7 +223,7 @@ public class RecipeOperationsTests
         ConfigureDbSetMock(recipes, mockRecipes);
         var recipeOperations = new RecipeOperations(mockContext.Object);
 
-        User owner = new User("testperson", "testpwd123");
+        User owner = new User("testperson", "testpwd123",null,null,null);
         Recipe existingRecipe = new Recipe(owner, "Chocolate Cake", "Delicious chocolate cake recipe", new List<Ingredient>(), TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45), 8);
 
         // Act and Assert
