@@ -15,7 +15,7 @@ class Program
         RecipeOperations recOp = new RecipeOperations(context);
         Search search = new Search(context);
 
-        User currentUser = new User();
+        User currentUser = null;
         Console.WriteLine("Register as new User");
         User u1 = new User();
         User u2 = new User();
@@ -27,7 +27,7 @@ class Program
             Console.WriteLine("Enter your password: ");
             string pwd = ConsoleUtils.ReadNonEmptyString("Can't be empty");
 
-            u1 = uServ.AddUser(uname, pwd, null, "", new List<Recipe>());
+            u1 = uServ.AddUser(uname, pwd);
             currentUser = u1;
         }
 
@@ -47,7 +47,7 @@ class Program
             Console.WriteLine("Enter your password: ");
             string pwd = ConsoleUtils.ReadNonEmptyString("Can't be empty");
 
-            u2 = uServ.AddUser(uname, pwd, null, "", new List<Recipe>());
+            u2 = uServ.AddUser(uname, pwd);
             currentUser = u2;
         }
 

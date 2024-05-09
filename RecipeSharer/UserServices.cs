@@ -74,13 +74,15 @@ public class UserServices
     }
 
     // adds a new user to the db
-    public User AddUser(string username, string password, byte[] profilePic, string description, List<Recipe> userFavouriteRecipes)
+    // public User AddUser(string username, string password, byte[] profilePic, string description, List<Recipe> userFavouriteRecipes)
+    public User AddUser(string username, string password)
+
     {
         if(GetUser(username) != null)
         {
             throw new ArgumentException("This user already exists");
         }
-        User user = new(username, password, profilePic, description, userFavouriteRecipes);
+        User user = new(username, password, DefaultProfilePic, "", new List<Recipe>());
         _context.Users.Add(user);
         _context.SaveChanges();
         return user;

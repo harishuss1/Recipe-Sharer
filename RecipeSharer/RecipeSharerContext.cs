@@ -27,7 +27,6 @@ public class RecipeSharerContext : DbContext
             UserName = Environment.GetEnvironmentVariable("ORACLE_DB_USER");
             Password = Environment.GetEnvironmentVariable("ORACLE_DB_PASSWORD");
 
-
       }
 
       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

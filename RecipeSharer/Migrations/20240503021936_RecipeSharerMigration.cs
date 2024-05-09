@@ -128,7 +128,7 @@ namespace RecipeSharer.Migrations
                     Username = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
                     Salt = table.Column<byte[]>(type: "RAW(2000)", nullable: false),
                     Password = table.Column<byte[]>(type: "RAW(2000)", nullable: false),
-                    ProfilePicture = table.Column<byte[]>(type: "RAW(2000)", nullable: false),
+                    ProfilePicture = table.Column<byte[]>(type: "RAW(2000)", nullable: true),
                     Description = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
                     RecipeId = table.Column<int>(type: "NUMBER(10)", nullable: true)
                 },

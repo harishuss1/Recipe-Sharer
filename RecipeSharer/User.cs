@@ -78,6 +78,27 @@ public class User
         return false;
     }
 
+    public User(string username, string password)
+    {
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new ArgumentException("Username cannot be empty.");
+        }
+
+        if (string.IsNullOrEmpty(password) || password.Length < PASSWORD_LENGTH)
+        {
+            throw new ArgumentException("Password must be at least " + PASSWORD_LENGTH + " characters long.");
+        }
+
+        Username = username;
+        Tuple<byte[], byte[]> hash = CreatePassword(password);
+        Salt = hash.Item1;
+        Password = hash.Item2;
+        ProfilePicture = null;
+        Description = "None";
+        UserFavouriteRecipes = new List<Recipe>();
+    }
+
     public User(string username, string password, byte[] profilePicture, string description, List<Recipe> userFavouriteRecipes)
     {
         if (string.IsNullOrEmpty(username))
