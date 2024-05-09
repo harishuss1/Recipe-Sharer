@@ -15,7 +15,7 @@ class Program
         RecipeOperations recOp = new RecipeOperations(context);
         Search search = new Search(context);
 
-        User currentUser = new User();
+        User currentUser = null;
         Console.WriteLine("Register as new User");
         User u1 = new User();
         User u2 = new User();
@@ -53,7 +53,7 @@ class Program
 
         //Search 
         Console.WriteLine("Searching by Owner");
-        search.SetOwnerUsername(u1.Username);
+        search.SetServingsConstraints(1, 1);
         List<Recipe> filteredRecipes = search.PerformSearch();
         
         foreach (Recipe recipe in filteredRecipes){
@@ -78,7 +78,7 @@ class Program
         Console.WriteLine("Do you wish to add the recipe to your favorites? (y/n)");
         string fav = ConsoleUtils.ReadNonEmptyString("Needs to not be empty");
 
-        if (fav.Equals('y')){
+        if (fav == "y"){
             uServ.AddToFavorites(filteredRecipes[0], currentUser);
             Console.WriteLine("Added to favorites");
         }

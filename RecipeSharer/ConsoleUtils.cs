@@ -29,7 +29,7 @@ public class ConsoleUtils
 
         string input;
         int stepNumber = 1;
-        while ((input = Console.ReadLine().ToLower()) != "Done!")
+        while ((input = Console.ReadLine().ToLower()) != "done")
         {
             steps.Add(new Step { Number = stepNumber, Description = input });
             stepNumber++;
@@ -44,7 +44,7 @@ public class ConsoleUtils
 
         var tags = new List<Tag>();
         string input;
-        while ((input = Console.ReadLine().ToLower()) != "Done!")
+        while ((input = Console.ReadLine().ToLower()) != "done")
         {
             tags.Add(new Tag { Name = input });
         }
@@ -155,7 +155,7 @@ public class ConsoleUtils
     private static Ingredient ParseIngredient(string input)
     {
         // Example parsing logic, adjust as necessary for your Ingredient class
-        return new Ingredient() { Name = input, Quantity = 1, UnitOfMass = "unit", Type = null }; // Placeholder, adjust constructor as necessary
+        return new Ingredient() { Name = input, Quantity = 1, UnitOfMass = "unit", Type = "a" }; // Placeholder, adjust constructor as necessary
     }
 
 }

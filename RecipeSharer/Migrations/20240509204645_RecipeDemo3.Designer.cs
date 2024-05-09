@@ -12,8 +12,8 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace RecipeSharer.Migrations
 {
     [DbContext(typeof(RecipeSharerContext))]
-    [Migration("20240503021936_RecipeSharerMigration")]
-    partial class RecipeSharerMigration
+    [Migration("20240509204645_RecipeDemo3")]
+    partial class RecipeDemo3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -192,7 +192,6 @@ namespace RecipeSharer.Migrations
                         .HasColumnType("RAW(2000)");
 
                     b.Property<byte[]>("ProfilePicture")
-                        .IsRequired()
                         .HasColumnType("RAW(2000)");
 
                     b.Property<int?>("RecipeId")

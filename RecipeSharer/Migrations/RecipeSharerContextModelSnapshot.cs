@@ -189,7 +189,6 @@ namespace RecipeSharer.Migrations
                         .HasColumnType("RAW(2000)");
 
                     b.Property<byte[]>("ProfilePicture")
-                        .IsRequired()
                         .HasColumnType("RAW(2000)");
 
                     b.Property<int?>("RecipeId")
