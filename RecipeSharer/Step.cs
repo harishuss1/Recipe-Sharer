@@ -1,12 +1,21 @@
 namespace Recipes;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 public class Step
 {
-    int stepId;
+    [Key]
+    public int StepId { get; set; }
 
-    int recipeid;
+    [ForeignKey("RecipeId")]
+    public Recipe Recipe { get; set; }
 
-    int stepNumber;
+    public int Number { get; set; }
 
-    String StepDescription;
+    public string Description { get; set; }
 
+
+    public Step()
+    {
+    }
 }

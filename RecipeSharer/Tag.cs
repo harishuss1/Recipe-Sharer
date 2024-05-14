@@ -1,10 +1,17 @@
 namespace Recipes;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 public class Tag
 {
-    int tagid;
+    [Key]
+    public int TagId { get; set; }
 
-    int recipeid;
+    public List<Recipe> TaggedRecipes { get; set; }
 
-    String Tags;
+    public string Name { get; set; }
 
+    public Tag()
+    {
+    }
 }
