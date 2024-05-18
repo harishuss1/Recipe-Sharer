@@ -2,7 +2,9 @@ namespace Recipes;
 using Context;
 using Microsoft.EntityFrameworkCore;
 using Users;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 public class RatingOperations
 {
     private RecipeSharerContext _context { get; set; }

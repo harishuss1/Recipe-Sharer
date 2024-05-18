@@ -1,7 +1,12 @@
+using System;
+using System.Collections.Generic;
+
 namespace RecipeSearch;
 using Recipes;
 using Context;
 using Users;
+using System.Linq;
+
 
 /// <summary>
 /// Provides functionality to search through a collection of recipes based on various criteria.

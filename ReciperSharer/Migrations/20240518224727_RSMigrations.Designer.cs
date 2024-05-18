@@ -9,11 +9,11 @@ using Oracle.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace RecipeSharer.Migrations
+namespace RecipeShare.Migrations
 {
     [DbContext(typeof(RecipeSharerContext))]
-    [Migration("20240509204645_RecipeDemo3")]
-    partial class RecipeDemo3
+    [Migration("20240518224727_RSMigrations")]
+    partial class RSMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -8,7 +8,7 @@ using Oracle.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace RecipeSharer.Migrations
+namespace RecipeShare.Migrations
 {
     [DbContext(typeof(RecipeSharerContext))]
     partial class RecipeSharerContextModelSnapshot : ModelSnapshot

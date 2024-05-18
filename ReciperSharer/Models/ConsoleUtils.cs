@@ -1,6 +1,8 @@
 namespace Utils;
 using Recipes;
 using Users;
+using System;
+using System.Collections.Generic;
 public class ConsoleUtils
 {
     public int GetValidRatingFromUser()

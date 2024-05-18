@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace RecipeSharer.Migrations
+namespace RecipeShare.Migrations
 {
     /// <inheritdoc />
-    public partial class RecipeDemo3 : Migration
+    public partial class RSMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
