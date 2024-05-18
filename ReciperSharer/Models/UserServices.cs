@@ -19,6 +19,8 @@ public class UserServices
         _context = context;
     }
 
+    public User? CurrentlyLoggedInUser { get; private set; }
+
     // get a list of all the users in the db 
     public List<User> GetUsers()
     {
@@ -50,8 +52,8 @@ public class UserServices
         try
         {
             var user_result = from usr in users
-                                where usr.Username == username
-                                select usr;
+                              where usr.Username == username
+                              select usr;
             user = user_result.First();
 
         }
@@ -79,7 +81,7 @@ public class UserServices
     // adds a new user to the db
     public User AddUser(string username, string password, byte[] profilePic, string description, List<Recipe> userFavouriteRecipes)
     {
-        if(GetUser(username) != null)
+        if (GetUser(username) != null)
         {
             throw new ArgumentException("This user already exists");
         }
@@ -97,7 +99,7 @@ public class UserServices
             user.ChangePassword(newPassword, oldPassword);
             _context.SaveChanges();
             return true;
-            
+
         }
         catch
         {
@@ -140,7 +142,7 @@ public class UserServices
     public bool DeleteUser(string username, string password)
     {
         User user = GetUser(username);
-        if(user.DeleteUser(password))
+        if (user.DeleteUser(password))
         {
             _context.Remove(user);
             _context.SaveChanges();
@@ -151,12 +153,12 @@ public class UserServices
 
     public void AddToFavorites(Recipe recipe, User user)
     {
-        if(user.AddToFavorites(recipe))
+        if (user.AddToFavorites(recipe))
         {
             // checks to see if the recipe already exists in the db
             var existingRecipe = _context.Recipes.FirstOrDefault(r => r.RecipeId == recipe.RecipeId);
-        
-            if(existingRecipe == null)
+
+            if (existingRecipe == null)
             {
                 _context.Recipes.Add(recipe);
             }
@@ -171,10 +173,10 @@ public class UserServices
 
     public void RemoveRecipeFromFavorites(Recipe recipe, User user)
     {
-        if(user.RemoveRecipeFromFavorites(recipe))
+        if (user.RemoveRecipeFromFavorites(recipe))
         {
             var existingRecipe = _context.Recipes.FirstOrDefault(r => r.RecipeId == recipe.RecipeId);
-            if(existingRecipe != null)
+            if (existingRecipe != null)
             {
                 _context.Recipes.Remove(existingRecipe);
                 _context.SaveChanges();

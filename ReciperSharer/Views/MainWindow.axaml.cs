@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace RecipeShare.Views;
+namespace RecipeSharer.Views;
 
 public partial class MainWindow : Window
 {
