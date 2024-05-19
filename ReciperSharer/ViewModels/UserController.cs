@@ -4,11 +4,10 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Context;
-using RecipeShare;
 using RecipeSharer;
 using Users;
 
-namespace Demo.Controllers;
+namespace RecipeShare.Controllers;
 
 public class UserController
 {
@@ -68,12 +67,12 @@ public class UserController
   /// <returns>
   /// The newly registered user (i.e. the user argument, with its generated id).
   /// </returns>
-  public static User Register(string username, string password)
+  public static User Register(User user, string password)
   {
-    if (username == null){
+    if (user.Username == null){
         throw new ArgumentException("Please enter a username");
     }
-    User user = new UserServices(RecipeSharerContext.INSTANCE!).AddUser(username, password);
+    user = new UserServices(RecipeSharerContext.INSTANCE!).AddUser(user.Username, password);
 
 
     return user;
