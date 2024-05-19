@@ -16,4 +16,11 @@ public class LoggedInViewModel : ViewModelBase
     Greeting =
       $"Hello {UserServices.INSTANCE.CurrentlyLoggedInUser!.DisplayName!}";
   }
+
+
+  public ReactiveCommand<Unit, Unit> RecipeButton { get; }
+  public ReactiveCommand<Unit, Unit> RatingButton { get; }
+  public ReactiveCommand<Unit, Unit> SearchButton { get; }
+  public ReactiveCommand<Unit, Unit> Profile { get; }
+
 }

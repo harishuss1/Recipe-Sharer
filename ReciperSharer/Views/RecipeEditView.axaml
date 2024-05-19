@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="RecipeShare.Views.EditRecipeView">
+<DockPanel LastChildFill="True">
+        <!-- Sidebar -->
+        <StackPanel DockPanel.Dock="Left" Width="200" Background="#b4caec">
+            <Button Content="Recipe" Margin="10"/>
+            <Button Content="Rating" Margin="10"/>
+            <Button Content="Search" Margin="10"/>
+            <Button Content="Make A Recipe" Margin="10"/>
+            <Button Content="Profile" Margin="10"/>
+            <Button Content="Log out" Margin="10"/>
+
+        </StackPanel>
+
+
+
+    <StackPanel DockPanel.Dock="Right" Padding="20">
+        <TextBlock Text="Edit Recipe (Recipe Name)" FontSize="20" FontWeight="Bold"/>
+        <TextBox Text="{Binding CurrentRecipe.Name}" Margin="5"/>
+        <TextBox Text="{Binding CurrentRecipe.Servings}" Margin="5"/>
+        <TextBox Text="{Binding CurrentRecipe.PrepTime}" Margin="5"/>
+        <Button Content="Edit Ingredients" Margin="5"/>
+        <Button Content="Edit Instructions" Margin="5"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button Content="Save" Command="{Binding SaveCommand}" Margin="5"/>
+            <Button Content="Cancel" Command="{Binding CancelCommand}" Margin="5"/>
+        </StackPanel>
+    </StackPanel>
+</DockPanel>
+</UserControl>

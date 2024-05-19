@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="RecipeShare.Views.RecipeView">
+   <DockPanel LastChildFill="True">
+        <!-- Sidebar -->
+        <StackPanel DockPanel.Dock="Left" Width="200" Background="#b4caec">
+            <Button Content="Recipe" Margin="10"/>
+            <Button Content="Rating" Margin="10"/>
+            <Button Content="Search" Margin="10"/>
+            <Button Content="Make A Recipe" Margin="10"/>
+            <Button Content="Profile" Margin="10"/>
+            <Button Content="Log out" Margin="10"/>
+
+        </StackPanel>
+
+
+
+<StackPanel DockPanel.Dock="Right">
+    <TextBlock Text="View Your Recipes:" Foreground="White" FontWeight="Bold" FontSize="18"/>
+    <TreeView Items="{Binding Recipes}">
+        <TreeView.ItemTemplate>
+            <HierarchicalDataTemplate DataType="models:Recipe" ItemsSource="{Binding}">
+                <Expander Header="{Binding Name}" Foreground="White">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="{Binding Name}" Foreground="White"/>
+                        <TextBlock Text="{Binding ShortDescription}" Foreground="White"/>
+                        <TextBlock Text="{Binding PreparationTime}" Foreground="White"/>
+                        <TextBlock Text="{Binding CookingTime}" Foreground="White"/>
+                        <TextBlock Text="{Binding TotalTime}" Foreground="White"/>
+                        <TextBlock Text="{Binding Servings}" Foreground="White"/>
+                        <ItemsControl Items="{Binding Ingredients}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Foreground="White"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl Items="{Binding Steps}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Foreground="White"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl Items="{Binding Tags}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Foreground="White"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Edit" Margin="5" Command="{Binding DataContext.EditRecipeCommand, RelativeSource={RelativeSource AncestorType=TreeView}}" CommandParameter="{Binding}"/>
+                            <Button Content="Delete" Margin="5" Command="{Binding DataContext.DeleteRecipeCommand, RelativeSource={RelativeSource AncestorType=TreeView}}" CommandParameter="{Binding}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+            </HierarchicalDataTemplate>
+        </TreeView.ItemTemplate>
+    </TreeView>
+</StackPanel>
+</DockPanel>
+</UserControl>
