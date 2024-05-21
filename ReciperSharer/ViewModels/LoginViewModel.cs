@@ -1,8 +1,8 @@
 using System;
 using System.Reactive;
 using RecipeShare.Controllers;
-using RecipeShare.Models;
 using ReactiveUI;
+using Users;
 
 namespace RecipeShare.ViewModels;
 

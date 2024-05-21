@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 using RecipeShare.Controllers;
-using RecipeShare.Models;
+using Users;
 
 namespace RecipeShare.ViewModels;
 
