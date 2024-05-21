@@ -12,7 +12,7 @@ public class RegisterViewModel : ViewModelBase
 
   private string? _username;
 
-  public string? Userame
+  public string? Username
   {
     get => _username;
     set
