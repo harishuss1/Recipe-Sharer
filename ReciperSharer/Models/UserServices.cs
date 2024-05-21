@@ -90,6 +90,16 @@ public class UserServices
         _context.SaveChanges();
         return user;
     }
+    public User AddUser(string username, string password){
+        if (GetUser(username) != null)
+        {
+            throw new ArgumentException("This user already exists");
+        }
+        User user = new(username, password);
+        _context.Users.Add(user);
+        _context.SaveChanges();
+        return user;
+    }
 
     // changes a users password and saves the change in the db
     public bool ChangePassword(User user, string newPassword, string oldPassword)

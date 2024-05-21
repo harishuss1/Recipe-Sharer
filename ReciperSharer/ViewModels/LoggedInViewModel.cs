@@ -1,6 +1,8 @@
 using System.Reactive;
 using RecipeShare.Controllers;
 using ReactiveUI;
+using Users;
+using RecipeSharer;
 
 namespace RecipeShare.ViewModels;
 
@@ -12,8 +14,8 @@ public class LoggedInViewModel : ViewModelBase
 
   public LoggedInViewModel()
   {
-    Logout = ReactiveCommand.Create(() => UserServices.INSTANCE.Logout());
+    Logout = ReactiveCommand.Create(() => UserController.INSTANCE.Logout());
     Greeting =
-      $"Hello {UserServices.INSTANCE.CurrentlyLoggedInUser!.DisplayName!}";
+      $"Hello {UserController.INSTANCE.CurrentlyLoggedInUser!.Username!}";
   }
 }

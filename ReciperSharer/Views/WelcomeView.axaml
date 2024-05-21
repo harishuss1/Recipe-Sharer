@@ -16,9 +16,8 @@
               BorderThickness="1"
               BorderBrush="Gray">
       <DataGrid.Columns>
-        <DataGridTextColumn Header="User Id" Binding="{Binding Id}"/>
-        <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}"/>
-        <DataGridTextColumn Header="Username"  Binding="{Binding Name}"/>
+        <DataGridTextColumn Header="User Id" Binding="{Binding UserId}"/>
+        <DataGridTextColumn Header="Username"  Binding="{Binding Username}"/>
       </DataGrid.Columns>
     </DataGrid>
     <StackPanel HorizontalAlignment="Center"

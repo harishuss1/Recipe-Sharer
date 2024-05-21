@@ -20,6 +20,17 @@ public class RecipeSharerContext : DbContext
       public string ServiceName { get; set; }
       public string UserName { get; set; }
       public string Password { get; set; }
+
+      private static RecipeSharerContext? _instance;
+      /// <summary>
+      /// Should use this instance instead of creating a new one
+      /// </summary>
+      public static RecipeSharerContext INSTANCE
+      {
+            get => _instance ??= new();
+      }
+
+
       public RecipeSharerContext()
       {
             HostName = Environment.GetEnvironmentVariable("ORACLE_DB_HOST");

@@ -1,6 +1,7 @@
 ﻿﻿using System.Reactive.Linq;
 using System;
 using ReactiveUI;
+using Users;
 
 namespace RecipeShare.ViewModels;
 
