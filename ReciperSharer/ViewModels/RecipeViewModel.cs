@@ -3,6 +3,8 @@ using System.Reactive;
 using RecipeShare.Controllers;
 using RecipeShare.Models;
 using ReactiveUI;
+using Recipes;
+using Users;
 namespace RecipeShare.ViewModels;
 
 public class RecipeViewModel : ViewModelBase

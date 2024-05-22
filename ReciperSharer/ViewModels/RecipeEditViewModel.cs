@@ -7,6 +7,7 @@ namespace RecipeShare.ViewModels;
 
 public class RecipeEditViewModel : ViewModelBase
 {
+    private readonly RecipeOperations _recipeOperations;
     private Recipe _currentRecipe;
     public Recipe CurrentRecipe
     {
@@ -14,8 +15,10 @@ public class RecipeEditViewModel : ViewModelBase
         set => SetProperty(ref _currentRecipe, value);
     }
 
-     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
+    public ReactiveCommand<Unit, Unit> SaveCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
+    public ReactiveCommand<Unit, Unit> EditIngredientsCommand { get; }
+    public ReactiveCommand<Unit, Unit> EditInstructionsCommand { get; }
 
 
    public RecipeViewModel(RecipeOperations recipeOperations)
@@ -23,7 +26,8 @@ public class RecipeEditViewModel : ViewModelBase
         _recipeOperations = recipeOperations;
         Recipes = new ObservableCollection<Recipe>(_recipeOperations.ViewUserRecipes());
 
-        EditRecipeCommand = ReactiveCommand.Create<Recipe>(EditRecipe);
+        EditIngredientsCommand = ReactiveCommand.Create(EditIngredients);
+        EditInstructionsCommand = ReactiveCommand.Create(EditInstructions);
 
         SaveCommand = ReactiveCommand.Create(SaveEdit);
         CancelCommand = ReactiveCommand.Create(CancelEdit);

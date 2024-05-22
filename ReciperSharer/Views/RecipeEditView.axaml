@@ -5,32 +5,35 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="RecipeShare.Views.EditRecipeView">
 <DockPanel LastChildFill="True">
-        <!-- Sidebar -->
-        <StackPanel DockPanel.Dock="Left" Width="200" Background="#b4caec">
-            <Button Content="Recipe" Margin="10"/>
-            <Button Content="Rating" Margin="10"/>
-            <Button Content="Search" Margin="10"/>
-            <Button Content="Make A Recipe" Margin="10"/>
-            <Button Content="Profile" Margin="10"/>
-            <Button Content="Log out" Margin="10"/>
-
-        </StackPanel>
-
-
-
     <StackPanel DockPanel.Dock="Right" Padding="20">
         <TextBlock Text="Edit Recipe (Recipe Name)" FontSize="20" FontWeight="Bold"/>
         <TextBox Text="{Binding CurrentRecipe.Name}" Margin="5"/>
-        <TextBox Text="{Binding CurrentRecipe.Servings}" Margin="5"/>
-        <TextBox Text="{Binding CurrentRecipe.PrepTime}" Margin="5"/>
-        <Button Content="Edit Ingredients" Margin="5"/>
-        <Button Content="Edit Instructions" Margin="5"/>
+        <TextBox Margin="0 5"> 
+            Servings 
+        </TextBox>
+        <TextBox Text="{Binding CurrentRecipe.Servings}" Watermark="Enter the servings" Margin="5"/>
+        <TextBox Margin="0 5"> 
+            Prep Time 
+        </TextBox>
+        <TextBox Text="{Binding CurrentRecipe.PrepTime}" Watermark="Enter the prep time" Margin="5"/>
+        <TextBox Margin="0 5"> 
+            Ingredients 
+        </TextBox>
+        <Button Content="Edit Ingredients" 
+            Margin="5"
+            Command="{Binding EditIngredientsCommand}"/>
+        <TextBox Margin="0 5"> 
+            Instructions 
+        </TextBox>
+        <Button Content="Edit Instructions"
+            Margin="5"
+            Command="{Binding EditInstructionsCommand}"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Command="{Binding $parent[Window].DataContext.NavigateToRecipeView}"
+            <Button Command="{Binding SaveCommand}"
               Content="Save"
               x:CompileBindings="False"
               Margin="5"/>
-            <Button Command="{Binding $parent[Window].DataContext.NavigateToRecipeView}"
+            <Button Command="{Binding CancelCommand}"
               Content="Cancel"
               x:CompileBindings="False"
               Margin="5"/>

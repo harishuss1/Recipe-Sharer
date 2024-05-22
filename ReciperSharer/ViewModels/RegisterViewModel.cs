@@ -1,9 +1,8 @@
 using System;
 using System.Reactive;
 using RecipeShare.Controllers;
-using RecipeShare.Models;
 using ReactiveUI;
-using User;
+using Users;
 namespace RecipeShare.ViewModels;
 
 public class RegisterViewModel : ViewModelBase
