@@ -6,13 +6,25 @@
              x:DataType="vm:LoggedInViewModel"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="RecipeShare.Views.LoggedInView">
-  <StackPanel HorizontalAlignment="Center"
-              VerticalAlignment="Center"
-              Spacing="25">
-    <TextBlock FontSize="18" FontWeight="Bold">Logged In!</TextBlock>
-    <TextBlock Text="{Binding Greeting}"/>
-    <Button Command="{Binding Logout}"
-            Content="Log Out"
-            x:CompileBindings="False"/>
-  </StackPanel>
+  <Grid>
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="25">
+      <TextBlock FontSize="18" FontWeight="Bold">Logged In!</TextBlock>
+      <TextBlock Text="{Binding Greeting}"/>
+      <Button Command="{Binding Logout}"
+              Content="Log Out"
+              x:CompileBindings="False"/>
+    </StackPanel>
+
+    <StackPanel VerticalAlignment="Top">
+      <Button Content="Recipe" Command="{Binding ShowRecipeCommand}" Margin="10" />
+      <Button Content="Rating" Command="{Binding ShowRatingCommand}" Margin="10" />
+      <Button Content="Search" Command="{Binding ShowSearchCommand}" Margin="10" />
+      <Button Content="Make A Recipe" Command="{Binding ShowMakeRecipeCommand}" Margin="10" />
+      <Button Content="Profile" Command="{Binding ShowProfileCommand}" Margin="10" />
+      <Button Content="Log Out" Command="{Binding Logout}" Margin="10" />
+    </StackPanel>
+  </Grid>
+
 </UserControl>
