@@ -7,6 +7,7 @@
              x:DataType="vm:RecipesViewModel"
              x:Class="RecipeShare.Views.RecipesView">
   <StackPanel>
+    <TextBlock Text="{Binding ErrorMessage}"/>
     <ListBox ItemsSource="{Binding Recipes}">
       <ListBox.ItemTemplate>
           <DataTemplate>
