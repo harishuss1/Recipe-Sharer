@@ -5,18 +5,32 @@ using ReactiveUI;
 using Recipes;
 using System.Collections.ObjectModel;
 using Users;
+using Context;
 namespace RecipeShare.ViewModels;
 
 public class RecipeEditViewModel : ViewModelBase
 {
-    //private readonly RecipeOperations _recipeOperations;
-    //private readonly User owner;
+    
+    private User _currentUser;
+    public User CurrentUser {
+        get => _currentUser;
+        set => this.RaiseAndSetIfChanged(ref _currentUser, value);
+    }
+
+    public string Name { get; set; }
+    public string ShortDescription { get; set; }
+    public TimeSpan PreparationTime { get; set; }
+    public TimeSpan CookingTime { get; set; }
+    public TimeSpan TotalTime => PreparationTime + CookingTime;
+    public int Servings { get; set; }
     private Recipe _currentRecipe;
     public Recipe CurrentRecipe
     {
         get => _currentRecipe;
         set => this.RaiseAndSetIfChanged(ref _currentRecipe, value);
     }
+    private readonly RecipeSharerContext _recipeSharerContext;
+    private readonly RecipeOperations _recipeOperations;
     public ObservableCollection<Recipe> Recipes { get; }
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
@@ -24,10 +38,19 @@ public class RecipeEditViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> EditInstructionsCommand { get; }
 
 
-   public RecipeEditViewModel(/*RecipeOperations recipeOperations, User owner*/)
+   public RecipeEditViewModel(RecipeSharerContext recipeSharerContext, RecipeOperations recipeOperations, Recipe currentRecipe)
     {
-        //_recipeOperations = recipeOperations;
+        _recipeSharerContext = recipeSharerContext;
+        _recipeOperations = recipeOperations;
+        _currentRecipe = currentRecipe;
         //Recipes = new ObservableCollection<Recipe>(_recipeOperations.ViewUserRecipes(/*owner*/));
+
+        CurrentUser = _currentRecipe.Owner;
+        Name = _currentRecipe.Name;
+        ShortDescription = _currentRecipe.ShortDescription;
+        PreparationTime = _currentRecipe.PreparationTime;
+        CookingTime = _currentRecipe.CookingTime;
+        Servings = _currentRecipe.Servings;
 
         EditIngredientsCommand = ReactiveCommand.Create(EditIngredients);
         EditInstructionsCommand = ReactiveCommand.Create(EditInstructions);
@@ -48,6 +71,14 @@ public class RecipeEditViewModel : ViewModelBase
 
     private void SaveEdit()
     {
+        _currentRecipe.Owner = CurrentUser;
+        _currentRecipe.Name = Name;
+        _currentRecipe.ShortDescription = ShortDescription;
+        _currentRecipe.PreparationTime = PreparationTime;
+        _currentRecipe.CookingTime = CookingTime;
+        _currentRecipe.Servings = Servings;
+        Recipe updatedRecipe = new Recipe(CurrentUser, _currentRecipe.Name, _currentRecipe.ShortDescription, _currentRecipe.Ingredients, _currentRecipe.PreparationTime, _currentRecipe.CookingTime, _currentRecipe.Servings);
+        _recipeOperations.UpdateRecipe(_currentUser, _currentRecipe, updatedRecipe);
         //_recipeOperations.UpdateRecipe(owner, CurrentRecipe, CurrentRecipe);
         // Optionally navigate back or refresh the list
     }

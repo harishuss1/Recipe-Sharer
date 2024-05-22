@@ -15,6 +15,10 @@
             </TextBlock>
             <TextBox Text="{Binding CurrentRecipe.Name}" Watermark="Enter the new name" Margin="5"/>
             <TextBlock Margin="0 5"> 
+                Short Description 
+            </TextBlock>
+            <TextBox Text="{Binding CurrentRecipe.ShortDescription}" Watermark="Enter the new description" Margin="5"/>
+            <TextBlock Margin="0 5"> 
                 Servings 
             </TextBlock>
             <TextBox Text="{Binding CurrentRecipe.Servings}" Watermark="Enter the new servings" Margin="5"/>
@@ -22,6 +26,10 @@
                 Prep Time 
             </TextBlock>
             <TextBox Text="{Binding CurrentRecipe.PreparationTime}" Watermark="Enter the new preparation time" Margin="5"/>
+            <TextBlock Margin="0 5"> 
+                Cooking Time 
+            </TextBlock>
+            <TextBox Text="{Binding CurrentRecipe.CookingTime}" Watermark="Enter the new cooking time" Margin="5"/>
             <TextBlock Margin="0 5"> 
                 Ingredients 
             </TextBlock>

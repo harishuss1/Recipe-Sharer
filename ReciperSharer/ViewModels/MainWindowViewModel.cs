@@ -3,6 +3,7 @@ using System;
 using ReactiveUI;
 using Users;
 using Recipes;
+using Context;
 using System.Reactive;
 
 namespace RecipeShare.ViewModels;
@@ -75,8 +76,9 @@ public class MainWindowViewModel : ViewModelBase
   private void NavigateToEditRecipe()
   {
     var recipeOperations = new RecipeOperations(); // Create or get the instance
-    var user = new User(); // Create or get the instance
-    RecipeEditViewModel viewModel = new(/*recipeOperations, user*/);
+    var recipe = new Recipe();
+    var recipeSharerContext = new RecipeSharerContext(); // Create or get the instance
+    RecipeEditViewModel viewModel = new(recipeSharerContext, recipeOperations, recipe);
     ContentViewModel = viewModel;
   }
 
