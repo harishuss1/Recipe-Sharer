@@ -23,5 +23,11 @@ public class LoggedInViewModel : ViewModelBase
     Logout = ReactiveCommand.Create(() => UserController.INSTANCE.Logout());
     Greeting =
       $"Hello {UserController.INSTANCE.CurrentlyLoggedInUser!.Username!}";
+
+      ShowRecipeCommand = ReactiveCommand.Create(() => {  });
+        ShowRatingCommand = ReactiveCommand.Create(() => {  });
+        ShowSearchCommand = ReactiveCommand.Create(() => {  });
+        ShowMakeRecipeCommand = ReactiveCommand.Create(() => {  });
+        ShowProfileCommand = ReactiveCommand.Create(() => {  });
   }
 }

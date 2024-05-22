@@ -60,7 +60,37 @@ public class MainWindowViewModel : ViewModelBase
     LoggedInViewModel viewModel = new();
 
     viewModel.Logout.Subscribe(_ => NavigateToWelcome());
+    viewModel.ShowRecipeCommand.Subscribe (_1 => NavigateToRecipes());
+    viewModel.ShowRatingCommand.Subscribe (_2 => NavigateToRatings());
+    viewModel.ShowSearchCommand.Subscribe (_3 => NavigateToSearch());
+    viewModel.ShowMakeRecipeCommand.Subscribe (_4 => NavigateToMakeRecipe() );
+    viewModel.ShowProfileCommand.Subscribe (_5 => NavigateToProfile());
 
     ContentViewModel = viewModel;
   }
+   public void NavigateToRecipes()
+    {
+        ContentViewModel = new RecipesViewModel();
+    }
+
+    public void NavigateToRatings()
+    {
+        ContentViewModel = new RatingsViewModel();
+    }
+
+    public void NavigateToSearch()
+    {
+        ContentViewModel = new SearchViewModel();
+    }
+
+    public void NavigateToMakeRecipe()
+    {
+        ContentViewModel = new MakeRecipeViewModel();
+    }
+
+    public void NavigateToProfile()
+    {
+        ContentViewModel = new ProfileViewModel();
+    }
+
 }
