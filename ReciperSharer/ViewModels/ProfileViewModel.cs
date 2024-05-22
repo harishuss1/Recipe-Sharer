@@ -38,41 +38,33 @@ public class ProfileViewModel : ViewModelBase
         Description = currentUser.Description;  
 
         // Initialize commands
-        ViewUserRecipesCommand = ReactiveCommand.Create(ViewUserRecipes);
-        ViewFavoriteRecipesCommand = ReactiveCommand.Create(ViewFavoriteRecipes);
         DeleteAccountCommand = ReactiveCommand.Create(DeleteAccount);
-        EditProfileCommand = ReactiveCommand.Create(EditProfile);
-        GoBackCommand = ReactiveCommand.Create(() => MainWindowViewModel.Instance.NavigateToLoggedIn());
-
 
     }
-    private void GoBack()
-    {
-        MainWindowViewModel.Instance.ContentViewModel = new LoggedInViewModel();
-    }
 
-    private void UpdateProfile()
-    {
-        // Update the user's profile here
-    }
 
-    private void ViewUserRecipes()
-    {
-        // Logic to display user recipes
-    }
+    // private void UpdateProfile()
+    // {
+    //     // Update the user's profile here
+    // }
 
-    private void ViewFavoriteRecipes()
-    {
-        // Logic to display favorite recipes
-    }
+    // private void ViewUserRecipes()
+    // {
+    //     // Logic to display user recipes
+    // }
+
+    // private void ViewFavoriteRecipes()
+    // {
+    //     // Logic to display favorite recipes
+    // }
 
     private void DeleteAccount()
     {
         // Logic to delete user account
     }
 
-    private void EditProfile()
-    {
-        // Logic to edit user profile
-    }
+    // private void EditProfile()
+    // {
+    //     // Logic to edit user profile
+    // }
 }

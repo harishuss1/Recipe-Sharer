@@ -15,7 +15,7 @@ public class LoggedInViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> ShowRecipeCommand { get; }
     public ReactiveCommand<Unit, Unit> ShowRatingCommand { get; }
     public ReactiveCommand<Unit, Unit> ShowSearchCommand { get; }
-    public ReactiveCommand<Unit, Unit> ShowCreateRecipeCommand { get; }
+    public ReactiveCommand<Unit, Unit> ShowMakeRecipeCommand { get; }
     public ReactiveCommand<Unit, Unit> ShowProfileCommand { get; }
 
   public LoggedInViewModel()
@@ -24,10 +24,5 @@ public class LoggedInViewModel : ViewModelBase
     Greeting =
       $"Hello {UserController.INSTANCE.CurrentlyLoggedInUser!.Username!}";
 
-        ShowRecipeCommand = ReactiveCommand.Create(() => MainWindowViewModel.Instance.NavigateToRecipes());
-        ShowRatingCommand = ReactiveCommand.Create(() => MainWindowViewModel.Instance.NavigateToRatings());
-        ShowSearchCommand = ReactiveCommand.Create(() => MainWindowViewModel.Instance.NavigateToSearch());
-        ShowCreateRecipeCommand = ReactiveCommand.Create(() => MainWindowViewModel.Instance.NavigateToCreateRecipe());
-        ShowProfileCommand = ReactiveCommand.Create(() => MainWindowViewModel.Instance.NavigateToProfile());
   }
 }
