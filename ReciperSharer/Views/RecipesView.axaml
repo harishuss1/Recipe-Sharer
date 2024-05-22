@@ -62,7 +62,7 @@
                         </ListBox>
                       </TreeViewItem>
                     </TreeViewItem>
-                    <Button Content="Delete" Command="{Binding Delete}" Margin="10" />
+                    <Button Content="Delete" Command="{Binding $parent[ListBox].((vm:RecipesViewModel)DataContext).Delete}" CommandParameter="{Binding RecipeId}" Margin="10" />
                   </TreeView>
               </StackPanel>
           </DataTemplate>

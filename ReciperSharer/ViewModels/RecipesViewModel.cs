@@ -12,7 +12,7 @@ public class RecipesViewModel : ViewModelBase
 {
     public ObservableCollection<Recipe> Recipes { get; }
 
-    public ReactiveCommand<Recipe, Unit> Delete {get; }
+    public ReactiveCommand<int, Unit> Delete {get; }
     
     public ReactiveCommand<Unit, Unit> Home { get; }
 
@@ -21,8 +21,8 @@ public class RecipesViewModel : ViewModelBase
         Recipes = new(UserController.INSTANCE!.GetUserRecipes());
         Home = ReactiveCommand.Create(() => { });
 
-        Delete = ReactiveCommand.Create<Recipe>((Recipe r) => {
-            UserController.INSTANCE!.DeleteRecipe(r);
+        Delete = ReactiveCommand.Create<int>((int recipeId) => {
+            UserController.INSTANCE!.DeleteRecipe(recipeId);
         });
     }
 
