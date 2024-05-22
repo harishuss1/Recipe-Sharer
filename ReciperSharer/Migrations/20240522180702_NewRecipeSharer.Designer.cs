@@ -12,8 +12,8 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace RecipeShare.Migrations
 {
     [DbContext(typeof(RecipeSharerContext))]
-    [Migration("20240518224727_RSMigrations")]
-    partial class RSMigrations
+    [Migration("20240522180702_NewRecipeSharer")]
+    partial class NewRecipeSharer
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

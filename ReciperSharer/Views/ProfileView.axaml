@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="using:RecipeShare.ViewModels"
+             x:DataType="vm:ProfileViewModel"
+             x:Class="RecipeShare.Views.ProfileView">
+
+ <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+        <TextBlock Text="User Profile" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+        <Ellipse Width="100" Height="100" Fill="Gray" HorizontalAlignment="Center"/>
+        
+        <StackPanel Orientation="Vertical" Spacing="10">
+            <TextBlock Text="Username:" FontWeight="Bold"/>
+            <TextBox Text="{Binding Username}" IsReadOnly="True"/>
+            
+            <TextBlock Text="Bio:" FontWeight="Bold"/>
+            <TextBox Text="{Binding Description}" AcceptsReturn="True" TextWrapping="Wrap" MaxHeight="200"/>
+        </StackPanel>
+
+        <Button Content="View User Recipes" Command="{Binding ViewUserRecipesCommand}" HorizontalAlignment="Stretch"/>
+        <Button Content="View Favorite Recipes" Command="{Binding ViewFavoriteRecipesCommand}" HorizontalAlignment="Stretch"/>
+        
+        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+            <Button Content="Delete Account" Command="{Binding DeleteAccountCommand}" />
+            <Button Content="Edit Profile" Command="{Binding EditProfileCommand}" />
+            <Button Content="Reset Password" Command="{Binding ResetPasswordCommand}" />
+        <Button Content="Change Profile Picture" Command="{Binding ChangeProfilePictureCommand}" />
+            
+        </StackPanel>
+        <StackPanel>
+        <Button Content="Back Home" Command="{Binding GoBackCommand}" HorizontalAlignment="Stretch" />
+        <TextBlock Text="{Binding Message}" />
+        </StackPanel>
+    </StackPanel>
+
+</UserControl>
