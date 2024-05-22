@@ -26,8 +26,11 @@
         <Button Content="Edit Ingredients" Margin="5"/>
         <Button Content="Edit Instructions" Margin="5"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Content="Save" Command="{Binding SaveCommand}" Margin="5"/>
-            <Button Command="{Binding $parent[Window].DataContext.NavigateToWelcome}"
+            <Button Command="{Binding $parent[Window].DataContext.NavigateToRecipeView}"
+              Content="Save"
+              x:CompileBindings="False"
+              Margin="5"/>
+            <Button Command="{Binding $parent[Window].DataContext.NavigateToRecipeView}"
               Content="Cancel"
               x:CompileBindings="False"
               Margin="5"/>
