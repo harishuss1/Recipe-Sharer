@@ -1,11 +1,15 @@
 ﻿﻿using System.Reactive.Linq;
 using System;
 using ReactiveUI;
+using Users;
+using Recipes;
+using System.Reactive;
 
 namespace RecipeShare.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
+  public ReactiveCommand<Unit, Unit> NavigateToEditRecipeCommand { get; }
   private ViewModelBase _contentViewModel;
 
   public ViewModelBase ContentViewModel
@@ -17,6 +21,7 @@ public class MainWindowViewModel : ViewModelBase
   public MainWindowViewModel()
   {
     _contentViewModel = new WelcomeViewModel();
+    NavigateToEditRecipeCommand = ReactiveCommand.Create(NavigateToEditRecipe);
   }
 
   public void NavigateToWelcome()
@@ -63,9 +68,11 @@ public class MainWindowViewModel : ViewModelBase
     ContentViewModel = viewModel;
   }
 
-  public void NavigateToRecipeView()
+  private void NavigateToEditRecipe()
   {
-    RecipeViewModel viewModel = new();
+    var recipeOperations = new RecipeOperations(); // Create or get the instance
+    var user = new User(); // Create or get the instance
+    RecipeEditViewModel viewModel = new(/*recipeOperations, user*/);
     ContentViewModel = viewModel;
   }
 }

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:RecipeShare.ViewModels"
              x:DataType="vm:RegisterViewModel"
-             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="RecipeShare.Views.RegisterView">
   <DockPanel>
     <StackPanel DockPanel.Dock="Bottom"
@@ -26,7 +26,7 @@
       <TextBlock Margin="0 5">
         Username:
       </TextBlock>
-      <TextBox Text="{Binding Name}"
+      <TextBox Text="{Binding Username}"
                 Watermark="Enter your username"/>
       <TextBlock Margin="0 5">
         Password:
@@ -40,11 +40,7 @@
       <TextBox Text="{Binding ConfirmPassword}"
                 Watermark="Confirm your password"
                 PasswordChar="*"/>
-      <TextBlock Margin="0 5">
-        Display Name:
-      </TextBlock>
-      <TextBox Text="{Binding DisplayName}"
-                Watermark="Enter your display name"/>
     </StackPanel>
   </DockPanel>
+
 </UserControl>

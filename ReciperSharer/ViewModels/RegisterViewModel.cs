@@ -3,22 +3,23 @@ using System.Reactive;
 using RecipeShare.Controllers;
 using ReactiveUI;
 using Users;
+
 namespace RecipeShare.ViewModels;
 
 public class RegisterViewModel : ViewModelBase
 {
   private User UserToRegister { get; } = new();
 
-  private string? _name;
+  private string? _username;
 
-  public string? Name
+  public string? Username
   {
-    get => _name;
+    get => _username;
     set
     {
-      UserToRegister.Name = value;
+      UserToRegister.Username = value;
 
-      this.RaiseAndSetIfChanged(ref _name, value);
+      this.RaiseAndSetIfChanged(ref _username, value);
     }
   }
 
@@ -61,17 +62,17 @@ public class RegisterViewModel : ViewModelBase
     }
   }
 
-  private string? _displayName;
-  public string? DisplayName
-  {
-    get => _displayName;
-    set
-    {
-      UserToRegister.DisplayName = value;
+  // private string? _displayName;
+  // public string? DisplayName
+  // {
+  //   get => _displayName;
+  //   set
+  //   {
+  //     UserToRegister.DisplayName = value;
 
-      this.RaiseAndSetIfChanged(ref _displayName, value);
-    }
-  }
+  //     this.RaiseAndSetIfChanged(ref _displayName, value);
+  //   }
+  // }
 
   private string? _errorMessage;
   public string? ErrorMessage

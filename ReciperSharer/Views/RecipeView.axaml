@@ -5,20 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="RecipeShare.Views.RecipeView">
    <DockPanel LastChildFill="True">
-        <!-- Sidebar -->
-        <StackPanel DockPanel.Dock="Left" Width="200" Background="#b4caec">
-            <Button Content="Recipe" Margin="10"/>
-            <Button Content="Rating" Margin="10"/>
-            <Button Content="Search" Margin="10"/>
-            <Button Content="Make A Recipe" Margin="10"/>
-            <Button Content="Profile" Margin="10"/>
-            <Button Content="Log out" Margin="10"/>
-
-        </StackPanel>
-
-
-
-<StackPanel DockPanel.Dock="Right">
+<!-- <StackPanel DockPanel.Dock="Right">
     <TextBlock Text="View Your Recipes:" Foreground="White" FontWeight="Bold" FontSize="18"/>
     <TreeView Items="{Binding Recipes}">
         <TreeView.ItemTemplate>
@@ -61,6 +48,6 @@
             </HierarchicalDataTemplate>
         </TreeView.ItemTemplate>
     </TreeView>
-</StackPanel>
+</StackPanel> -->
 </DockPanel>
 </UserControl>

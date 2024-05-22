@@ -2,42 +2,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:RecipeShare.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="RecipeShare.Views.EditRecipeView">
+             x:Class="RecipeShare.Views.RecipeEditView"
+             x:DataType="vm:RecipeEditViewModel"> 
 <DockPanel LastChildFill="True">
-    <StackPanel DockPanel.Dock="Right" Padding="20">
-        <TextBlock Text="Edit Recipe (Recipe Name)" FontSize="20" FontWeight="Bold"/>
-        <TextBox Text="{Binding CurrentRecipe.Name}" Margin="5"/>
-        <TextBox Margin="0 5"> 
-            Servings 
-        </TextBox>
-        <TextBox Text="{Binding CurrentRecipe.Servings}" Watermark="Enter the servings" Margin="5"/>
-        <TextBox Margin="0 5"> 
-            Prep Time 
-        </TextBox>
-        <TextBox Text="{Binding CurrentRecipe.PrepTime}" Watermark="Enter the prep time" Margin="5"/>
-        <TextBox Margin="0 5"> 
-            Ingredients 
-        </TextBox>
-        <Button Content="Edit Ingredients" 
-            Margin="5"
-            Command="{Binding EditIngredientsCommand}"/>
-        <TextBox Margin="0 5"> 
-            Instructions 
-        </TextBox>
-        <Button Content="Edit Instructions"
-            Margin="5"
-            Command="{Binding EditInstructionsCommand}"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Command="{Binding SaveCommand}"
-              Content="Save"
-              x:CompileBindings="False"
-              Margin="5"/>
-            <Button Command="{Binding CancelCommand}"
-              Content="Cancel"
-              x:CompileBindings="False"
-              Margin="5"/>
+    <Border DockPanel.Dock="Right" Padding="20">
+        <StackPanel>
+            <TextBlock Text="Edit Recipe (Recipe Name)" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Margin="0 5"> 
+                Recipe Name 
+            </TextBlock>
+            <TextBox Text="{Binding CurrentRecipe.Name}" Watermark="Enter the new name" Margin="5"/>
+            <TextBlock Margin="0 5"> 
+                Servings 
+            </TextBlock>
+            <TextBox Text="{Binding CurrentRecipe.Servings}" Watermark="Enter the new servings" Margin="5"/>
+            <TextBlock Margin="0 5"> 
+                Prep Time 
+            </TextBlock>
+            <TextBox Text="{Binding CurrentRecipe.PreparationTime}" Watermark="Enter the new preparation time" Margin="5"/>
+            <TextBlock Margin="0 5"> 
+                Ingredients 
+            </TextBlock>
+            <Button Content="Edit Ingredients" 
+                Margin="5"
+                Command="{Binding EditIngredientsCommand}"/>
+            <TextBlock Margin="0 5"> 
+                Instructions 
+            </TextBlock>
+            <Button Content="Edit Instructions"
+                Margin="5"
+                Command="{Binding EditInstructionsCommand}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                <Button Command="{Binding SaveCommand}"
+                Content="Save"
+                x:CompileBindings="False"
+                Margin="5"/>
+                <Button Command="{Binding CancelCommand}"
+                Content="Cancel"
+                x:CompileBindings="False"
+                Margin="5"/>
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+    </Border>
 </DockPanel>
 </UserControl>

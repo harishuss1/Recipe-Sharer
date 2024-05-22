@@ -1,30 +1,33 @@
 using System;
 using System.Reactive;
 using RecipeShare.Controllers;
-using RecipeShare.Models;
 using ReactiveUI;
+using Recipes;
+using System.Collections.ObjectModel;
+using Users;
 namespace RecipeShare.ViewModels;
 
 public class RecipeEditViewModel : ViewModelBase
 {
-    private readonly RecipeOperations _recipeOperations;
+    //private readonly RecipeOperations _recipeOperations;
+    //private readonly User owner;
     private Recipe _currentRecipe;
     public Recipe CurrentRecipe
     {
         get => _currentRecipe;
-        set => SetProperty(ref _currentRecipe, value);
+        set => this.RaiseAndSetIfChanged(ref _currentRecipe, value);
     }
-
+    public ObservableCollection<Recipe> Recipes { get; }
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
     public ReactiveCommand<Unit, Unit> EditIngredientsCommand { get; }
     public ReactiveCommand<Unit, Unit> EditInstructionsCommand { get; }
 
 
-   public RecipeViewModel(RecipeOperations recipeOperations)
+   public RecipeEditViewModel(/*RecipeOperations recipeOperations, User owner*/)
     {
-        _recipeOperations = recipeOperations;
-        Recipes = new ObservableCollection<Recipe>(_recipeOperations.ViewUserRecipes());
+        //_recipeOperations = recipeOperations;
+        //Recipes = new ObservableCollection<Recipe>(_recipeOperations.ViewUserRecipes(/*owner*/));
 
         EditIngredientsCommand = ReactiveCommand.Create(EditIngredients);
         EditInstructionsCommand = ReactiveCommand.Create(EditInstructions);
@@ -33,15 +36,19 @@ public class RecipeEditViewModel : ViewModelBase
         CancelCommand = ReactiveCommand.Create(CancelEdit);
     }
 
-    private void EditRecipe(Recipe recipe)
+    private void EditIngredients()
     {
-        CurrentRecipe = recipe;
         // Navigate to EditRecipeView with CurrentRecipe bound to the view
+    }
+
+    private void EditInstructions()
+    {
+
     }
 
     private void SaveEdit()
     {
-        _recipeOperations.UpdateRecipe(CurrentRecipe);
+        //_recipeOperations.UpdateRecipe(owner, CurrentRecipe, CurrentRecipe);
         // Optionally navigate back or refresh the list
     }
 

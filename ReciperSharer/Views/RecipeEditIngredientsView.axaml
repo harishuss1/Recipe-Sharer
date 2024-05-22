@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="RecipeShare.Views.RecipeEditIngredientsView">
   
-  <DockPanel LastChildFill="True">
+  <!-- <DockPanel LastChildFill="True">
     <StackPanel DockPanel.Dock="Right" Padding="20">
         <TextBlock Text="Edit (Recipe's Name) Ingredients" FontSize="20" FontWeight="Bold"/>
         <TextBox Text="{Binding CurrentRecipe.Name}" Margin="5"/>
@@ -24,5 +24,5 @@
               Margin="5"/>
         </StackPanel>
     </StackPanel>
-</DockPanel>
+</DockPanel> -->
 </UserControl>

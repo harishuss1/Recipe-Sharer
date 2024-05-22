@@ -6,24 +6,25 @@
              x:DataType="vm:LoggedInViewModel"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="RecipeShare.Views.LoggedInView">
-   <DockPanel LastChildFill="True">
-        <!-- Sidebar -->
-        <StackPanel DockPanel.Dock="Left" Width="200" Background="#b4caec">
-            <Button Content="Recipe" Margin="10"/>
-            <Button Content="Rating" Margin="10"/>
-            <Button Content="Search" Margin="10"/>
-            <Button Content="Make A Recipe" Margin="10"/>
-            <Button Content="Profile" Margin="10"/>
-            <Button Content="Log out" Margin="10"/>
+  <Grid>
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="25">
+      <TextBlock FontSize="18" FontWeight="Bold">Logged In!</TextBlock>
+      <TextBlock Text="{Binding Greeting}"/>
+      <Button Command="{Binding Logout}"
+              Content="Log Out"
+              x:CompileBindings="False"/>
+    </StackPanel>
 
-        </StackPanel>
+    <StackPanel VerticalAlignment="Top">
+      <Button Content="Recipe" Command="{Binding ShowRecipeCommand}" Margin="10" />
+      <Button Content="Rating" Command="{Binding ShowRatingCommand}" Margin="10" />
+      <Button Content="Search" Command="{Binding ShowSearchCommand}" Margin="10" />
+      <Button Content="Make A Recipe" Command="{Binding ShowMakeRecipeCommand}" Margin="10" />
+      <Button Content="Profile" Command="{Binding ShowProfileCommand}" Margin="10" />
+      <Button Content="Log Out" Command="{Binding Logout}" Margin="10" />
+    </StackPanel>
+  </Grid>
 
-        <!-- Main Content Area -->
-        <Border Background="Black" />
-        <StackPanel DockPanel.Dock="Right" Background="#b4caec" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock FontSize="18" FontWeight="Bold"  Margin="10">Logged In!</TextBlock>
-            <TextBlock FontSize="16" FontWeight="Bold"  Margin="10">You may now choose a task!</TextBlock>
-        </StackPanel>
-    </DockPanel>
-  
 </UserControl>
