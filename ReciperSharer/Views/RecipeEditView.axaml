@@ -25,11 +25,11 @@
             <TextBlock Margin="0 5"> 
                 Prep Time 
             </TextBlock>
-            <TextBox Text="{Binding CurrentRecipe.PreparationTime}" Watermark="Enter the new preparation time" Margin="5"/>
+            <TextBox Text="{Binding PreparationTime, Mode=TwoWay}" Watermark="Enter the new preparation time" Margin="5"/>
             <TextBlock Margin="0 5"> 
                 Cooking Time 
             </TextBlock>
-            <TextBox Text="{Binding CurrentRecipe.CookingTime}" Watermark="Enter the new cooking time" Margin="5"/>
+            <TextBox Text="{Binding CookingTime, Mode=TwoWay}" Watermark="Enter the new cooking time" Margin="5"/>
             <TextBlock Margin="0 5"> 
                 Ingredients 
             </TextBlock>

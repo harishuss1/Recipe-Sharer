@@ -19,8 +19,18 @@ public class RecipeEditViewModel : ViewModelBase
 
     public string Name { get; set; }
     public string ShortDescription { get; set; }
-    public TimeSpan PreparationTime { get; set; }
-    public TimeSpan CookingTime { get; set; }
+    private TimeSpan _preparationTime;
+    public TimeSpan PreparationTime
+    {
+        get => _preparationTime;
+        set => this.RaiseAndSetIfChanged(ref _preparationTime, value);
+    }
+    private TimeSpan _cookingTime;
+    public TimeSpan CookingTime
+    {
+        get => _cookingTime;
+        set => this.RaiseAndSetIfChanged(ref _cookingTime, value);
+    }
     public TimeSpan TotalTime => PreparationTime + CookingTime;
     public int Servings { get; set; }
     private Recipe _currentRecipe;
