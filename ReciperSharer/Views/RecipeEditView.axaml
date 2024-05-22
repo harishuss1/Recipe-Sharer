@@ -33,7 +33,7 @@
             </TextBlock>
             <Button Content="Edit Instructions"
                 Margin="5"
-                Command="{Binding EditInstructionsCommand}"/>
+                Command="{Binding $parent[Window].DataContext.NavigateToEditRecipeStepCommand}" x:CompileBindings="False"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                 <Button Command="{Binding SaveCommand}"
                 Content="Save"

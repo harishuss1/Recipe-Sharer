@@ -11,6 +11,7 @@ public class MainWindowViewModel : ViewModelBase
 {
   public ReactiveCommand<Unit, Unit> NavigateToEditRecipeCommand { get; }
   public ReactiveCommand<Unit, Unit> NavigateToEditRecipeIngredientCommand { get; }
+  public ReactiveCommand<Unit, Unit> NavigateToEditRecipeStepCommand { get; }
   private ViewModelBase _contentViewModel;
 
   public ViewModelBase ContentViewModel
@@ -24,6 +25,7 @@ public class MainWindowViewModel : ViewModelBase
     _contentViewModel = new WelcomeViewModel();
     NavigateToEditRecipeCommand = ReactiveCommand.Create(NavigateToEditRecipe);
     NavigateToEditRecipeIngredientCommand = ReactiveCommand.Create(NavigateToEditRecipeIngredient);
+    NavigateToEditRecipeStepCommand = ReactiveCommand.Create(NavigateToEditRecipeStep);
   }
 
   public void NavigateToWelcome()
@@ -81,6 +83,12 @@ public class MainWindowViewModel : ViewModelBase
   private void NavigateToEditRecipeIngredient()
   {
     RecipeEditIngredientsViewModel viewModel = new();
+    ContentViewModel = viewModel;
+  }
+
+  private void NavigateToEditRecipeStep()
+  {
+    RecipeEditStepsViewModel viewModel = new();
     ContentViewModel = viewModel;
   }
 }
