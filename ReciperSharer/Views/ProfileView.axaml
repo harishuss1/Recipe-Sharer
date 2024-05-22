@@ -26,6 +26,12 @@
         <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
             <Button Content="Delete Account" Command="{Binding DeleteAccountCommand}" />
             <Button Content="Edit Profile" Command="{Binding EditProfileCommand}" />
+            <Button Content="Reset Password" Command="{Binding ResetPasswordCommand}" />
+        <Button Content="Change Profile Picture" Command="{Binding ChangeProfilePictureCommand}" />
+            
+        </StackPanel>
+        <StackPanel>
+        <Button Content="Back Home" Command="{Binding GoBackCommand}" HorizontalAlignment="Stretch" />
         </StackPanel>
     </StackPanel>
 

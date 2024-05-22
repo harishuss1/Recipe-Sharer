@@ -90,7 +90,10 @@ public class MainWindowViewModel : ViewModelBase
 
     public void NavigateToProfile()
     {
-        ContentViewModel = new ProfileViewModel();
+      ProfileViewModel viewModel = new();
+      viewModel.GoBackCommand.Subscribe (_ => NavigateToLoggedIn());
+
+        ContentViewModel = viewModel;
     }
 
 }
