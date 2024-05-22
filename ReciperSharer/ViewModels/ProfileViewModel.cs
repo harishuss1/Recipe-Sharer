@@ -24,6 +24,13 @@ public class ProfileViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _description, value);
     }
 
+    private string _message;
+    public string Message
+    {
+        get => _message;
+        set => this.RaiseAndSetIfChanged(ref _message, value);
+    }
+
 
 
     public ReactiveCommand<Unit, Unit> ViewUserRecipesCommand { get; }
@@ -54,10 +61,18 @@ public class ProfileViewModel : ViewModelBase
 
 
 
-    private void DeleteAccount()
+private void DeleteAccount()
+{
+    bool isDeleted = UserServices.INSTANCE.DeleteUser(_username);
+    if(isDeleted)
     {
-        
+        Message = "Account deleted successfully.";
     }
+    else
+    {
+            Message = "Failed to delete account.";
+    }
+}
 
     private void EditProfile()
     {

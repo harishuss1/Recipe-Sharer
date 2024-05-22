@@ -32,6 +32,7 @@
         </StackPanel>
         <StackPanel>
         <Button Content="Back Home" Command="{Binding GoBackCommand}" HorizontalAlignment="Stretch" />
+        <TextBlock Text="{Binding Message}" />
         </StackPanel>
     </StackPanel>
 

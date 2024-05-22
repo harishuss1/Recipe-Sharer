@@ -24,7 +24,7 @@ public class UserServices
         get => _instance ??= new();
     }
 
-    private UserServices(){ }
+    private UserServices() { }
 
     public User? CurrentlyLoggedInUser { get; private set; }
 
@@ -157,10 +157,10 @@ public class UserServices
     }
 
     // deletes a user when the username and password is correct
-    public bool DeleteUser(string username, string password)
+    public bool DeleteUser(string username)
     {
         User user = GetUser(username);
-        if (user.DeleteUser(password))
+        if (user != null)
         {
             _context.Remove(user);
             _context.SaveChanges();
