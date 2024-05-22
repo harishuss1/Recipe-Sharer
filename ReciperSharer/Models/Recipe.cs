@@ -88,11 +88,21 @@ public class Recipe
         }
     }
     public List<Step> Steps { get; set; }
+
+    [NotMapped]
     public ObservableCollection<Step> OSteps {get {
+        if (Steps == null){
+            return new();
+        }
         return new(Steps);
     }}
     public List<Ingredient> Ingredients { get; set; }
+
+    [NotMapped]
     public ObservableCollection<Ingredient> OIngredients {get {
+        if (Ingredients == null){
+            return new();
+        }
         return new(Ingredients);
     }}
     public List<Rating> Ratings { get; set; }
