@@ -3,8 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="RecipeShare.Views.EditRecipeView">
-<DockPanel LastChildFill="True">
+             x:Class="RecipeShare.Views.RecipeEditIngredientsView">
+  
+  <DockPanel LastChildFill="True">
         <!-- Sidebar -->
         <StackPanel DockPanel.Dock="Left" Width="200" Background="#b4caec">
             <Button Content="Recipe" Margin="10"/>
@@ -26,8 +27,11 @@
         <Button Content="Edit Ingredients" Margin="5"/>
         <Button Content="Edit Instructions" Margin="5"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Content="Save" Command="{Binding SaveCommand}" Margin="5"/>
-            <Button Command="{Binding $parent[Window].DataContext.NavigateToWelcome}"
+            <Button Command="{Binding $parent[Window].DataContext.NavigateToRecipeView}"
+              Content="Save"
+              x:CompileBindings="False"
+              Margin="5"/>
+            <Button Command="{Binding $parent[Window].DataContext.NavigateToRecipeView}"
               Content="Cancel"
               x:CompileBindings="False"
               Margin="5"/>

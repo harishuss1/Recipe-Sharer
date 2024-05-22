@@ -62,4 +62,10 @@ public class MainWindowViewModel : ViewModelBase
 
     ContentViewModel = viewModel;
   }
+
+  public void NavigateToRecipeView()
+  {
+    RecipeViewModel viewModel = new();
+    ContentViewModel = viewModel;
+  }
 }
