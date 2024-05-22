@@ -10,6 +10,7 @@ namespace RecipeShare.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
   public ReactiveCommand<Unit, Unit> NavigateToEditRecipeCommand { get; }
+  public ReactiveCommand<Unit, Unit> NavigateToEditRecipeIngredientCommand { get; }
   private ViewModelBase _contentViewModel;
 
   public ViewModelBase ContentViewModel
@@ -22,6 +23,7 @@ public class MainWindowViewModel : ViewModelBase
   {
     _contentViewModel = new WelcomeViewModel();
     NavigateToEditRecipeCommand = ReactiveCommand.Create(NavigateToEditRecipe);
+    NavigateToEditRecipeIngredientCommand = ReactiveCommand.Create(NavigateToEditRecipeIngredient);
   }
 
   public void NavigateToWelcome()
@@ -73,6 +75,12 @@ public class MainWindowViewModel : ViewModelBase
     var recipeOperations = new RecipeOperations(); // Create or get the instance
     var user = new User(); // Create or get the instance
     RecipeEditViewModel viewModel = new(/*recipeOperations, user*/);
+    ContentViewModel = viewModel;
+  }
+
+  private void NavigateToEditRecipeIngredient()
+  {
+    RecipeEditIngredientsViewModel viewModel = new();
     ContentViewModel = viewModel;
   }
 }

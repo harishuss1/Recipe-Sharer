@@ -30,7 +30,7 @@
       <Button Command="{Binding $parent[Window].DataContext.NavigateToLogin}"
               Content="Login"
               x:CompileBindings="False"/>
-      <Button Content="Edit Recipe" Command="{Binding $parent[Window].DataContext.NavigateToEditRecipeCommand}" Margin="10" x:CompileBindings="False"/>    
+      <Button Content="Edit Recipe" Command="{Binding $parent[Window].DataContext.NavigateToEditRecipeCommand}" x:CompileBindings="False"/>    
     </StackPanel>
   </DockPanel>
 </UserControl>

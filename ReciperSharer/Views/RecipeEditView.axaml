@@ -27,7 +27,7 @@
             </TextBlock>
             <Button Content="Edit Ingredients" 
                 Margin="5"
-                Command="{Binding EditIngredientsCommand}"/>
+                Command="{Binding $parent[Window].DataContext.NavigateToEditRecipeIngredientCommand}" x:CompileBindings="False"/>
             <TextBlock Margin="0 5"> 
                 Instructions 
             </TextBlock>

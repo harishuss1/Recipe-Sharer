@@ -5,24 +5,36 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="RecipeShare.Views.RecipeEditIngredientsView">
   
-  <!-- <DockPanel LastChildFill="True">
-    <StackPanel DockPanel.Dock="Right" Padding="20">
+  <DockPanel LastChildFill="True">
+    <StackPanel DockPanel.Dock="Right">
         <TextBlock Text="Edit (Recipe's Name) Ingredients" FontSize="20" FontWeight="Bold"/>
-        <TextBox Text="{Binding CurrentRecipe.Name}" Margin="5"/>
-        <TextBox Text="{Binding CurrentRecipe.Servings}" Margin="5"/>
-        <TextBox Text="{Binding CurrentRecipe.PrepTime}" Margin="5"/>
-        <Button Content="Edit Ingredients" Margin="5"/>
-        <Button Content="Edit Instructions" Margin="5"/>
+        <!-- <DataGrid Items="{Binding Ingredients}" AutoGenerateColumns="True">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
+            <DataGridTextColumn Header="Unit" Binding="{Binding Unit}"/>
+            <Button Command="{Binding DeleteIngredientCommand}"
+                Content="Delete"
+                x:CompileBindings="False"
+                Margin="5"/>
+        </DataGrid.Columns>
+    </DataGrid> -->
+        <StackPanel>
+          <Button Command="{Binding AddIngredientCommand}"
+                Content="Add New Ingredient"
+                x:CompileBindings="False"
+                Margin="5"/>
+        </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Command="{Binding $parent[Window].DataContext.NavigateToRecipeView}"
+            <Button Command="{Binding SaveCommand}"
               Content="Save"
               x:CompileBindings="False"
               Margin="5"/>
-            <Button Command="{Binding $parent[Window].DataContext.NavigateToRecipeView}"
+            <Button Command="{Binding CancelCommand}"
               Content="Cancel"
               x:CompileBindings="False"
               Margin="5"/>
         </StackPanel>
     </StackPanel>
-</DockPanel> -->
+</DockPanel>
 </UserControl>
