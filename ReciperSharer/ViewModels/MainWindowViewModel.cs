@@ -63,4 +63,28 @@ public class MainWindowViewModel : ViewModelBase
 
     ContentViewModel = viewModel;
   }
+  // public void NavigateToRecipes()
+  //   {
+  //       ContentViewModel = new RecipesViewModel();
+  //   }
+
+  //   public void NavigateToRatings()
+  //   {
+  //       ContentViewModel = new RatingsViewModel();
+  //   }
+
+  //   public void NavigateToSearch()
+  //   {
+  //       ContentViewModel = new SearchViewModel();
+  //   }
+
+  //   public void NavigateToCreateRecipe()
+  //   {
+  //       ContentViewModel = new CreateRecipeViewModel();
+  //   }
+
+    public void NavigateToProfile()
+    {
+        ContentViewModel = new ProfileViewModel();
+    }
 }
