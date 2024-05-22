@@ -6,6 +6,7 @@ using System.Text;
 using Context;
 using RecipeSharer;
 using Users;
+using Recipes;
 
 namespace RecipeShare.Controllers;
 
@@ -72,7 +73,7 @@ public class UserController
     if (user.Username == null){
         throw new ArgumentException("Please enter a username");
     }
-    user = new UserServices(RecipeSharerContext.INSTANCE!).AddUser(user.Username, password);
+    UserServices.INSTANCE!.AddUser(user.Username, password);
 
 
     return user;
@@ -107,5 +108,13 @@ public class UserController
   public void Logout()
   {
     CurrentlyLoggedInUser = null;
+  }
+
+  public List<Recipe> GetUserRecipes(){
+    if (CurrentlyLoggedInUser == null)
+    {
+      throw new InvalidOperationException("User not logged in");
+    }
+    return RecipeOperations.INSTANCE!.ViewUserRecipes(CurrentlyLoggedInUser);
   }
 }

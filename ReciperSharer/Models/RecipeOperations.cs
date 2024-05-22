@@ -18,6 +18,12 @@ public class RecipeOperations
     {
 
     }
+    private static RecipeOperations? _instance;
+
+    public static RecipeOperations INSTANCE
+      {
+            get => _instance ??= new(RecipeSharerContext.INSTANCE!);
+      }
 
     public void AddRecipe(User user, Recipe recipe)
     {

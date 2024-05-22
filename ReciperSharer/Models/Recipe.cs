@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 public class Recipe
 {
@@ -87,7 +88,13 @@ public class Recipe
         }
     }
     public List<Step> Steps { get; set; }
+    public ObservableCollection<Step> OSteps {get {
+        return new(Steps);
+    }}
     public List<Ingredient> Ingredients { get; set; }
+    public ObservableCollection<Ingredient> OIngredients {get {
+        return new(Ingredients);
+    }}
     public List<Rating> Ratings { get; set; }
 
     // [InverseProperty("TaggedRecipes")]
