@@ -107,8 +107,21 @@ public class Recipe
     }}
     public List<Rating> Ratings { get; set; }
 
+    [NotMapped]
+    public double ORating {get {
+        return RatingOperations.INSTANCE!.ViewRating(this);
+    }}
+
     // [InverseProperty("TaggedRecipes")]
     public List<Tag> Tags { get; set; }
+
+    [NotMapped]
+    public ObservableCollection<Tag> OTags {get {
+        if (Tags == null){
+            return new();
+        }
+        return new(Tags);
+    }}
 
     //[InverseProperty("UserFavouriteRecipes")]
     public List<User> FavoritedBy {get; set;}

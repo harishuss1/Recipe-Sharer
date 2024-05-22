@@ -13,6 +13,7 @@
               <StackPanel Orientation="Horizontal">
                   <TreeView>
                     <TreeViewItem Header="{Binding Name}">
+                      <TreeViewItem Header="{Binding ORating}/10" />
                       <TreeViewItem Header="{Binding ShortDescription}"/>
                       <TreeViewItem Header="{Binding PreparationTime}" />
                       <TreeViewItem Header="{Binding CookingTime}" />
@@ -21,7 +22,15 @@
                         <ListBox ItemsSource="{Binding OIngredients}">
                           <ListBox.ItemTemplate>
                             <DataTemplate>
-                              <TreeViewItem Header="{Binding Name} {Binding Quantity} {Binding UnitOfMass}"/>
+                              <TextBlock>
+                                <TextBlock.Text>    
+                                    <MultiBinding StringFormat="{}{0}, {1}{2}">
+                                        <Binding Path="Name" />
+                                        <Binding Path="Quantity" />
+                                        <Binding Path="UnitOfMass" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                              </TextBlock>
                             </DataTemplate>
                           </ListBox.ItemTemplate>
                         </ListBox>
@@ -30,9 +39,24 @@
                         <ListBox ItemsSource="{Binding OSteps}">
                           <ListBox.ItemTemplate>
                             <DataTemplate>
-                              <TreeViewItem Header="{Binding Number}">
-                                <TreeViewItem Header="{Binding Description}" />
-                              </TreeViewItem>
+                              <TextBlock>
+                                <TextBlock.Text>    
+                                    <MultiBinding StringFormat="{}{0}: {1}">
+                                        <Binding Path="Number" />
+                                        <Binding Path="Description" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                              </TextBlock>
+                            </DataTemplate>
+                          </ListBox.ItemTemplate>
+                        </ListBox>
+                      </TreeViewItem>
+                      <TreeViewItem Header="Tags">
+                        <ListBox ItemsSource="{Binding OTags}">
+                          <ListBox.ItemTemplate>
+                            <DataTemplate>
+                              <TextBlock Text="{Binding Name}">
+                              </TextBlock>
                             </DataTemplate>
                           </ListBox.ItemTemplate>
                         </ListBox>
