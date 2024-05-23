@@ -81,6 +81,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         RecipesViewModel viewModel = new();
         viewModel.Home.Subscribe(_ => NavigateToLoggedIn());
+        viewModel.Edit.Subscribe(recipeId => NavigateToEditRecipe(recipeId));
 
         ContentViewModel = viewModel;
     }
@@ -109,13 +110,11 @@ public class MainWindowViewModel : ViewModelBase
     }
 
 
-  private void NavigateToEditRecipe()
+  private void NavigateToEditRecipe(int? recipeId)
   {
-    var recipeOperations = new RecipeOperations(); 
-    var recipe = new Recipe();
-    var recipeSharerContext = new RecipeSharerContext(); 
-    RecipeEditViewModel viewModel = new(recipeSharerContext, recipeOperations, recipe);
-    ContentViewModel = viewModel;
+    RecipeEditViewModel viewModel = new(recipeId);
+    viewModel.SaveCommand.Subscribe(_ => NavigateToRecipes());
+    viewModel.CancelCommand.Subscribe(_ => NavigateToRecipes());
   }
 
   private void NavigateToEditRecipeIngredient()

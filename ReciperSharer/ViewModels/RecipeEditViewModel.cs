@@ -52,66 +52,127 @@ public class RecipeEditViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _currentRecipe, value);
     }
 
+    private ObservableCollection<Ingredient> _ingredients;
+    public ObservableCollection<Ingredient> Ingredients {
+        get => _ingredients;
+        set => this.RaiseAndSetIfChanged(ref _ingredients, value);
+    }
+
+    private ObservableCollection<Step> _steps;
+    public ObservableCollection<Step> Steps {
+        get => _steps;
+        set => this.RaiseAndSetIfChanged(ref _steps, value);
+    }
+
+    private ObservableCollection<Tag> _tags;
+    public ObservableCollection<Tag> Tags {
+        get => _tags;
+        set => this.RaiseAndSetIfChanged(ref _tags, value);
+    }
+
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
-    // public ReactiveCommand<Unit, Unit> AddIngredient { get; }
-    // public ReactiveCommand<int, Unit> RemoveIngredient { get; }
-    // public ReactiveCommand<Unit, Unit> AddStep { get; }
-    // public ReactiveCommand<int, Unit> RemoveStep { get; }
-
-
-    // public ReactiveCommand<Unit, Unit> EditIngredientsCommand { get; }
-    // public ReactiveCommand<Unit, Unit> EditInstructionsCommand { get; }
+    public ReactiveCommand<Unit, Unit> AddIngredient { get; }
+    public ReactiveCommand<int, Unit> RemoveIngredient { get; }
+    public ReactiveCommand<Unit, Unit> AddStep { get; }
+    public ReactiveCommand<int, Unit> RemoveStep { get; }
+    public ReactiveCommand<Unit, Unit> AddTag { get; }
+    public ReactiveCommand<int, Unit> RemoveTag { get; }
 
 
     public RecipeEditViewModel(int? RecipeId)
     {
+        //Id isn't null, so edit recipe
         if (RecipeId != null){
             try{
                 CurrentRecipe = RecipeOperations.INSTANCE!.GetRecipe((int)RecipeId);
                 Title = $"Edit Recipe: {Name}";
+
+                //Insert current Values into the fields
+                Name = CurrentRecipe.Name;
+                ShortDescription = CurrentRecipe.ShortDescription;
+                PreparationTime = CurrentRecipe.PreparationTime;
+                CookingTime = CurrentRecipe.CookingTime;
+                Servings = CurrentRecipe.Servings;
+                Ingredients = CurrentRecipe.OIngredients;
+                Steps = CurrentRecipe.OSteps;
+                Tags = CurrentRecipe.OTags;
+
+                
+                SaveCommand = ReactiveCommand.Create(() => {
+                    Recipe newRecipe = new(UserController.INSTANCE!.CurrentlyLoggedInUser,
+                                                                    Name, 
+                                                                    ShortDescription, 
+                                                                    Ingredients, 
+                                                                    PreperationTime, 
+                                                                    CookingTime, 
+                                                                    Servings);
+                    UserController.INSTANCE!.EditRecipe(CurrentRecipe, newRecipe);
+                });
             }
             catch(Exception e){
                 ErrorMessage = e.Message;
             }
-            SaveCommand = ReactiveCommand.Create(() => {
-                
-            })
-        }
-        else if (RecipeId == null){
-            Title = "Create New Recipe";
-            CurrentRecipe = new();
+            
         }
 
+        // Id is null, so create new recipe 
+        else {
+            try {
+                Title = "Create New Recipe";
+                CurrentRecipe = new();
+
+                Ingredients = new();
+                Steps = new();
+                Tags= new();
+
+                SaveCommand = ReactiveCommand.Create(() => {
+                    Recipe newRecipe = new(UserController.INSTANCE!.CurrentlyLoggedInUser,
+                                                                    Name, 
+                                                                    ShortDescription, 
+                                                                    Ingredients, 
+                                                                    PreperationTime, 
+                                                                    CookingTime, 
+                                                                    Servings);
+                    UserController.INSTANCE!.CreateRecipe(newRecipe);
+                });
+                
+            }
+            catch(Exception e){
+                ErrorMessage = e.Message;
+            }
+        }
+
+        //These are assigned whether editing or adding:
+        CancelCommand = ReactiveCommand.Create(() => { });
+
+        //Ingredients:
+        AddIngredient = ReactiveCommand.Create(() => {
+            Ingredients.Add(new Ingredient());
+        });
+        RemoveIngredient = ReactiveCommand.Create((index) => {
+            Ingredients.RemoveAt(index);
+        });
+
+        //Steps:
+        AddStep = ReactiveCommand.Create(() => {
+            Steps.Add(new Step());
+            Steps[-1].Number = Steps.Count;
+        });
+        RemoveStep = ReactiveCommand.Create((index) => {
+            Steps.RemoveAt(index);
+            for (int i=0; i < Steps.Count; i++){
+                Steps[i].Number = i+1;
+            }
+        });
+
+        //Tags:
+        AddTag = ReactiveCommand.Create(() => {
+            Tags.Add(new Tag());
+        });
+        RemoveTag = ReactiveCommand.Create((index) => {
+            Tags.RemoveAt(index);
+        });
 
     }
-
-    // private void EditIngredients()
-    // {
-    //     // Navigate to EditRecipeView with CurrentRecipe bound to the view
-    // }
-
-    // private void EditInstructions()
-    // {
-
-    // }
-
-    // private void SaveEdit()
-    // {
-    //     _currentRecipe.Owner = CurrentUser;
-    //     _currentRecipe.Name = Name;
-    //     _currentRecipe.ShortDescription = ShortDescription;
-    //     _currentRecipe.PreparationTime = PreparationTime;
-    //     _currentRecipe.CookingTime = CookingTime;
-    //     _currentRecipe.Servings = Servings;
-    //     Recipe updatedRecipe = new Recipe(CurrentUser, _currentRecipe.Name, _currentRecipe.ShortDescription, _currentRecipe.Ingredients, _currentRecipe.PreparationTime, _currentRecipe.CookingTime, _currentRecipe.Servings);
-    //     _recipeOperations.UpdateRecipe(_currentUser, _currentRecipe, updatedRecipe);
-    //     //_recipeOperations.UpdateRecipe(owner, CurrentRecipe, CurrentRecipe);
-    //     // Optionally navigate back or refresh the list
-    // }
-
-    // private void CancelEdit()
-    // {
-    //     // Optionally navigate back or clear CurrentRecipe
-    // }
 }

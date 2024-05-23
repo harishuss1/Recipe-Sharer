@@ -9,19 +9,20 @@
 <DockPanel LastChildFill="True">
     <Border DockPanel.Dock="Right" Padding="20">
         <StackPanel>
-            <TextBlock Text="Edit Recipe (Recipe Name)" FontSize="20" FontWeight="Bold"/>
+            
+            <TextBlock Text="Binding Title" FontSize="20" FontWeight="Bold"/>
             <TextBlock Margin="0 5"> 
                 Recipe Name 
             </TextBlock>
-            <TextBox Text="{Binding CurrentRecipe.Name}" Watermark="Enter the new name" Margin="5"/>
+            <TextBox Text="{Binding Name}" Watermark="Enter the new name" Margin="5"/>
             <TextBlock Margin="0 5"> 
                 Short Description 
             </TextBlock>
-            <TextBox Text="{Binding CurrentRecipe.ShortDescription}" Watermark="Enter the new description" Margin="5"/>
+            <TextBox Text="{Binding ShortDescription}" Watermark="Enter the new description" Margin="5"/>
             <TextBlock Margin="0 5"> 
                 Servings 
             </TextBlock>
-            <TextBox Text="{Binding CurrentRecipe.Servings}" Watermark="Enter the new servings" Margin="5"/>
+            <TextBox Text="{Binding Servings}" Watermark="Enter the new servings" Margin="5"/>
             <TextBlock Margin="0 5"> 
                 Prep Time 
             </TextBlock>
@@ -30,7 +31,7 @@
                 Cooking Time 
             </TextBlock>
             <TextBox Text="{Binding CookingTime, Mode=TwoWay}" Watermark="Enter the new cooking time" Margin="5"/>
-            <TextBlock Margin="0 5"> 
+            <!-- <TextBlock Margin="0 5"> 
                 Ingredients 
             </TextBlock>
             <Button Content="Edit Ingredients" 
@@ -41,7 +42,7 @@
             </TextBlock>
             <Button Content="Edit Instructions"
                 Margin="5"
-                Command="{Binding $parent[Window].DataContext.NavigateToEditRecipeStepCommand}" x:CompileBindings="False"/>
+                Command="{Binding $parent[Window].DataContext.NavigateToEditRecipeStepCommand}" x:CompileBindings="False"/> -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                 <Button Command="{Binding SaveCommand}"
                 Content="Save"
