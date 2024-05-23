@@ -171,6 +171,14 @@ public class RecipeOperations
         return recipes;
     }
 
+    public Recipe GetRecipe(int recipeId){
+        Recipe recipe = _context.Recipes.Where(r => r.RecipeId == recipeId).Include(r => r.Ingredients).Include(r => r.Steps).Include(r => r.Tags).Include(r => r.Ratings).First();
+        if (recipe == null){
+            throw new ArgumentException("Recipe not found");
+        }
+        return recipe;
+    }
+
     //View user's recipe lists
     public List<Recipe> ViewUserRecipes(User owner)
     {
