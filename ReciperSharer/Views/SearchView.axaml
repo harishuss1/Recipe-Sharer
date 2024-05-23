@@ -8,7 +8,8 @@
              x:Class="RecipeShare.Views.SearchView">
  <StackPanel>
     <TextBox Text="{Binding Keyword}" Watermark="Enter keyword..."/>
-    <Button Content="Search" Command="{Binding SearchCommand}"/>
+    <Button Content="Search" Command="{Binding SearchCommand}" HorizontalAlignment="Stretch"/>
+    <Button Content="Back Home" Command="{Binding GoBackCommand}" HorizontalAlignment="Stretch" />
      <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
     <ListBox ItemsSource="{Binding SearchResults}">
       <ListBox.ItemTemplate>

@@ -34,10 +34,14 @@ public class SearchViewModel : ViewModelBase
     private readonly Search _search;
 
     public ReactiveCommand<Unit, Unit> SearchCommand { get; }
+    public ReactiveCommand<Unit, Unit> GoBackCommand { get; }
+
     public SearchViewModel()
     {               
         _search = Search.INSTANCE;
         SearchCommand = ReactiveCommand.Create(SearchButton);
+        GoBackCommand = ReactiveCommand.Create(() => {  });
+
     }
 
     private void SearchButton()
