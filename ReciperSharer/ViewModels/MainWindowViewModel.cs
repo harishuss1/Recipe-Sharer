@@ -95,7 +95,7 @@ public class MainWindowViewModel : ViewModelBase
 
   public void NavigateToProfile()
   {
-    ProfileViewModel viewModel = new ();
+    ProfileViewModel viewModel = new(() => NavigateToRecipes());
     viewModel.GoBackCommand.Subscribe(_ =>
     {
       if (viewModel.IsAccountDeleted)

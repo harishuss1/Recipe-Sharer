@@ -15,7 +15,7 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
             <Button Content="Save" Command="{Binding SaveCommand}"/>
-            <Button Content="Cancel" Command="{Binding CancelCommand}"/>
+            <Button Content="Done" Command="{Binding CancelCommand}"/>
         </StackPanel>
     </StackPanel>
 </UserControl>
