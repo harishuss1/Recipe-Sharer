@@ -96,7 +96,17 @@ public class MainWindowViewModel : ViewModelBase
   public void NavigateToProfile()
   {
     ProfileViewModel viewModel = new ();
-    viewModel.GoBackCommand.Subscribe (_ => NavigateToLoggedIn());
+    viewModel.GoBackCommand.Subscribe(_ =>
+    {
+      if (viewModel.IsAccountDeleted)
+      {
+          NavigateToWelcome();
+      }
+      else
+      {
+          NavigateToLoggedIn();
+      }
+    });
     ContentViewModel = viewModel;
   }
 
