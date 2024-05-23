@@ -95,11 +95,15 @@ public class MainWindowViewModel : ViewModelBase
 
   public void NavigateToProfile()
   {
-    RecipeSharerContext _context = new();
-    UserServices _userServices = new();
-    User _currentUser = new();
-    ProfileViewModel viewModel = new (_context, _userServices, _currentUser);
+    ProfileViewModel viewModel = new ();
     viewModel.GoBackCommand.Subscribe (_ => NavigateToLoggedIn());
     ContentViewModel = viewModel;
   }
+
+  public void NavigateToChangePassword()
+    {
+      ChangePasswordViewModel viewModel = new();
+      viewModel.CancelCommand.Subscribe(_ => NavigateToProfile());
+      ContentViewModel = viewModel;
+    }
 }

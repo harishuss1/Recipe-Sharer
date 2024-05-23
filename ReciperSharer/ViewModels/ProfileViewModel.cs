@@ -50,14 +50,14 @@ public class ProfileViewModel : ViewModelBase
     private User _currentUser;
 
 
-    public ProfileViewModel(RecipeSharerContext context, UserServices userServices, User currentUser)
+    public ProfileViewModel()
     {
         // Initialize properties with the current user's data
-        _context = context;
-        _userServices = userServices;
-        _currentUser = _currentUser;
+        _context = RecipeSharerContext.INSTANCE ?? throw new ArgumentNullException(nameof(RecipeSharerContext.INSTANCE));
+        _userServices = UserServices.INSTANCE ?? throw new ArgumentNullException(nameof(UserServices.INSTANCE));
+        //_currentUser = UserController.INSTANCE.CurrentlyLoggedInUser!.Username!;
 
-        //var currentUser = UserController.INSTANCE.CurrentlyLoggedInUser;
+        _currentUser = UserController.INSTANCE.CurrentlyLoggedInUser ?? throw new InvalidOperationException("No user is currently logged in");
         Username = _currentUser.Username;
         Description = _currentUser.Description;
         // Initialize commands
@@ -71,27 +71,27 @@ public class ProfileViewModel : ViewModelBase
 
 
 
-private void DeleteAccount()
-{
-    // try 
-    // {
-    //     UserController.INSTANCE!.DeleteUser(_currentUser.Username);
-    //     Message = "Account deleted successfully.";
-    // }
-    // catch(Exception e){
-    //     Message = e.Message;
-    // }
-    bool isDeleted = _userServices.DeleteUser(_currentUser.Username);
-    // bool isDeleted = UserServices.INSTANCE.DeleteUser(_username);
-    if(isDeleted)
+    private void DeleteAccount()
     {
-        Message = "Account deleted successfully.";
+        try 
+        {
+            _userServices.DeleteUser(_currentUser.Username);
+            Message = "Account deleted successfully.";
+        }
+        catch(Exception e){
+            Message = e.Message;
+        }
+        // bool isDeleted = _userServices.DeleteUser(_currentUser.Username);
+        // // bool isDeleted = UserServices.INSTANCE.DeleteUser(_username);
+        // if(isDeleted)
+        // {
+        //     Message = "Account deleted successfully.";
+        // }
+        // else
+        // {
+        //         Message = "Failed to delete account.";
+        // }
     }
-    else
-    {
-            Message = "Failed to delete account.";
-    }
-}
 
     private void EditProfile()
     {
