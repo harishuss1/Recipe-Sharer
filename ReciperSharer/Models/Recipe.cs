@@ -144,6 +144,21 @@ public class Recipe
         FavoritedBy = new List<User>();
     }
 
+    public Recipe(User owner, string name, string shortDescription, List<Ingredient> ingredients, TimeSpan preparationTime, TimeSpan cookingTime, int servings, List<Step> steps, List<Tag> tags)
+    {
+        Owner = owner;
+        Name = name;
+        ShortDescription = shortDescription;
+        Ingredients = ingredients ?? new List<Ingredient>();
+        PreparationTime = preparationTime;
+        CookingTime = cookingTime;
+        Servings = servings;
+        Steps = steps;
+        Ratings = new List<Rating>();
+        Tags = tags;
+        FavoritedBy = new List<User>();
+    }
+
 
     public override string ToString()
     {

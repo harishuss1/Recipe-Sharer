@@ -218,4 +218,12 @@ public class RecipeOperations
 
         return favoriteRecipes;
     }
+
+    public List<Tag> GetAllTags(){
+        List<Tag> tags = _context.Tags.ToList();
+        if (tags.Count == 0){
+            throw new ArgumentException("No Tags Found");
+        }
+        return tags;
+    }
 }

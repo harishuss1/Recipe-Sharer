@@ -5,6 +5,7 @@ using Users;
 using Recipes;
 using Context;
 using System.Reactive;
+using RecipeShare.Controllers;
 
 namespace RecipeShare.ViewModels;
 
@@ -24,9 +25,6 @@ public class MainWindowViewModel : ViewModelBase
   public MainWindowViewModel()
   {
     _contentViewModel = new WelcomeViewModel();
-    NavigateToEditRecipeCommand = ReactiveCommand.Create(NavigateToEditRecipe);
-    NavigateToEditRecipeIngredientCommand = ReactiveCommand.Create(NavigateToEditRecipeIngredient);
-    NavigateToEditRecipeStepCommand = ReactiveCommand.Create(NavigateToEditRecipeStep);
   }
 
   public void NavigateToWelcome()
@@ -81,7 +79,8 @@ public class MainWindowViewModel : ViewModelBase
     {
         RecipesViewModel viewModel = new();
         viewModel.Home.Subscribe(_ => NavigateToLoggedIn());
-        viewModel.Edit.Subscribe(recipeId => NavigateToEditRecipe(recipeId));
+        viewModel.Edit.Subscribe(_ => NavigateToEditRecipe());
+        viewModel.NewRecipe.Subscribe(_ => NavigateToEditRecipe());
 
         ContentViewModel = viewModel;
     }
@@ -110,22 +109,10 @@ public class MainWindowViewModel : ViewModelBase
     }
 
 
-  private void NavigateToEditRecipe(int? recipeId)
+  private void NavigateToEditRecipe()
   {
-    RecipeEditViewModel viewModel = new(recipeId);
+    RecipeEditViewModel viewModel = new();
     viewModel.SaveCommand.Subscribe(_ => NavigateToRecipes());
     viewModel.CancelCommand.Subscribe(_ => NavigateToRecipes());
-  }
-
-  private void NavigateToEditRecipeIngredient()
-  {
-    RecipeEditIngredientsViewModel viewModel = new();
-    ContentViewModel = viewModel;
-  }
-
-  private void NavigateToEditRecipeStep()
-  {
-    RecipeEditStepsViewModel viewModel = new();
-    ContentViewModel = viewModel;
   }
 }

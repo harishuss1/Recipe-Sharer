@@ -4,12 +4,14 @@ using RecipeShare.Controllers;
 using ReactiveUI;
 using Recipes;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Users;
 using Context;
 namespace RecipeShare.ViewModels;
 
 public class RecipeEditViewModel : ViewModelBase
 {
+    
     private string? _errorMessage;
     public string? ErrorMessage
     {
@@ -70,18 +72,21 @@ public class RecipeEditViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _tags, value);
     }
 
+    public ObservableCollection<Tag> AllTags {get;}
+
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
     public ReactiveCommand<Unit, Unit> AddIngredient { get; }
-    public ReactiveCommand<int, Unit> RemoveIngredient { get; }
+    public ReactiveCommand<Ingredient, Unit> RemoveIngredient { get; }
     public ReactiveCommand<Unit, Unit> AddStep { get; }
-    public ReactiveCommand<int, Unit> RemoveStep { get; }
+    public ReactiveCommand<Step, Unit> RemoveStep { get; }
     public ReactiveCommand<Unit, Unit> AddTag { get; }
-    public ReactiveCommand<int, Unit> RemoveTag { get; }
+    public ReactiveCommand<Tag, Unit> RemoveTag { get; }
 
 
-    public RecipeEditViewModel(int? RecipeId)
+    public RecipeEditViewModel()
     {
+        int? RecipeId = UserController.INSTANCE!.EdittedRecipeId;
         //Id isn't null, so edit recipe
         if (RecipeId != null){
             try{
@@ -103,11 +108,14 @@ public class RecipeEditViewModel : ViewModelBase
                     Recipe newRecipe = new(UserController.INSTANCE!.CurrentlyLoggedInUser,
                                                                     Name, 
                                                                     ShortDescription, 
-                                                                    Ingredients, 
-                                                                    PreperationTime, 
+                                                                    Ingredients.ToList(), 
+                                                                    PreparationTime, 
                                                                     CookingTime, 
-                                                                    Servings);
+                                                                    Servings,
+                                                                    Steps.ToList(), 
+                                                                    Tags.ToList());
                     UserController.INSTANCE!.EditRecipe(CurrentRecipe, newRecipe);
+                    UserController.INSTANCE!.EdittedRecipeId = null;
                 });
             }
             catch(Exception e){
@@ -130,11 +138,14 @@ public class RecipeEditViewModel : ViewModelBase
                     Recipe newRecipe = new(UserController.INSTANCE!.CurrentlyLoggedInUser,
                                                                     Name, 
                                                                     ShortDescription, 
-                                                                    Ingredients, 
-                                                                    PreperationTime, 
+                                                                    Ingredients.ToList(), 
+                                                                    PreparationTime, 
                                                                     CookingTime, 
-                                                                    Servings);
+                                                                    Servings,
+                                                                    Steps.ToList(), 
+                                                                    Tags.ToList());
                     UserController.INSTANCE!.CreateRecipe(newRecipe);
+                    UserController.INSTANCE!.EdittedRecipeId = null;
                 });
                 
             }
@@ -144,14 +155,18 @@ public class RecipeEditViewModel : ViewModelBase
         }
 
         //These are assigned whether editing or adding:
-        CancelCommand = ReactiveCommand.Create(() => { });
+        AllTags = new(RecipeOperations.INSTANCE!.GetAllTags());
+
+        CancelCommand = ReactiveCommand.Create(() => { 
+            UserController.INSTANCE!.EdittedRecipeId = null;
+        });
 
         //Ingredients:
         AddIngredient = ReactiveCommand.Create(() => {
             Ingredients.Add(new Ingredient());
         });
-        RemoveIngredient = ReactiveCommand.Create((index) => {
-            Ingredients.RemoveAt(index);
+        RemoveIngredient = ReactiveCommand.Create<Ingredient>((Ingredient ingredient) => {
+            Ingredients.Remove(ingredient);
         });
 
         //Steps:
@@ -159,8 +174,8 @@ public class RecipeEditViewModel : ViewModelBase
             Steps.Add(new Step());
             Steps[-1].Number = Steps.Count;
         });
-        RemoveStep = ReactiveCommand.Create((index) => {
-            Steps.RemoveAt(index);
+        RemoveStep = ReactiveCommand.Create<Step>((Step step) => {
+            Steps.Remove(step);
             for (int i=0; i < Steps.Count; i++){
                 Steps[i].Number = i+1;
             }
@@ -170,8 +185,8 @@ public class RecipeEditViewModel : ViewModelBase
         AddTag = ReactiveCommand.Create(() => {
             Tags.Add(new Tag());
         });
-        RemoveTag = ReactiveCommand.Create((index) => {
-            Tags.RemoveAt(index);
+        RemoveTag = ReactiveCommand.Create<Tag>((Tag tag) => {
+            Tags.Remove(tag);
         });
 
     }

@@ -31,7 +31,10 @@ public class UserController
   /// user is logged-in.
   /// </summary>
   public User? CurrentlyLoggedInUser { get; private set; }
+  
 //   private UserServices UServ = new UserServices(RecipeSharerContext.INSTANCE!);
+
+  public int? EdittedRecipeId {get; set;}
 
   private static string ComputeHash(string password)
   {
