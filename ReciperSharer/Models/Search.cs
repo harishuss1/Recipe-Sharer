@@ -6,6 +6,7 @@ using Recipes;
 using Context;
 using Users;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 
 /// <summary>
@@ -157,7 +158,10 @@ public class Search
     public List<Recipe> PerformSearch()
     {
         // Start with all recipes
-        IQueryable<Recipe> query = _context.Recipes;
+        IQueryable<Recipe> query = _context.Recipes
+                                       .Include(r => r.Ingredients)
+                                       .Include(r => r.Steps)
+                                       .Include(r => r.Tags);
 
         // Filter by ingredients
         if (Ingredients.Any())
