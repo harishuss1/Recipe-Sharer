@@ -9,6 +9,7 @@
  <StackPanel>
     <TextBox Text="{Binding Keyword}" Watermark="Enter keyword..."/>
     <Button Content="Search" Command="{Binding SearchCommand}"/>
+     <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
     <ListBox ItemsSource="{Binding SearchResults}">
       <ListBox.ItemTemplate>
           <DataTemplate>

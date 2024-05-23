@@ -34,7 +34,6 @@ public class SearchViewModel : ViewModelBase
     private readonly Search _search;
 
     public ReactiveCommand<Unit, Unit> SearchCommand { get; }
-    public ReactiveCommand<Unit, Unit> ViewAllCommand { get; }
     public SearchViewModel()
     {               
         _search = Search.INSTANCE;
@@ -42,8 +41,14 @@ public class SearchViewModel : ViewModelBase
     }
 
     private void SearchButton()
-    {try
     {
+        try
+    {   
+        if (Keyword != null)
+        {
+            _search.SetKeyword(Keyword);
+        }
+
         var results = _search.PerformSearch();
 
         SearchResults.Clear();

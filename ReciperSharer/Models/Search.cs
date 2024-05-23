@@ -90,8 +90,6 @@ public class Search
     /// <param name="keyword">The keyword for searching.</param>
     public void SetKeyword(string keyword)
     {
-        if (string.IsNullOrWhiteSpace(keyword))
-            throw new ArgumentException("Keyword cannot be empty or whitespace.");
         Keyword = keyword;
     }
     /// <summary>
@@ -178,8 +176,8 @@ public class Search
         // Filter by keyword in name or short description
         if (!string.IsNullOrEmpty(Keyword))
         {
-            query = query.Where(r => r.Name.Contains(Keyword, StringComparison.OrdinalIgnoreCase) ||
-                                     (r.ShortDescription != null && r.ShortDescription.Contains(Keyword, StringComparison.OrdinalIgnoreCase)));
+            query = query.Where(r => EF.Functions.Like(r.Name, $"%{Keyword}%") ||
+                                    (r.ShortDescription != null && EF.Functions.Like(r.ShortDescription, $"%{Keyword}%")));
         }
 
         // Filter by minimum duration
