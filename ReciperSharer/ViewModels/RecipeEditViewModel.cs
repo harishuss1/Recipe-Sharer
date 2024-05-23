@@ -10,15 +10,23 @@ namespace RecipeShare.ViewModels;
 
 public class RecipeEditViewModel : ViewModelBase
 {
-    
-    private User _currentUser;
-    public User CurrentUser {
-        get => _currentUser;
-        set => this.RaiseAndSetIfChanged(ref _currentUser, value);
+    private string? _errorMessage;
+    public string? ErrorMessage
+    {
+        get => _errorMessage;
+        set => this.RaiseAndSetIfChanged(ref _errorMessage, value);
     }
 
-    public string Name { get; set; }
-    public string ShortDescription { get; set; }
+    public string? Title {get;}
+    public string _name;
+    public string Name { 
+        get => _name;
+        set => this.RaiseAndSetIfChanged(ref _name, value); }
+    private string _shortDescription;
+    public string ShortDescription { 
+        get => _shortDescription;
+        set => this.RaiseAndSetIfChanged(ref _shortDescription, value);
+     }
     private TimeSpan _preparationTime;
     public TimeSpan PreparationTime
     {
@@ -32,69 +40,78 @@ public class RecipeEditViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _cookingTime, value);
     }
     public TimeSpan TotalTime => PreparationTime + CookingTime;
-    public int Servings { get; set; }
+    public int _servings;
+    public int Servings{
+        get => _servings;
+        set => this.RaiseAndSetIfChanged(ref _servings, value);
+    }
     private Recipe _currentRecipe;
     public Recipe CurrentRecipe
     {
         get => _currentRecipe;
         set => this.RaiseAndSetIfChanged(ref _currentRecipe, value);
     }
-    private readonly RecipeSharerContext _recipeSharerContext;
-    private readonly RecipeOperations _recipeOperations;
-    public ObservableCollection<Recipe> Recipes { get; }
+
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
     public ReactiveCommand<Unit, Unit> CancelCommand { get; }
-    public ReactiveCommand<Unit, Unit> EditIngredientsCommand { get; }
-    public ReactiveCommand<Unit, Unit> EditInstructionsCommand { get; }
+    // public ReactiveCommand<Unit, Unit> AddIngredient { get; }
+    // public ReactiveCommand<int, Unit> RemoveIngredient { get; }
+    // public ReactiveCommand<Unit, Unit> AddStep { get; }
+    // public ReactiveCommand<int, Unit> RemoveStep { get; }
 
 
-   public RecipeEditViewModel(RecipeSharerContext recipeSharerContext, RecipeOperations recipeOperations, Recipe currentRecipe)
+    // public ReactiveCommand<Unit, Unit> EditIngredientsCommand { get; }
+    // public ReactiveCommand<Unit, Unit> EditInstructionsCommand { get; }
+
+
+    public RecipeEditViewModel(int? RecipeId)
     {
-        _recipeSharerContext = recipeSharerContext;
-        _recipeOperations = recipeOperations;
-        _currentRecipe = currentRecipe;
-        //Recipes = new ObservableCollection<Recipe>(_recipeOperations.ViewUserRecipes(/*owner*/));
+        if (RecipeId != null){
+            try{
+                CurrentRecipe = RecipeOperations.INSTANCE!.GetRecipe((int)RecipeId);
+                Title = $"Edit Recipe: {Name}";
+            }
+            catch(Exception e){
+                ErrorMessage = e.Message;
+            }
+            SaveCommand = ReactiveCommand.Create(() => {
+                
+            })
+        }
+        else if (RecipeId == null){
+            Title = "Create New Recipe";
+            CurrentRecipe = new();
+        }
 
-        CurrentUser = _currentRecipe.Owner;
-        Name = _currentRecipe.Name;
-        ShortDescription = _currentRecipe.ShortDescription;
-        PreparationTime = _currentRecipe.PreparationTime;
-        CookingTime = _currentRecipe.CookingTime;
-        Servings = _currentRecipe.Servings;
-
-        EditIngredientsCommand = ReactiveCommand.Create(EditIngredients);
-        EditInstructionsCommand = ReactiveCommand.Create(EditInstructions);
-
-        SaveCommand = ReactiveCommand.Create(SaveEdit);
-        CancelCommand = ReactiveCommand.Create(CancelEdit);
-    }
-
-    private void EditIngredients()
-    {
-        // Navigate to EditRecipeView with CurrentRecipe bound to the view
-    }
-
-    private void EditInstructions()
-    {
 
     }
 
-    private void SaveEdit()
-    {
-        _currentRecipe.Owner = CurrentUser;
-        _currentRecipe.Name = Name;
-        _currentRecipe.ShortDescription = ShortDescription;
-        _currentRecipe.PreparationTime = PreparationTime;
-        _currentRecipe.CookingTime = CookingTime;
-        _currentRecipe.Servings = Servings;
-        Recipe updatedRecipe = new Recipe(CurrentUser, _currentRecipe.Name, _currentRecipe.ShortDescription, _currentRecipe.Ingredients, _currentRecipe.PreparationTime, _currentRecipe.CookingTime, _currentRecipe.Servings);
-        _recipeOperations.UpdateRecipe(_currentUser, _currentRecipe, updatedRecipe);
-        //_recipeOperations.UpdateRecipe(owner, CurrentRecipe, CurrentRecipe);
-        // Optionally navigate back or refresh the list
-    }
+    // private void EditIngredients()
+    // {
+    //     // Navigate to EditRecipeView with CurrentRecipe bound to the view
+    // }
 
-    private void CancelEdit()
-    {
-        // Optionally navigate back or clear CurrentRecipe
-    }
+    // private void EditInstructions()
+    // {
+
+    // }
+
+    // private void SaveEdit()
+    // {
+    //     _currentRecipe.Owner = CurrentUser;
+    //     _currentRecipe.Name = Name;
+    //     _currentRecipe.ShortDescription = ShortDescription;
+    //     _currentRecipe.PreparationTime = PreparationTime;
+    //     _currentRecipe.CookingTime = CookingTime;
+    //     _currentRecipe.Servings = Servings;
+    //     Recipe updatedRecipe = new Recipe(CurrentUser, _currentRecipe.Name, _currentRecipe.ShortDescription, _currentRecipe.Ingredients, _currentRecipe.PreparationTime, _currentRecipe.CookingTime, _currentRecipe.Servings);
+    //     _recipeOperations.UpdateRecipe(_currentUser, _currentRecipe, updatedRecipe);
+    //     //_recipeOperations.UpdateRecipe(owner, CurrentRecipe, CurrentRecipe);
+    //     // Optionally navigate back or refresh the list
+    // }
+
+    // private void CancelEdit()
+    // {
+    //     // Optionally navigate back or clear CurrentRecipe
+    // }
 }
