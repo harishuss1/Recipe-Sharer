@@ -17,8 +17,13 @@ public class RecipesViewModel : ViewModelBase
         get => _errorMessage;
         set => this.RaiseAndSetIfChanged(ref _errorMessage, value);
     }
+    private ObservableCollection<Recipe> _recipes;
+    public ObservableCollection<Recipe> Recipes {
+    get => _recipes;
+    set => this.RaiseAndSetIfChanged(ref _recipes, value);
+  }
 
-    public ObservableCollection<Recipe> Recipes { get; set; }
+
 
     public ReactiveCommand<int, Unit> Delete {get; }
     
@@ -41,6 +46,7 @@ public class RecipesViewModel : ViewModelBase
             }
             catch(Exception e){
                 ErrorMessage = e.Message;
+                Recipes = new();
             }
         });
     }
