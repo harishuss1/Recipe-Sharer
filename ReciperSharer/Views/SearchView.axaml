@@ -16,12 +16,54 @@
           <DataTemplate>
               <StackPanel Orientation="Horizontal">
                   <TreeView>
-                    <TreeViewItem Header="{Binding Name}">
-                      <TreeViewItem Header="{Binding ORating}/10" />
-                      <TreeViewItem Header="{Binding ShortDescription}"/>
-                      <TreeViewItem Header="{Binding PreparationTime}" />
-                      <TreeViewItem Header="{Binding CookingTime}" />
-                      <TreeViewItem Header="{Binding Servings}" />
+                    <TreeViewItem>
+                      <TreeViewItem.Header>
+                        <TextBlock>
+                          <Run Text="Name: "/>
+                          <Run Text="{Binding Name}"/>
+                        </TextBlock>
+                      </TreeViewItem.Header>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Rating: "/>
+                            <Run Text="{Binding ORating}"/>
+                            <Run Text="/10"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Short Description: "/>
+                            <Run Text="{Binding ShortDescription}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Preparation Time: "/>
+                            <Run Text="{Binding PreparationTime}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Cooking Time: "/>
+                            <Run Text="{Binding CookingTime}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Servings: "/>
+                            <Run Text="{Binding Servings}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
                       <TreeViewItem Header="Ingredients">
                         <ListBox ItemsSource="{Binding OIngredients}">
                           <ListBox.ItemTemplate>
