@@ -68,8 +68,6 @@ public class ProfileViewModel : ViewModelBase
         GoBackCommand = ReactiveCommand.Create(() => {  });
     }
 
-
-
     private void DeleteAccount()
     {
         try 

@@ -107,13 +107,22 @@ public class MainWindowViewModel : ViewModelBase
           NavigateToLoggedIn();
       }
     });
+    viewModel.EditProfileCommand.Subscribe(_ => NavigateToUpdateUserBio());
     ContentViewModel = viewModel;
   }
 
   public void NavigateToChangePassword()
-    {
-      ChangePasswordViewModel viewModel = new();
-      viewModel.CancelCommand.Subscribe(_ => NavigateToProfile());
-      ContentViewModel = viewModel;
-    }
+  {
+    ChangePasswordViewModel viewModel = new();
+    viewModel.CancelCommand.Subscribe(_ => NavigateToProfile());
+    ContentViewModel = viewModel;
+  }
+
+  public void NavigateToUpdateUserBio()
+  {
+    UpdateUserBioViewModel viewModel = new();
+    viewModel.CancelCommand.Subscribe(_ => NavigateToProfile());
+    viewModel.SaveCommand.Subscribe(_ => NavigateToProfile());
+    ContentViewModel = viewModel;
+  }
 }

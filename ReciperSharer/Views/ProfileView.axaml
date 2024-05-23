@@ -17,7 +17,7 @@
             <TextBox Text="{Binding Username}" IsReadOnly="True"/>
             
             <TextBlock Text="Bio:" FontWeight="Bold"/>
-            <TextBox Text="{Binding Description}" AcceptsReturn="True" TextWrapping="Wrap" MaxHeight="200"/>
+            <TextBox Text="{Binding Description}" IsReadOnly="True" TextWrapping="Wrap" MaxHeight="200"/>
         </StackPanel>
 
         <Button Content="View User Recipes" Command="{Binding ViewUserRecipesCommand}" HorizontalAlignment="Stretch"/>

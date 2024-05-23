@@ -142,6 +142,21 @@ public class UserServices
         }
     }
 
+    public bool UpdateUserDescription(User user, string description)
+    {
+        try
+        {
+            user.Description = description;
+            _context.Users.Update(user);
+            _context.SaveChanges();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw new ArgumentException($"Profile description was not updated: {ex.Message}");
+        }
+    }
+
     // removes the users profile in the db
     public void RemoveUserProfile(User user)
     {
