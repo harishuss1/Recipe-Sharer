@@ -18,6 +18,13 @@ public class UserServices
     {
         _context = context;
     }
+    private static UserServices? _instance;
+    public static UserServices INSTANCE
+    {
+        get => _instance ??= new(RecipeSharerContext.INSTANCE!);
+    }
+
+    private UserServices() { }
 
     public User? CurrentlyLoggedInUser { get; private set; }
 
@@ -90,7 +97,8 @@ public class UserServices
         _context.SaveChanges();
         return user;
     }
-    public User AddUser(string username, string password){
+    public User AddUser(string username, string password)
+    {
         if (GetUser(username) != null)
         {
             throw new ArgumentException("This user already exists");
@@ -149,10 +157,10 @@ public class UserServices
     }
 
     // deletes a user when the username and password is correct
-    public bool DeleteUser(string username, string password)
+    public bool DeleteUser(string username)
     {
         User user = GetUser(username);
-        if (user.DeleteUser(password))
+        if (user != null)
         {
             _context.Remove(user);
             _context.SaveChanges();

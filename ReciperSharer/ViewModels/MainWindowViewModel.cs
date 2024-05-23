@@ -69,15 +69,51 @@ public class MainWindowViewModel : ViewModelBase
     LoggedInViewModel viewModel = new();
 
     viewModel.Logout.Subscribe(_ => NavigateToWelcome());
+    viewModel.ShowRecipeCommand.Subscribe (_1 => NavigateToRecipes());
+    viewModel.ShowRatingCommand.Subscribe (_2 => NavigateToRatings());
+    viewModel.ShowSearchCommand.Subscribe (_3 => NavigateToSearch());
+    viewModel.ShowMakeRecipeCommand.Subscribe (_4 => NavigateToMakeRecipe() );
+    viewModel.ShowProfileCommand.Subscribe (_5 => NavigateToProfile());
 
     ContentViewModel = viewModel;
   }
+   public void NavigateToRecipes()
+    {
+        RecipesViewModel viewModel = new();
+        viewModel.Home.Subscribe(_ => NavigateToLoggedIn());
+
+        ContentViewModel = viewModel;
+    }
+
+    public void NavigateToRatings()
+    {
+        ContentViewModel = new RatingsViewModel();
+    }
+
+    public void NavigateToSearch()
+    {
+        ContentViewModel = new SearchViewModel();
+    }
+
+    public void NavigateToMakeRecipe()
+    {
+        ContentViewModel = new MakeRecipeViewModel();
+    }
+
+    public void NavigateToProfile()
+    {
+      ProfileViewModel viewModel = new();
+      viewModel.GoBackCommand.Subscribe (_ => NavigateToLoggedIn());
+
+        ContentViewModel = viewModel;
+    }
+
 
   private void NavigateToEditRecipe()
   {
-    var recipeOperations = new RecipeOperations(); // Create or get the instance
+    var recipeOperations = new RecipeOperations(); 
     var recipe = new Recipe();
-    var recipeSharerContext = new RecipeSharerContext(); // Create or get the instance
+    var recipeSharerContext = new RecipeSharerContext(); 
     RecipeEditViewModel viewModel = new(recipeSharerContext, recipeOperations, recipe);
     ContentViewModel = viewModel;
   }
