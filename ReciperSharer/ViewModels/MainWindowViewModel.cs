@@ -70,7 +70,7 @@ public class MainWindowViewModel : ViewModelBase
     viewModel.ShowRecipeCommand.Subscribe (_1 => NavigateToRecipes());
     viewModel.ShowRatingCommand.Subscribe (_2 => NavigateToRatings());
     viewModel.ShowSearchCommand.Subscribe (_3 => NavigateToSearch());
-    viewModel.ShowMakeRecipeCommand.Subscribe (_4 => NavigateToMakeRecipe() );
+    viewModel.ShowMakeRecipeCommand.Subscribe (_4 => NavigateToEditRecipe() );
     viewModel.ShowProfileCommand.Subscribe (_5 => NavigateToProfile());
 
     ContentViewModel = viewModel;
@@ -95,11 +95,6 @@ public class MainWindowViewModel : ViewModelBase
         ContentViewModel = new SearchViewModel();
     }
 
-    public void NavigateToMakeRecipe()
-    {
-        ContentViewModel = new MakeRecipeViewModel();
-    }
-
     public void NavigateToProfile()
     {
       ProfileViewModel viewModel = new();
@@ -114,5 +109,7 @@ public class MainWindowViewModel : ViewModelBase
     RecipeEditViewModel viewModel = new();
     viewModel.SaveCommand.Subscribe(_ => NavigateToRecipes());
     viewModel.CancelCommand.Subscribe(_ => NavigateToRecipes());
+
+    ContentViewModel = viewModel;
   }
 }

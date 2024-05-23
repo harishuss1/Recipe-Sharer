@@ -10,7 +10,7 @@
     <Border DockPanel.Dock="Right" Padding="20">
         <StackPanel>
             
-            <TextBlock Text="Binding Title" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Bold"/>
             <StackPanel Margin="0 5">
                 <TextBlock > 
                     Recipe Name 
