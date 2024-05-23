@@ -1,3 +1,4 @@
+using System;
 using System.Reactive;
 using RecipeShare.Controllers;
 using ReactiveUI;
@@ -58,7 +59,7 @@ public class ProfileViewModel : ViewModelBase
 
         //var currentUser = UserController.INSTANCE.CurrentlyLoggedInUser;
         Username = _currentUser.Username;
-        Description = _currentUser.Description;  
+        Description = _currentUser.Description;
         // Initialize commands
         DeleteAccountCommand = ReactiveCommand.Create(DeleteAccount);
         EditProfileCommand = ReactiveCommand.Create(EditProfile);
@@ -72,6 +73,14 @@ public class ProfileViewModel : ViewModelBase
 
 private void DeleteAccount()
 {
+    // try 
+    // {
+    //     UserController.INSTANCE!.DeleteUser(_currentUser.Username);
+    //     Message = "Account deleted successfully.";
+    // }
+    // catch(Exception e){
+    //     Message = e.Message;
+    // }
     bool isDeleted = _userServices.DeleteUser(_currentUser.Username);
     // bool isDeleted = UserServices.INSTANCE.DeleteUser(_username);
     if(isDeleted)

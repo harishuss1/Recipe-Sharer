@@ -24,7 +24,7 @@ public class UserServices
         get => _instance ??= new(RecipeSharerContext.INSTANCE!);
     }
 
-    private UserServices() { }
+    public UserServices() { }
 
     public User? CurrentlyLoggedInUser { get; private set; }
 

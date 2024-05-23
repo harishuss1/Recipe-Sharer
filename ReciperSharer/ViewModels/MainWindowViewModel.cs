@@ -99,7 +99,7 @@ public class MainWindowViewModel : ViewModelBase
     UserServices _userServices = new();
     User _currentUser = new();
     ProfileViewModel viewModel = new (_context, _userServices, _currentUser);
-    //viewModel.GoBackCommand.Subscribe (_ => NavigateToLoggedIn());
+    viewModel.GoBackCommand.Subscribe (_ => NavigateToLoggedIn());
     ContentViewModel = viewModel;
   }
 }

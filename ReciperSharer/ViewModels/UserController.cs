@@ -126,4 +126,14 @@ public class UserController
     Recipe recipe = RecipeOperations.INSTANCE!.GetRecipe(recipeId);
     RecipeOperations.INSTANCE!.RemoveRecipe(CurrentlyLoggedInUser, recipe);
   }
+
+  public void DeleteUser(string username)
+  {
+    if (CurrentlyLoggedInUser == null)
+    {
+      throw new InvalidOperationException("User not logged in");
+    }
+    User user = UserServices.INSTANCE!.GetUser(username);
+    UserServices.INSTANCE!.DeleteUser(CurrentlyLoggedInUser.Username);
+  }
 }
