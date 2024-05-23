@@ -117,4 +117,13 @@ public class UserController
     }
     return RecipeOperations.INSTANCE!.ViewUserRecipes(CurrentlyLoggedInUser);
   }
+
+  public void DeleteRecipe(int recipeId){
+    if (CurrentlyLoggedInUser == null)
+    {
+      throw new InvalidOperationException("User not logged in");
+    }
+    Recipe recipe = RecipeOperations.INSTANCE!.GetRecipe(recipeId);
+    RecipeOperations.INSTANCE!.RemoveRecipe(CurrentlyLoggedInUser, recipe);
+  }
 }

@@ -7,6 +7,7 @@
              x:DataType="vm:RecipesViewModel"
              x:Class="RecipeShare.Views.RecipesView">
   <StackPanel>
+    <TextBlock Text="{Binding ErrorMessage}"/>
     <ListBox ItemsSource="{Binding Recipes}">
       <ListBox.ItemTemplate>
           <DataTemplate>
@@ -61,6 +62,7 @@
                           </ListBox.ItemTemplate>
                         </ListBox>
                       </TreeViewItem>
+                      <Button Content="Delete" Command="{Binding $parent[ListBox].((vm:RecipesViewModel)DataContext).Delete}" CommandParameter="{Binding RecipeId}" Margin="10" />
                     </TreeViewItem>
                   </TreeView>
               </StackPanel>
