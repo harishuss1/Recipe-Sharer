@@ -6,7 +6,7 @@ using Users;
 
 namespace RecipeShare.ViewModels;
 
-public class MakeRecipeViewModel : ViewModelBase
+public class MakeRecipeViewModel : ViewModelBase 
 {
 
 }

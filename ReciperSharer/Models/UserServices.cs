@@ -21,7 +21,7 @@ public class UserServices
     private static UserServices? _instance;
     public static UserServices INSTANCE
     {
-        get => _instance ??= new();
+        get => _instance ??= new(RecipeSharerContext.INSTANCE!);
     }
 
     private UserServices() { }

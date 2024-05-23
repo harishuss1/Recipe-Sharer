@@ -70,10 +70,13 @@ public class MainWindowViewModel : ViewModelBase
 
     ContentViewModel = viewModel;
   }
-  public void NavigateToRecipes()
-  {
-      ContentViewModel = new RecipesViewModel();
-  }
+   public void NavigateToRecipes()
+    {
+        RecipesViewModel viewModel = new();
+        viewModel.Home.Subscribe(_ => NavigateToLoggedIn());
+
+        ContentViewModel = viewModel;
+    }
 
   public void NavigateToRatings()
   {

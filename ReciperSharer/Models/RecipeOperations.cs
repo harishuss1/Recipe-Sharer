@@ -18,6 +18,12 @@ public class RecipeOperations
     {
 
     }
+    private static RecipeOperations? _instance;
+
+    public static RecipeOperations INSTANCE
+      {
+            get => _instance ??= new(RecipeSharerContext.INSTANCE!);
+      }
 
     public void AddRecipe(User user, Recipe recipe)
     {
@@ -157,12 +163,20 @@ public class RecipeOperations
     //View all recipes
     public List<Recipe> ViewRecipes()
     {
-        var recipes = _context.Recipes.ToList();
+        var recipes = _context.Recipes.Include(r => r.Ingredients).Include(r => r.Steps).Include(r => r.Tags).Include(r => r.Ratings).ToList();
         if (recipes == null || recipes.Count == 0)
         {
             throw new ArgumentException("No Recipes Found");
         }
         return recipes;
+    }
+
+    public Recipe GetRecipe(int recipeId){
+        Recipe recipe = _context.Recipes.Where(r => r.RecipeId == recipeId).Include(r => r.Ingredients).Include(r => r.Steps).Include(r => r.Tags).Include(r => r.Ratings).First();
+        if (recipe == null){
+            throw new ArgumentException("Recipe not found");
+        }
+        return recipe;
     }
 
     //View user's recipe lists
@@ -173,7 +187,7 @@ public class RecipeOperations
             throw new ArgumentNullException(nameof(owner), "Owner cannot be null.");
         }
 
-        var userRecipes = _context.Recipes.Where(r => r.Owner == owner).ToList();
+        var userRecipes = _context.Recipes.Where(r => r.Owner == owner).Include(r => r.Ingredients).Include(r => r.Steps).Include(r => r.Tags).Include(r => r.Ratings).ToList();
 
         if (userRecipes.Count == 0)
         {
