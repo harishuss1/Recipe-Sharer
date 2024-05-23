@@ -2,6 +2,7 @@ using System.Reactive;
 using RecipeShare.Controllers;
 using ReactiveUI;
 using Users;
+using Context;
 using RecipeSharer;
 
 namespace RecipeShare.ViewModels;
@@ -43,13 +44,21 @@ public class ProfileViewModel : ViewModelBase
 
     public ReactiveCommand<Unit, Unit> GoBackCommand { get; }
 
+    private readonly RecipeSharerContext _context;
+    private readonly UserServices _userServices;
+    private User _currentUser;
 
-    public ProfileViewModel()
+
+    public ProfileViewModel(RecipeSharerContext context, UserServices userServices, User currentUser)
     {
         // Initialize properties with the current user's data
-        var currentUser = UserController.INSTANCE.CurrentlyLoggedInUser;
-        Username = currentUser.Username;
-        Description = currentUser.Description;  
+        _context = context;
+        _userServices = userServices;
+        _currentUser = _currentUser;
+
+        //var currentUser = UserController.INSTANCE.CurrentlyLoggedInUser;
+        Username = _currentUser.Username;
+        Description = _currentUser.Description;  
         // Initialize commands
         DeleteAccountCommand = ReactiveCommand.Create(DeleteAccount);
         EditProfileCommand = ReactiveCommand.Create(EditProfile);
@@ -63,7 +72,8 @@ public class ProfileViewModel : ViewModelBase
 
 private void DeleteAccount()
 {
-    bool isDeleted = UserServices.INSTANCE.DeleteUser(_username);
+    bool isDeleted = _userServices.DeleteUser(_currentUser.Username);
+    // bool isDeleted = UserServices.INSTANCE.DeleteUser(_username);
     if(isDeleted)
     {
         Message = "Account deleted successfully.";

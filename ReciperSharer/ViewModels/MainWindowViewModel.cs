@@ -2,6 +2,8 @@
 using System;
 using ReactiveUI;
 using Users;
+using Context;
+using RecipeSharer;
 
 namespace RecipeShare.ViewModels;
 
@@ -68,32 +70,33 @@ public class MainWindowViewModel : ViewModelBase
 
     ContentViewModel = viewModel;
   }
-   public void NavigateToRecipes()
-    {
-        ContentViewModel = new RecipesViewModel();
-    }
+  public void NavigateToRecipes()
+  {
+      ContentViewModel = new RecipesViewModel();
+  }
 
-    public void NavigateToRatings()
-    {
-        ContentViewModel = new RatingsViewModel();
-    }
+  public void NavigateToRatings()
+  {
+      ContentViewModel = new RatingsViewModel();
+  }
 
-    public void NavigateToSearch()
-    {
-        ContentViewModel = new SearchViewModel();
-    }
+  public void NavigateToSearch()
+  {
+      ContentViewModel = new SearchViewModel();
+  }
 
-    public void NavigateToMakeRecipe()
-    {
-        ContentViewModel = new MakeRecipeViewModel();
-    }
+  public void NavigateToMakeRecipe()
+  {
+      ContentViewModel = new MakeRecipeViewModel();
+  }
 
-    public void NavigateToProfile()
-    {
-      ProfileViewModel viewModel = new();
-      viewModel.GoBackCommand.Subscribe (_ => NavigateToLoggedIn());
-
-        ContentViewModel = viewModel;
-    }
-
+  public void NavigateToProfile()
+  {
+    RecipeSharerContext _context = new();
+    UserServices _userServices = new();
+    User _currentUser = new();
+    ProfileViewModel viewModel = new (_context, _userServices, _currentUser);
+    //viewModel.GoBackCommand.Subscribe (_ => NavigateToLoggedIn());
+    ContentViewModel = viewModel;
+  }
 }
