@@ -34,6 +34,13 @@ public class Search
         UserFavorites = new List<Recipe>();
     }
 
+
+    private static Search? _instance;
+
+    public static Search INSTANCE
+      {
+            get => _instance ??= new(RecipeSharerContext.INSTANCE!);
+      }
     // Methods to add search criteria
 
    public List<Recipe> GetUserRecipes(User owner)

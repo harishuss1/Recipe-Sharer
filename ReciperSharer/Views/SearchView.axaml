@@ -1,0 +1,73 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="using:RecipeShare.ViewModels"
+             x:DataType="vm:SearchViewModel"
+             x:Class="RecipeShare.Views.SearchView">
+ <StackPanel>
+    <TextBox Text="{Binding Keyword}" Watermark="Enter keyword..."/>
+    <Button Content="Search" Command="{Binding SearchCommand}"/>
+    <ListBox ItemsSource="{Binding SearchResults}">
+      <ListBox.ItemTemplate>
+          <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                  <TreeView>
+                    <TreeViewItem Header="{Binding Name}">
+                      <TreeViewItem Header="{Binding ORating}/10" />
+                      <TreeViewItem Header="{Binding ShortDescription}"/>
+                      <TreeViewItem Header="{Binding PreparationTime}" />
+                      <TreeViewItem Header="{Binding CookingTime}" />
+                      <TreeViewItem Header="{Binding Servings}" />
+                      <TreeViewItem Header="Ingredients">
+                        <ListBox ItemsSource="{Binding OIngredients}">
+                          <ListBox.ItemTemplate>
+                            <DataTemplate>
+                              <TextBlock>
+                                <TextBlock.Text>    
+                                    <MultiBinding StringFormat="{}{0}, {1}{2}">
+                                        <Binding Path="Name" />
+                                        <Binding Path="Quantity" />
+                                        <Binding Path="UnitOfMass" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                              </TextBlock>
+                            </DataTemplate>
+                          </ListBox.ItemTemplate>
+                        </ListBox>
+                      </TreeViewItem>
+                      <TreeViewItem Header="Steps">
+                        <ListBox ItemsSource="{Binding OSteps}">
+                          <ListBox.ItemTemplate>
+                            <DataTemplate>
+                              <TextBlock>
+                                <TextBlock.Text>    
+                                    <MultiBinding StringFormat="{}{0}: {1}">
+                                        <Binding Path="Number" />
+                                        <Binding Path="Description" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                              </TextBlock>
+                            </DataTemplate>
+                          </ListBox.ItemTemplate>
+                        </ListBox>
+                      </TreeViewItem>
+                      <TreeViewItem Header="Tags">
+                        <ListBox ItemsSource="{Binding OTags}">
+                          <ListBox.ItemTemplate>
+                            <DataTemplate>
+                              <TextBlock Text="{Binding Name}">
+                              </TextBlock>
+                            </DataTemplate>
+                          </ListBox.ItemTemplate>
+                        </ListBox>
+                      </TreeViewItem>
+                    </TreeViewItem>
+                  </TreeView>
+              </StackPanel>
+          </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </StackPanel>
+</UserControl>
