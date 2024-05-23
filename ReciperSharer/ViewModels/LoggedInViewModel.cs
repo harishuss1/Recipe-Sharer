@@ -18,6 +18,8 @@ public class LoggedInViewModel : ViewModelBase
   public ReactiveCommand<Unit, Unit> ShowProfileCommand { get; }
 
 
+
+
   public LoggedInViewModel()
   {
     Logout = ReactiveCommand.Create(() => UserController.INSTANCE.Logout());

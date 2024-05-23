@@ -6,6 +6,7 @@ using Recipes;
 using Context;
 using Users;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 
 /// <summary>
@@ -34,6 +35,13 @@ public class Search
         UserFavorites = new List<Recipe>();
     }
 
+
+    private static Search? _instance;
+
+    public static Search INSTANCE
+      {
+            get => _instance ??= new(RecipeSharerContext.INSTANCE!);
+      }
     // Methods to add search criteria
 
    public List<Recipe> GetUserRecipes(User owner)
@@ -82,8 +90,6 @@ public class Search
     /// <param name="keyword">The keyword for searching.</param>
     public void SetKeyword(string keyword)
     {
-        if (string.IsNullOrWhiteSpace(keyword))
-            throw new ArgumentException("Keyword cannot be empty or whitespace.");
         Keyword = keyword;
     }
     /// <summary>
@@ -150,7 +156,10 @@ public class Search
     public List<Recipe> PerformSearch()
     {
         // Start with all recipes
-        IQueryable<Recipe> query = _context.Recipes;
+        IQueryable<Recipe> query = _context.Recipes
+                                       .Include(r => r.Ingredients)
+                                       .Include(r => r.Steps)
+                                       .Include(r => r.Tags);
 
         // Filter by ingredients
         if (Ingredients.Any())
@@ -167,8 +176,8 @@ public class Search
         // Filter by keyword in name or short description
         if (!string.IsNullOrEmpty(Keyword))
         {
-            query = query.Where(r => r.Name.Contains(Keyword, StringComparison.OrdinalIgnoreCase) ||
-                                     (r.ShortDescription != null && r.ShortDescription.Contains(Keyword, StringComparison.OrdinalIgnoreCase)));
+            query = query.Where(r => EF.Functions.Like(r.Name, $"%{Keyword}%") ||
+                                    (r.ShortDescription != null && EF.Functions.Like(r.ShortDescription, $"%{Keyword}%")));
         }
 
         // Filter by minimum duration

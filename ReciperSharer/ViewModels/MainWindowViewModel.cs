@@ -62,35 +62,37 @@ public class MainWindowViewModel : ViewModelBase
     LoggedInViewModel viewModel = new();
 
     viewModel.Logout.Subscribe(_ => NavigateToWelcome());
-    viewModel.ShowRecipeCommand.Subscribe (_1 => NavigateToRecipes());
-    viewModel.ShowRatingCommand.Subscribe (_2 => NavigateToRatings());
-    viewModel.ShowSearchCommand.Subscribe (_3 => NavigateToSearch());
-    viewModel.ShowMakeRecipeCommand.Subscribe (_4 => NavigateToMakeRecipe() );
-    viewModel.ShowProfileCommand.Subscribe (_5 => NavigateToProfile());
+    viewModel.ShowRecipeCommand.Subscribe(_1 => NavigateToRecipes());
+    viewModel.ShowRatingCommand.Subscribe(_2 => NavigateToRatings());
+    viewModel.ShowSearchCommand.Subscribe(_3 => NavigateToSearch());
+    viewModel.ShowMakeRecipeCommand.Subscribe(_4 => NavigateToMakeRecipe());
+    viewModel.ShowProfileCommand.Subscribe(_5 => NavigateToProfile());
 
     ContentViewModel = viewModel;
   }
-   public void NavigateToRecipes()
-    {
-        RecipesViewModel viewModel = new();
-        viewModel.Home.Subscribe(_ => NavigateToLoggedIn());
+  public void NavigateToRecipes()
+  {
+    RecipesViewModel viewModel = new();
+    viewModel.Home.Subscribe(_ => NavigateToLoggedIn());
 
-        ContentViewModel = viewModel;
-    }
+    ContentViewModel = viewModel;
+  }
 
   public void NavigateToRatings()
   {
-      ContentViewModel = new RatingsViewModel();
+    ContentViewModel = new RatingsViewModel();
   }
 
   public void NavigateToSearch()
   {
-      ContentViewModel = new SearchViewModel();
+    SearchViewModel viewModel = new();
+    viewModel.GoBackCommand.Subscribe(_ => NavigateToLoggedIn());
+    ContentViewModel = viewModel;
   }
 
   public void NavigateToMakeRecipe()
   {
-      ContentViewModel = new MakeRecipeViewModel();
+    ContentViewModel = new MakeRecipeViewModel();
   }
 
   public void NavigateToProfile()
