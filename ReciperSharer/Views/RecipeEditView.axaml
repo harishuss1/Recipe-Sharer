@@ -60,6 +60,7 @@
                                         <ComboBoxItem>Tablespoons</ComboBoxItem>
                                         <ComboBoxItem>Cups</ComboBoxItem>
                                     </ComboBox>
+                                    <TextBox Text="{Binding Type}" Watermark="Enter ingredient type"/>
                                 </StackPanel>
                                 <Button Content="Delete Ingredient" Command="{Binding $parent[ListBox].((vm:RecipeEditViewModel)DataContext).RemoveIngredient}" CommandParameter="{Binding }" />
                             </StackPanel>
