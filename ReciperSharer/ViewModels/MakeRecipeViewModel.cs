@@ -9,4 +9,11 @@ namespace RecipeShare.ViewModels;
 public class MakeRecipeViewModel : ViewModelBase 
 {
 
+    public ReactiveCommand<Unit, Unit> GoBackCommand { get; }
+
+
+    public MakeRecipeViewModel()
+    {
+        GoBackCommand = ReactiveCommand.Create(() => {  });
+    }
 }

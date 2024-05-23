@@ -1,0 +1,58 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="using:RecipeShare.ViewModels"
+             x:DataType="vm:MakeRecipeViewModel"
+             x:Class="RecipeShare.Views.MakeRecipeView">
+   <!-- <StackPanel>
+    <TextBlock Text="{Binding Recipe.Name}" FontWeight="Bold" FontSize="20" />
+    <TextBlock Text="{Binding Recipe.ShortDescription}" />
+    <TextBlock Text="Preparation Time: {Binding Recipe.PreparationTime}" />
+    <TextBlock Text="Cooking Time: {Binding Recipe.CookingTime}" />
+    <TextBlock Text="Total Time: {Binding Recipe.TotalTime}" />
+    <TextBlock Text="Servings: {Binding Recipe.Servings}" />
+    <TextBlock Text="Ingredients:" FontWeight="Bold" FontSize="20" />
+    <ListBox ItemsSource="{Binding Recipe.Ingredients}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock>
+            <TextBlock.Text>    
+              <MultiBinding StringFormat="{}{0}, {1}{2}">
+                <Binding Path="Name" />
+                <Binding Path="Quantity" />
+                <Binding Path="UnitOfMass" />
+              </MultiBinding>
+            </TextBlock.Text>
+          </TextBlock>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    <TextBlock Text="Steps:" FontWeight="Bold" FontSize="20" />
+    <ListBox ItemsSource="{Binding Recipe.Steps}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock>
+            <TextBlock.Text>    
+              <MultiBinding StringFormat="{}{0}: {1}">
+                <Binding Path="Number" />
+                <Binding Path="Description" />
+              </MultiBinding>
+            </TextBlock.Text>
+          </TextBlock>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    <TextBlock Text="Tags:" FontWeight="Bold" FontSize="20" />
+    <ListBox ItemsSource="{Binding Recipe.Tags}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </StackPanel> -->
+  <Button Content="Back Home" Command="{Binding GoBackCommand}" HorizontalAlignment="Stretch" />
+
+</UserControl>

@@ -92,7 +92,9 @@ public class MainWindowViewModel : ViewModelBase
 
   public void NavigateToMakeRecipe()
   {
-    ContentViewModel = new MakeRecipeViewModel();
+    MakeRecipeViewModel viewModel = new ();
+    viewModel.GoBackCommand.Subscribe(_ => NavigateToLoggedIn());
+    ContentViewModel = viewModel;
   }
 
   public void NavigateToProfile()
