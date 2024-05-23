@@ -31,7 +31,10 @@ public class UserController
   /// user is logged-in.
   /// </summary>
   public User? CurrentlyLoggedInUser { get; private set; }
+  
 //   private UserServices UServ = new UserServices(RecipeSharerContext.INSTANCE!);
+
+  public int? EdittedRecipeId {get; set;}
 
   private static string ComputeHash(string password)
   {
@@ -125,6 +128,22 @@ public class UserController
     }
     Recipe recipe = RecipeOperations.INSTANCE!.GetRecipe(recipeId);
     RecipeOperations.INSTANCE!.RemoveRecipe(CurrentlyLoggedInUser, recipe);
+  }
+
+  public void EditRecipe(Recipe oldRecipe, Recipe newRecipe){
+    if (CurrentlyLoggedInUser == null)
+    {
+      throw new InvalidOperationException("User not logged in");
+    }
+    RecipeOperations.INSTANCE!.UpdateRecipe(CurrentlyLoggedInUser, oldRecipe, newRecipe);
+  }
+
+  public void CreateRecipe(Recipe recipe){
+    if (CurrentlyLoggedInUser == null)
+    {
+      throw new InvalidOperationException("User not logged in");
+    }
+    RecipeOperations.INSTANCE!.AddRecipe(CurrentlyLoggedInUser, recipe);
   }
 
   public void DeleteUser(string username)
