@@ -119,9 +119,9 @@ public class UserServices
             return true;
 
         }
-        catch
+        catch (Exception ex)
         {
-            throw new ArgumentException("Password was not changed");
+            throw new ArgumentException($"Password was not changed: {ex.Message}");
         }
 
     }
