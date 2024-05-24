@@ -39,12 +39,12 @@ public class Search
     private static Search? _instance;
 
     public static Search INSTANCE
-      {
-            get => _instance ??= new(RecipeSharerContext.INSTANCE!);
-      }
+    {
+        get => _instance ??= new(RecipeSharerContext.INSTANCE!);
+    }
     // Methods to add search criteria
 
-   public List<Recipe> GetUserRecipes(User owner)
+    public List<Recipe> GetUserRecipes(User owner)
     {
         if (owner == null)
         {
@@ -54,7 +54,7 @@ public class Search
         return _context.Recipes.Where(r => r.Owner == owner).ToList();
     }
 
-        public List<Recipe> GetFavoriteRecipes(User user)
+    public List<Recipe> GetFavoriteRecipes(User user)
     {
         if (user == null)
         {
@@ -219,7 +219,7 @@ public class Search
         // Filter by recipe owner's username
         if (!string.IsNullOrEmpty(OwnerUsername))
         {
-            query = query.Where(r => r.Owner.Username.Equals(OwnerUsername, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(r => r.Owner.Username.ToLower() == OwnerUsername.ToLower());
         }
 
         // Execute the query and return the results
