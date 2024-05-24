@@ -81,6 +81,8 @@ public class MainWindowViewModel : ViewModelBase
   {
     RecipesViewModel viewModel = new();
     viewModel.Home.Subscribe(_ => NavigateToLoggedIn());
+    viewModel.Edit.Subscribe(_ => NavigateToEditRecipe());
+    viewModel.NewRecipe.Subscribe(_ => NavigateToEditRecipe());
 
     ContentViewModel = viewModel;
   }
