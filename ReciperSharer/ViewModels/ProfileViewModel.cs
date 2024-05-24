@@ -49,7 +49,7 @@ public class ProfileViewModel : ViewModelBase
     private User _currentUser;
 
 
-    public ProfileViewModel(Action navigateToUserRecipes)
+    public ProfileViewModel(Action navigateToUserRecipes, Action navigateToFavoriteRecipes)
     {
         // Initialize properties with the current user's data
         _context = RecipeSharerContext.INSTANCE ?? throw new ArgumentNullException(nameof(RecipeSharerContext.INSTANCE));
@@ -66,7 +66,7 @@ public class ProfileViewModel : ViewModelBase
         ResetPasswordCommand = ReactiveCommand.Create(() => {  });
         ChangeProfilePictureCommand = ReactiveCommand.Create(() => {  });
         ViewUserRecipesCommand = ReactiveCommand.Create(navigateToUserRecipes);
-        ViewFavoriteRecipesCommand = ReactiveCommand.Create(() => {  });
+        ViewFavoriteRecipesCommand = ReactiveCommand.Create(navigateToFavoriteRecipes);
         GoBackCommand = ReactiveCommand.Create(() => {  });
     }
 
