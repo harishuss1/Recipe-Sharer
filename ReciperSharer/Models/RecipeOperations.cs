@@ -93,12 +93,11 @@ public class RecipeOperations
             recipeToUpdate.Tags = new List<Tag>(newDetails.Tags);
 
             _context.Recipes.Update(recipeToUpdate);
-            foreach (Step step in recipeToUpdate.Steps){
-                _context.Steps.Add(step);
-            }
+            AddStepsToRecipe(recipeToUpdate.RecipeId, recipeToUpdate.Steps);
             foreach (Ingredient ingredient in recipeToUpdate.Ingredients){
-                _context.Ingredients.Add(ingredient);
+                addIngredient(recipeToUpdate.RecipeId, ingredient);
             }
+            AddTagsToRecipe(recipeToUpdate.RecipeId, recipeToUpdate.Tags);
             
             _context.SaveChanges();
         }

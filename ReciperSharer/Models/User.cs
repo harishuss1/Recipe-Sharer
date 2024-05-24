@@ -24,7 +24,7 @@ public class User
     public List<Recipe> UserRecipes{get; set;}
 
     [InverseProperty("FavoritedBy")]
-    public List<Recipe> UserFavouriteRecipes {get; set;}
+    public List<Recipe> UserFavouriteRecipes {get; set;} = new();
 
     private byte[]? _profilePicture;
     public byte[]? ProfilePicture

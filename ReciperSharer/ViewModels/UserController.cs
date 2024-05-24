@@ -159,4 +159,31 @@ public class UserController
     UserServices.INSTANCE!.DeleteUser(CurrentlyLoggedInUser.Username);
 
   }
+
+  public void RateRecipe(Recipe recipe){
+    if (CurrentlyLoggedInUser == null)
+    {
+      throw new InvalidOperationException("User not logged in");
+    }
+    if (CurrentlyLoggedInUser == recipe.Owner){
+      throw new InvalidOperationException("Can't rate your own recipe");
+    }
+    if (recipe.NewScore == null){
+      throw new InvalidOperationException("Enter a number between 0 and 10");
+    }
+    bool alreadyRated = false;
+    if (recipe.Ratings != null){
+      foreach(Rating rating in recipe.Ratings){
+        if(rating.User.Equals(CurrentlyLoggedInUser)){
+          alreadyRated = true;
+        }
+      }
+    }
+    if (alreadyRated){
+      RatingOperations.INSTANCE!.UpdateRating(CurrentlyLoggedInUser, recipe, (int)recipe.NewScore);
+    }
+    else {
+      RatingOperations.INSTANCE!.AddRating(CurrentlyLoggedInUser, recipe, (int)recipe.NewScore);
+    }
+  }
 }

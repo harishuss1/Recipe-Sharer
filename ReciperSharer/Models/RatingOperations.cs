@@ -17,9 +17,9 @@ public class RatingOperations
     private static RatingOperations? _instance;
 
     public static RatingOperations INSTANCE
-      {
-            get => _instance ??= new(RecipeSharerContext.INSTANCE!);
-      }
+    {
+        get => _instance ??= new(RecipeSharerContext.INSTANCE!);
+    }
 
     public void AddRating(User user, Recipe recipe, int score)
     {

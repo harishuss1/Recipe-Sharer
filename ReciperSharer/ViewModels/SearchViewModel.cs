@@ -82,11 +82,14 @@ public class SearchViewModel : ViewModelBase
     private readonly User _currentUser;
 
     public ReactiveCommand<Unit, Unit> SearchCommand { get; }
+
     public ReactiveCommand<Unit, Unit> GoBackCommand { get; }
     public ReactiveCommand<Unit, Unit> ResetFilter { get; }
      public ReactiveCommand<Recipe, Unit> AddToFavoritesCommand { get; }
     public ReactiveCommand<int?, Unit> Makeit { get; }
 
+
+    public ReactiveCommand<Recipe, Unit> RateCommand { get; }
 
     public SearchViewModel()
     {
@@ -97,6 +100,10 @@ public class SearchViewModel : ViewModelBase
         SearchCommand = ReactiveCommand.Create(SearchButton);
         GoBackCommand = ReactiveCommand.Create(() => { });
         ResetFilter = ReactiveCommand.Create(() => { });
+        RateCommand = ReactiveCommand.Create<Recipe>((Recipe recipe) => {
+            try {UserController.INSTANCE.RateRecipe(recipe);}
+            catch (Exception e) {ErrorMessage = e.Message;}
+        });
         AddToFavoritesCommand = ReactiveCommand.Create<Recipe>(AddToFavorites);
 
         Makeit = ReactiveCommand.Create<int?>(recipeId => {
@@ -153,10 +160,12 @@ public class SearchViewModel : ViewModelBase
     {
         try
         {
-            if (_currentUser.UserFavouriteRecipes.Any(r => r.RecipeId == recipe.RecipeId))
-            {
-                ErrorMessage = "Recipe is already in your favorites.";
-                return;
+            if (UserController.INSTANCE!.CurrentlyLoggedInUser.UserFavouriteRecipes != null){
+                if (UserController.INSTANCE!.CurrentlyLoggedInUser.UserFavouriteRecipes.Any(r => r.RecipeId == recipe.RecipeId))
+                {
+                    ErrorMessage = "Recipe is already in your favorites.";
+                    return;
+                }
             }
             _userServices.AddToFavorites(recipe, _currentUser);
             ErrorMessage = "Recipe added to favorites.";

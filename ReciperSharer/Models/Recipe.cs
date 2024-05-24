@@ -125,7 +125,9 @@ public class Recipe
 
     [InverseProperty("UserFavouriteRecipes")]
     public List<User> FavoritedBy {get; set;}
-
+    
+    [NotMapped]
+    public int? NewScore {get; set;}
     public Recipe()
     {
     }
