@@ -4,6 +4,8 @@ using RecipeShare.Controllers;
 using ReactiveUI;
 using Users;
 using Recipes;
+using Context;
+using RecipeSharer;
 using RecipeSearch;
 using System.Collections.ObjectModel;
 
@@ -74,18 +76,24 @@ public class SearchViewModel : ViewModelBase
     }
 
     private readonly Search _search;
+    private readonly UserServices _userServices;
+    private readonly User _currentUser;
 
     public ReactiveCommand<Unit, Unit> SearchCommand { get; }
     public ReactiveCommand<Unit, Unit> GoBackCommand { get; }
-
     public ReactiveCommand<Unit, Unit> ResetFilter { get; }
+     public ReactiveCommand<Recipe, Unit> AddToFavoritesCommand { get; }
 
     public SearchViewModel()
     {
         _search = Search.INSTANCE;
+        _userServices = UserServices.INSTANCE ?? throw new ArgumentNullException(nameof(UserServices.INSTANCE));
+        _currentUser = UserController.INSTANCE.CurrentlyLoggedInUser ?? throw new InvalidOperationException("No user is currently logged in");
+
         SearchCommand = ReactiveCommand.Create(SearchButton);
         GoBackCommand = ReactiveCommand.Create(() => { });
         ResetFilter = ReactiveCommand.Create(() => { });
+        AddToFavoritesCommand = ReactiveCommand.Create<Recipe>(AddToFavorites);
 
     }
 
@@ -133,5 +141,16 @@ public class SearchViewModel : ViewModelBase
         }
     }
 
-
+    private void AddToFavorites(Recipe recipe)
+    {
+        try
+        {
+            _userServices.AddToFavorites(recipe, _currentUser);
+            ErrorMessage = "Recipe added to favorites.";
+        }
+        catch (Exception e)
+        {
+            ErrorMessage = e.Message;
+        }
+    }
 }
