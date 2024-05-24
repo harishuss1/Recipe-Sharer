@@ -6,24 +6,27 @@
              xmlns:vm="using:RecipeShare.ViewModels"
              x:DataType="vm:MakeRecipeViewModel"
              x:Class="RecipeShare.Views.MakeRecipeView">
-           <ScrollViewer>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel>
-            <TextBlock Text="{Binding ErrorMessage}"/>
-            <TextBlock Text="Current Recipe"/>
-            <TextBlock Text="{Binding CurrentRecipe.Name}"/>
-            <TextBlock Text="{Binding CurrentRecipe.ShortDescription}"/>
-            <TextBlock Text="{Binding CurrentRecipe.PreparationTime}"/>
-            <TextBlock Text="{Binding CurrentRecipe.CookingTime}"/>
-            <TextBlock Text="{Binding CurrentRecipe.TotalTime}"/>
-            <TextBlock Text="{Binding CurrentRecipe.Servings}"/>
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontWeight="Bold" FontSize="16"/>
+            
+            <TextBlock Text="Let's Cook!" FontWeight="Bold" FontSize="24" Margin="0,10"/>
+            <TextBlock Text="{Binding CurrentRecipe.Name}" FontWeight="Bold" FontSize="18" Margin="0,5"/>
+            <TextBlock Text="{Binding CurrentRecipe.ShortDescription}" FontStyle="Italic" Margin="0,0,0,10"/>
 
-            <TextBlock Text="Ingredients"/>
-            <ListBox ItemsSource="{Binding CurrentRecipe.OIngredients}">
+            <TextBlock Text="Details" FontWeight="Bold" FontSize="20" Margin="0,10"/>
+            <TextBlock Text="{Binding CurrentRecipe.PreparationTime, StringFormat='Preparation Time: {0}'}" Margin="0,2"/>
+            <TextBlock Text="{Binding CurrentRecipe.CookingTime, StringFormat='Cooking Time: {0}'}" Margin="0,2"/>
+            <TextBlock Text="{Binding CurrentRecipe.TotalTime, StringFormat='Total Time: {0}'}" Margin="0,2"/>
+            <TextBlock Text="{Binding CurrentRecipe.Servings, StringFormat='Servings: {0}'}" Margin="0,10"/>
+
+            <TextBlock Text="Ingredients" FontWeight="Bold" FontSize="20" Margin="0,10"/>
+            <ListBox ItemsSource="{Binding CurrentRecipe.OIngredients}" BorderThickness="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock>
+                        <TextBlock Margin="5">
                             <TextBlock.Text>    
-                                <MultiBinding StringFormat="{}{0}, {1}">
+                                <MultiBinding StringFormat="{}{0} - {1}">
                                     <Binding Path="Name" />
                                     <Binding Path="Quantity" />
                                 </MultiBinding>
@@ -33,13 +36,13 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <TextBlock Text="Steps"/>
-            <ListBox ItemsSource="{Binding CurrentRecipe.OSteps}">
+            <TextBlock Text="Steps to Follow" FontWeight="Bold" FontSize="20" Margin="10,20,0,10"/>
+            <ListBox ItemsSource="{Binding CurrentRecipe.OSteps}" BorderThickness="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock>
+                        <TextBlock Margin="5">
                             <TextBlock.Text>    
-                                <MultiBinding StringFormat="{}{0}: {1}">
+                                <MultiBinding StringFormat="Step {0}: {1}">
                                     <Binding Path="Number" />
                                     <Binding Path="Description" />
                                 </MultiBinding>
@@ -49,16 +52,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <TextBlock Text="Tags"/>
-            <ListBox ItemsSource="{Binding CurrentRecipe.OTags}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-
-            <Button Command="{Binding GoBackCommand}">Go Back</Button>
+            <Button Content="Done!" Command="{Binding GoBackCommand}" HorizontalAlignment="Stretch" Margin="0,20" Padding="10"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

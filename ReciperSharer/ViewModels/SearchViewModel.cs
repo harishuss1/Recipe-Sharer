@@ -88,15 +88,16 @@ public class SearchViewModel : ViewModelBase
      public ReactiveCommand<Recipe, Unit> AddToFavoritesCommand { get; }
     public ReactiveCommand<int?, Unit> Makeit { get; }
 
-
     public ReactiveCommand<Recipe, Unit> RateCommand { get; }
 
+    // Constructor for the ViewModel
     public SearchViewModel()
     {
         _search = Search.INSTANCE;
         _userServices = UserServices.INSTANCE ?? throw new ArgumentNullException(nameof(UserServices.INSTANCE));
         _currentUser = UserController.INSTANCE.CurrentlyLoggedInUser ?? throw new InvalidOperationException("No user is currently logged in");
-
+        
+        // Initialize commands
         SearchCommand = ReactiveCommand.Create(SearchButton);
         GoBackCommand = ReactiveCommand.Create(() => { });
         ResetFilter = ReactiveCommand.Create(() => { });
@@ -116,6 +117,7 @@ public class SearchViewModel : ViewModelBase
     {
         try
         {
+             // Set search parameters
             if (MinDuration != null)
             {
                 _search.SetTimeConstraints(MinDuration, MaxDuration);
@@ -141,6 +143,7 @@ public class SearchViewModel : ViewModelBase
                 _search.SetKeyword(Keyword);
             }
 
+            // Perform search and update results
             var results = _search.PerformSearch();
 
             SearchResults.Clear();
@@ -160,6 +163,7 @@ public class SearchViewModel : ViewModelBase
     {
         try
         {
+            // Check if recipe is already in favorites
             if (UserController.INSTANCE!.CurrentlyLoggedInUser.UserFavouriteRecipes != null){
                 if (UserController.INSTANCE!.CurrentlyLoggedInUser.UserFavouriteRecipes.Any(r => r.RecipeId == recipe.RecipeId))
                 {
@@ -167,6 +171,7 @@ public class SearchViewModel : ViewModelBase
                     return;
                 }
             }
+            // Add to favorites
             _userServices.AddToFavorites(recipe, _currentUser);
             ErrorMessage = "Recipe added to favorites.";
         }

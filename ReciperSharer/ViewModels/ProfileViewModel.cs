@@ -96,14 +96,4 @@ public class ProfileViewModel : ViewModelBase
             UserController.INSTANCE.Logout();
         }
     }
-
-        // private void ViewUserRecipes()
-    // {
-    //     // Logic to display user recipes
-    // }
-
-    // private void ViewFavoriteRecipes()
-    // {
-    //     // Logic to display favorite recipes
-    // }
 }

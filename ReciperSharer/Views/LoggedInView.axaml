@@ -4,24 +4,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:RecipeShare.ViewModels"
              x:DataType="vm:LoggedInViewModel"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
              x:Class="RecipeShare.Views.LoggedInView">
-  <Grid>
-    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Spacing="25">
-      <TextBlock FontSize="18" FontWeight="Bold">Logged In!</TextBlock>
-      <TextBlock Text="{Binding Greeting}"/>
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-    <StackPanel VerticalAlignment="Top">
-      <Button Content="Recipe" Command="{Binding ShowRecipeCommand}" Margin="10" />
-      <Button Content="Rating" Command="{Binding ShowRatingCommand}" Margin="10" />
-      <Button Content="Search" Command="{Binding ShowSearchCommand}" Margin="10" />
-      <Button Content="Make A Recipe" Command="{Binding ShowMakeRecipeCommand}" Margin="10" />
-      <Button Content="Profile" Command="{Binding ShowProfileCommand}" Margin="10" />
-      <Button Content="Log Out" Command="{Binding Logout}" Margin="10" x:CompileBindings="False" />
-    </StackPanel>
-  </Grid>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="20">
+            <TextBlock FontSize="24" FontWeight="Bold">Welcome!</TextBlock>
+            <TextBlock Text="{Binding Greeting}" FontSize="18" Margin="0,10"/>
+        </StackPanel>
 
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Spacing="15">
+            <Button Content="Recipe" Command="{Binding ShowRecipeCommand}" Width="200" Padding="10" />
+            <Button Content="Search" Command="{Binding ShowSearchCommand}" Width="200" Padding="10" />
+            <Button Content="Make A Recipe" Command="{Binding ShowMakeRecipeCommand}" Width="200" Padding="10" />
+            <Button Content="Profile" Command="{Binding ShowProfileCommand}" Width="200" Padding="10" />
+            <Button Content="Log Out" Command="{Binding Logout}" Width="200" Padding="10" />
+        </StackPanel>
+    </Grid>
 </UserControl>
