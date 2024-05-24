@@ -124,11 +124,10 @@
                           </ListBox.ItemTemplate>
                         </ListBox>
                       </TreeViewItem>
+                      <Button Content="Add to Favorites" Command="{Binding DataContext.AddToFavoritesCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" x:CompileBindings="False" CommandParameter="{Binding}" Margin="10"/>
                     </TreeViewItem>
                   </TreeView>
               </StackPanel>
-            
-
           </DataTemplate>
       </ListBox.ItemTemplate>
     </ListBox>
