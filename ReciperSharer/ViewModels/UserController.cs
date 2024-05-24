@@ -35,6 +35,8 @@ public class UserController
 //   private UserServices UServ = new UserServices(RecipeSharerContext.INSTANCE!);
 
   public int? EdittedRecipeId {get; set;}
+  public int? MakeRecipeId {get; set;}
+
 
   private static string ComputeHash(string password)
   {

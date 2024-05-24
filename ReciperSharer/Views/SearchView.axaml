@@ -124,11 +124,10 @@
                           </ListBox.ItemTemplate>
                         </ListBox>
                       </TreeViewItem>
+                      <Button Content="Make it!" Command="{Binding $parent[ListBox].((vm:SearchViewModel)DataContext).Makeit}" CommandParameter="{Binding RecipeId}" Margin="10" />
                     </TreeViewItem>
                   </TreeView>
               </StackPanel>
-            
-
           </DataTemplate>
       </ListBox.ItemTemplate>
     </ListBox>
