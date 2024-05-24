@@ -37,6 +37,21 @@ namespace RecipeShare.Migrations
                     b.ToTable("RecipeTag");
                 });
 
+            modelBuilder.Entity("RecipeUser", b =>
+                {
+                    b.Property<int>("FavoritedByUserId")
+                        .HasColumnType("NUMBER(10)");
+
+                    b.Property<int>("UserFavouriteRecipesRecipeId")
+                        .HasColumnType("NUMBER(10)");
+
+                    b.HasKey("FavoritedByUserId", "UserFavouriteRecipesRecipeId");
+
+                    b.HasIndex("UserFavouriteRecipesRecipeId");
+
+                    b.ToTable("RecipeUser");
+                });
+
             modelBuilder.Entity("Recipes.Ingredient", b =>
                 {
                     b.Property<int>("IngredientId")
@@ -191,9 +206,6 @@ namespace RecipeShare.Migrations
                     b.Property<byte[]>("ProfilePicture")
                         .HasColumnType("RAW(2000)");
 
-                    b.Property<int?>("RecipeId")
-                        .HasColumnType("NUMBER(10)");
-
                     b.Property<byte[]>("Salt")
                         .IsRequired()
                         .HasColumnType("RAW(2000)");
@@ -203,8 +215,6 @@ namespace RecipeShare.Migrations
                         .HasColumnType("NVARCHAR2(2000)");
 
                     b.HasKey("UserId");
-
-                    b.HasIndex("RecipeId");
 
                     b.ToTable("Users");
                 });
@@ -220,6 +230,21 @@ namespace RecipeShare.Migrations
                     b.HasOne("Recipes.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsTagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RecipeUser", b =>
+                {
+                    b.HasOne("Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("FavoritedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recipes.Recipe", null)
+                        .WithMany()
+                        .HasForeignKey("UserFavouriteRecipesRecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -257,7 +282,7 @@ namespace RecipeShare.Migrations
             modelBuilder.Entity("Recipes.Recipe", b =>
                 {
                     b.HasOne("Users.User", "Owner")
-                        .WithMany()
+                        .WithMany("UserRecipes")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -276,22 +301,18 @@ namespace RecipeShare.Migrations
                     b.Navigation("Recipe");
                 });
 
-            modelBuilder.Entity("Users.User", b =>
-                {
-                    b.HasOne("Recipes.Recipe", null)
-                        .WithMany("FavoritedBy")
-                        .HasForeignKey("RecipeId");
-                });
-
             modelBuilder.Entity("Recipes.Recipe", b =>
                 {
-                    b.Navigation("FavoritedBy");
-
                     b.Navigation("Ingredients");
 
                     b.Navigation("Ratings");
 
                     b.Navigation("Steps");
+                });
+
+            modelBuilder.Entity("Users.User", b =>
+                {
+                    b.Navigation("UserRecipes");
                 });
 #pragma warning restore 612, 618
         }

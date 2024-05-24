@@ -24,7 +24,7 @@ public class UserServices
         get => _instance ??= new(RecipeSharerContext.INSTANCE!);
     }
 
-    private UserServices() { }
+    public UserServices() { }
 
     public User? CurrentlyLoggedInUser { get; private set; }
 
@@ -119,9 +119,9 @@ public class UserServices
             return true;
 
         }
-        catch
+        catch (Exception ex)
         {
-            throw new ArgumentException("Password was not changed");
+            throw new ArgumentException($"Password was not changed: {ex.Message}");
         }
 
     }
@@ -139,6 +139,21 @@ public class UserServices
         catch
         {
             throw new ArgumentException("Profile not updated");
+        }
+    }
+
+    public bool UpdateUserDescription(User user, string description)
+    {
+        try
+        {
+            user.Description = description;
+            _context.Users.Update(user);
+            _context.SaveChanges();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw new ArgumentException($"Profile description was not updated: {ex.Message}");
         }
     }
 
