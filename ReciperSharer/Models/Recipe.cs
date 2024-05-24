@@ -123,13 +123,8 @@ public class Recipe
         return new(Tags);
     }}
 
-<<<<<<< HEAD
-    //[InverseProperty("UserFavouriteRecipes")]
-    public List<User> FavoritedBy { get; set; }
-=======
     [InverseProperty("UserFavouriteRecipes")]
     public List<User> FavoritedBy {get; set;}
->>>>>>> b3aa8a93016be885bf7d1e253a1ccfd870163f2f
 
     public Recipe()
     {

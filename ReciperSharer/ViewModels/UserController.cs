@@ -130,17 +130,12 @@ public class UserController
     RecipeOperations.INSTANCE!.RemoveRecipe(CurrentlyLoggedInUser, recipe);
   }
 
-<<<<<<< HEAD
+
   public void EditRecipe(Recipe oldRecipe, Recipe newRecipe){
-=======
-  public void DeleteUser(string username)
-  {
->>>>>>> b3aa8a93016be885bf7d1e253a1ccfd870163f2f
     if (CurrentlyLoggedInUser == null)
     {
       throw new InvalidOperationException("User not logged in");
     }
-<<<<<<< HEAD
     RecipeOperations.INSTANCE!.UpdateRecipe(CurrentlyLoggedInUser, oldRecipe, newRecipe);
   }
 
@@ -150,9 +145,16 @@ public class UserController
       throw new InvalidOperationException("User not logged in");
     }
     RecipeOperations.INSTANCE!.AddRecipe(CurrentlyLoggedInUser, recipe);
-=======
+  }
+  
+  public void DeleteUser(string username)
+  {
+    if (CurrentlyLoggedInUser == null)
+    {
+      throw new InvalidOperationException("User not logged in");
+    }
     User user = UserServices.INSTANCE!.GetUser(username);
     UserServices.INSTANCE!.DeleteUser(CurrentlyLoggedInUser.Username);
->>>>>>> b3aa8a93016be885bf7d1e253a1ccfd870163f2f
+
   }
 }

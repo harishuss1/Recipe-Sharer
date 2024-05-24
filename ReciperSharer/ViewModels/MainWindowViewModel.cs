@@ -2,15 +2,12 @@
 using System;
 using ReactiveUI;
 using Users;
-<<<<<<< HEAD
 using Recipes;
 using Context;
 using System.Reactive;
 using RecipeShare.Controllers;
-=======
-using Context;
 using RecipeSharer;
->>>>>>> b3aa8a93016be885bf7d1e253a1ccfd870163f2f
+
 
 namespace RecipeShare.ViewModels;
 
@@ -71,20 +68,12 @@ public class MainWindowViewModel : ViewModelBase
   {
     LoggedInViewModel viewModel = new();
 
-    viewModel.Logout.Subscribe(_ => NavigateToWelcome());
-<<<<<<< HEAD
+    viewModel.Logout.Subscribe(_ => NavigateToWelcome());    
     viewModel.ShowRecipeCommand.Subscribe (_1 => NavigateToRecipes());
     viewModel.ShowRatingCommand.Subscribe (_2 => NavigateToRatings());
     viewModel.ShowSearchCommand.Subscribe (_3 => NavigateToSearch());
     viewModel.ShowMakeRecipeCommand.Subscribe (_4 => NavigateToEditRecipe() );
     viewModel.ShowProfileCommand.Subscribe (_5 => NavigateToProfile());
-=======
-    viewModel.ShowRecipeCommand.Subscribe(_1 => NavigateToRecipes());
-    viewModel.ShowRatingCommand.Subscribe(_2 => NavigateToRatings());
-    viewModel.ShowSearchCommand.Subscribe(_3 => NavigateToSearch());
-    viewModel.ShowMakeRecipeCommand.Subscribe(_4 => NavigateToMakeRecipe());
-    viewModel.ShowProfileCommand.Subscribe(_5 => NavigateToProfile());
->>>>>>> b3aa8a93016be885bf7d1e253a1ccfd870163f2f
 
     ContentViewModel = viewModel;
   }
@@ -118,12 +107,7 @@ public class MainWindowViewModel : ViewModelBase
     ProfileViewModel viewModel = new(() => NavigateToRecipes());
     viewModel.GoBackCommand.Subscribe(_ =>
     {
-<<<<<<< HEAD
-        RecipesViewModel viewModel = new();
-        viewModel.Home.Subscribe(_ => NavigateToLoggedIn());
-        viewModel.Edit.Subscribe(_ => NavigateToEditRecipe());
-        viewModel.NewRecipe.Subscribe(_ => NavigateToEditRecipe());
-=======
+
       if (viewModel.IsAccountDeleted)
       {
           NavigateToWelcome();
@@ -136,7 +120,6 @@ public class MainWindowViewModel : ViewModelBase
     viewModel.EditProfileCommand.Subscribe(_ => NavigateToUpdateUserBio());
     ContentViewModel = viewModel;
   }
->>>>>>> b3aa8a93016be885bf7d1e253a1ccfd870163f2f
 
   public void NavigateToChangePassword()
   {
@@ -144,26 +127,6 @@ public class MainWindowViewModel : ViewModelBase
     viewModel.CancelCommand.Subscribe(_ => NavigateToProfile());
     ContentViewModel = viewModel;
   }
-
-<<<<<<< HEAD
-    public void NavigateToRatings()
-    {
-        ContentViewModel = new RatingsViewModel();
-    }
-
-    public void NavigateToSearch()
-    {
-        ContentViewModel = new SearchViewModel();
-    }
-
-    public void NavigateToProfile()
-    {
-      ProfileViewModel viewModel = new();
-      viewModel.GoBackCommand.Subscribe (_ => NavigateToLoggedIn());
-
-        ContentViewModel = viewModel;
-    }
-
 
   private void NavigateToEditRecipe()
   {
@@ -173,8 +136,8 @@ public class MainWindowViewModel : ViewModelBase
 
     ContentViewModel = viewModel;
   }
-}
-=======
+
+
   public void NavigateToUpdateUserBio()
   {
     UpdateUserBioViewModel viewModel = new();
@@ -183,4 +146,4 @@ public class MainWindowViewModel : ViewModelBase
     ContentViewModel = viewModel;
   }
 }
->>>>>>> b3aa8a93016be885bf7d1e253a1ccfd870163f2f
+
