@@ -21,10 +21,11 @@ public class User
     public byte[] Password {get;set;}
 
     [InverseProperty("Owner")]
-    public List<Recipe> UserRecipes;
+    public List<Recipe> UserRecipes{get; set;}
 
-    //[InverseProperty("FavoritedBy")]
-    public List<Recipe> UserFavouriteRecipes;
+    [InverseProperty("FavoritedBy")]
+    public List<Recipe> UserFavouriteRecipes {get; set;}
+
     private byte[]? _profilePicture;
     public byte[]? ProfilePicture
     {
