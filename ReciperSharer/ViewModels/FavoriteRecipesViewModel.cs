@@ -23,15 +23,17 @@ namespace RecipeShare.ViewModels
             set => this.RaiseAndSetIfChanged(ref _favoriteRecipes, value);
         }
 
+        public ReactiveCommand<Recipe, Unit> ViewRecipeCommand { get; }
         public ReactiveCommand<Unit, Unit> GoBackCommand { get; }
 
-        public FavoriteRecipesViewModel(Action goBackAction)
+        public FavoriteRecipesViewModel(Action<Recipe> viewRecipeAction, Action goBackAction)
         {
             _userServices = UserServices.INSTANCE ?? throw new ArgumentNullException(nameof(UserServices.INSTANCE));
             _currentUser = UserController.INSTANCE.CurrentlyLoggedInUser ?? throw new InvalidOperationException("No user is currently logged in");
 
             FavoriteRecipes = _userServices.GetUserFavoriteRecipes(_currentUser.UserId);
 
+            ViewRecipeCommand = ReactiveCommand.Create(viewRecipeAction);
             GoBackCommand = ReactiveCommand.Create(goBackAction);
         }
     }

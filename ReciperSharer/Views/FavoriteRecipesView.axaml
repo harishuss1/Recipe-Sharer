@@ -11,7 +11,10 @@
         <ListBox ItemsSource="{Binding FavoriteRecipes}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                        <Button Content="View" Command="{Binding DataContext.ViewRecipeCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" x:CompileBindings="False" CommandParameter="{Binding}" Margin="10,0,0,0"/>
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

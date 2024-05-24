@@ -2,6 +2,7 @@
 using System;
 using ReactiveUI;
 using Users;
+using Recipes;
 using Context;
 using RecipeSharer;
 
@@ -129,7 +130,12 @@ public class MainWindowViewModel : ViewModelBase
   }
   public void NavigateToFavoriteRecipes()
   {
-      FavoriteRecipesViewModel viewModel = new(NavigateToProfile);
+      FavoriteRecipesViewModel viewModel = new(recipe => NavigateToFavoriteRecipeDetails(recipe), NavigateToProfile);
+      ContentViewModel = viewModel;
+  }
+  public void NavigateToFavoriteRecipeDetails(Recipe recipe)
+  {
+      FavoriteRecipeDetailsViewModel viewModel = new(recipe, NavigateToFavoriteRecipes);
       ContentViewModel = viewModel;
   }
 }
