@@ -4,7 +4,10 @@ using RecipeShare.Controllers;
 using ReactiveUI;
 using Users;
 using Recipes;
+using Context;
+using RecipeSharer;
 using RecipeSearch;
+using System.Linq;
 using System.Collections.ObjectModel;
 
 namespace RecipeShare.ViewModels;
@@ -75,20 +78,26 @@ public class SearchViewModel : ViewModelBase
     
 
     private readonly Search _search;
+    private readonly UserServices _userServices;
+    private readonly User _currentUser;
 
     public ReactiveCommand<Unit, Unit> SearchCommand { get; }
     public ReactiveCommand<Unit, Unit> GoBackCommand { get; }
-
     public ReactiveCommand<Unit, Unit> ResetFilter { get; }
+     public ReactiveCommand<Recipe, Unit> AddToFavoritesCommand { get; }
     public ReactiveCommand<int?, Unit> Makeit { get; }
 
 
     public SearchViewModel()
     {
         _search = Search.INSTANCE;
+        _userServices = UserServices.INSTANCE ?? throw new ArgumentNullException(nameof(UserServices.INSTANCE));
+        _currentUser = UserController.INSTANCE.CurrentlyLoggedInUser ?? throw new InvalidOperationException("No user is currently logged in");
+
         SearchCommand = ReactiveCommand.Create(SearchButton);
         GoBackCommand = ReactiveCommand.Create(() => { });
         ResetFilter = ReactiveCommand.Create(() => { });
+        AddToFavoritesCommand = ReactiveCommand.Create<Recipe>(AddToFavorites);
 
         Makeit = ReactiveCommand.Create<int?>(recipeId => {
             UserController.INSTANCE!.MakeRecipeId=recipeId;
@@ -140,5 +149,21 @@ public class SearchViewModel : ViewModelBase
         }
     }
 
-
+    private void AddToFavorites(Recipe recipe)
+    {
+        try
+        {
+            if (_currentUser.UserFavouriteRecipes.Any(r => r.RecipeId == recipe.RecipeId))
+            {
+                ErrorMessage = "Recipe is already in your favorites.";
+                return;
+            }
+            _userServices.AddToFavorites(recipe, _currentUser);
+            ErrorMessage = "Recipe added to favorites.";
+        }
+        catch (Exception e)
+        {
+            ErrorMessage = e.Message;
+        }
+    }
 }

@@ -110,7 +110,7 @@ public class MainWindowViewModel : ViewModelBase
 
   public void NavigateToProfile()
   {
-    ProfileViewModel viewModel = new(() => NavigateToRecipes());
+    ProfileViewModel viewModel = new(() => NavigateToRecipes(), NavigateToFavoriteRecipes);
     viewModel.GoBackCommand.Subscribe(_ =>
     {
 
@@ -150,6 +150,11 @@ public class MainWindowViewModel : ViewModelBase
     viewModel.CancelCommand.Subscribe(_ => NavigateToProfile());
     viewModel.SaveCommand.Subscribe(_ => NavigateToProfile());
     ContentViewModel = viewModel;
+  }
+  public void NavigateToFavoriteRecipes()
+  {
+      FavoriteRecipesViewModel viewModel = new(NavigateToProfile);
+      ContentViewModel = viewModel;
   }
 }
 
