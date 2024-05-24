@@ -1,0 +1,132 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:RecipeShare.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="RecipeShare.Views.RecipeEditView"
+             x:DataType="vm:RecipeEditViewModel"> 
+<DockPanel LastChildFill="True">
+    <Border DockPanel.Dock="Right" Padding="20">
+    <ScrollViewer>
+        <StackPanel>
+            
+            <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Bold"/>
+            <StackPanel Margin="0 5">
+                <TextBlock > 
+                    Recipe Name 
+                </TextBlock>
+                <TextBox Text="{Binding Name}" Watermark="Enter the new name" Margin="5"/>
+            </StackPanel>
+            <StackPanel Margin="0 5">
+                <TextBlock > 
+                    Short Description 
+                </TextBlock>
+                <TextBox Text="{Binding ShortDescription}" Watermark="Enter the new description" Margin="5"/>
+            </StackPanel>
+            <StackPanel Margin="0 5">
+                <TextBlock >Number of servings:</TextBlock>
+                <NumericUpDown Value="{Binding Servings}" />
+            </StackPanel>
+            <StackPanel Margin="0 5" Spacing="4">
+                <Label Content="Preparation Time:"/>
+                <TimePicker ClockIdentifier="24HourClock"              
+                            MinuteIncrement="1"
+                            SelectedTime="{Binding PreparationTime}"/>
+            </StackPanel>
+            <StackPanel Margin="0 5" Spacing="4">
+                <Label Content="Cooking Time:"/>
+                <TimePicker ClockIdentifier="24HourClock"              
+                            MinuteIncrement="1"
+                            SelectedTime="{Binding CookingTime}"/>
+            </StackPanel>
+
+
+            <StackPanel Margin="0 5">
+                <TextBlock FontWeight="Bold">Ingredients</TextBlock>
+                <ListBox ItemsSource="{Binding Ingredients}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <StackPanel>
+                                    <TextBlock Margin="0 5">Ingredient Name:</TextBlock>
+                                    <TextBox Text="{Binding Name}" Watermark="Enter Ingredient Name" />
+                                    <TextBlock Margin="0 5">Quantity:</TextBlock>
+                                    <NumericUpDown Value="{Binding Quantity}" Minimum="0" Increment="0.05" FormatString="0.00"/>
+                                    <TextBlock Margin="0 5">Unit:</TextBlock>
+                                    <ComboBox SelectedItem="{Binding UnitOfMass}" >
+                                        <ComboBoxItem Content="g"/>
+                                        <ComboBoxItem Content="ml"/>
+                                        <ComboBoxItem Content="Teaspoons"/>
+                                        <ComboBoxItem Content="Tablespoons"/>
+                                        <ComboBoxItem Content="Cups"/>
+                                    </ComboBox>
+                                    <TextBox Text="{Binding Type}" Watermark="Enter ingredient type"/>
+                                </StackPanel>
+                                <Button Content="Delete Ingredient" Command="{Binding $parent[ListBox].((vm:RecipeEditViewModel)DataContext).RemoveIngredient}" CommandParameter="{Binding }" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Content="New Ingredient" Command="{Binding AddIngredient}" Margin="5" />
+            </StackPanel>
+
+            <StackPanel Margin="0 5">
+                <TextBlock FontWeight="Bold">Instructions</TextBlock>
+                <ListBox ItemsSource="{Binding Steps}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Number}" />
+                                <StackPanel>
+                                    <TextBlock Margin="0 5">Description</TextBlock>
+                                    <TextBox Text="{Binding Description}" Watermark="Enter Step Description" />
+                                </StackPanel>
+                                <Button Content="Delete Step" Command="{Binding $parent[ListBox].((vm:RecipeEditViewModel)DataContext).RemoveStep}" CommandParameter="{Binding }" Margin="10" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Content="New Step" Command="{Binding AddStep}" Margin="5" />
+            </StackPanel>
+
+            <StackPanel Margin="0 5">
+                <TextBlock FontWeight="Bold">Tags</TextBlock>
+                <ListBox ItemsSource="{Binding Tags}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0 5">
+                                <ComboBox SelectedItem="{Binding Name}">
+                                    <ListBox ItemsSource="{Binding $parent[ListBox].((vm:RecipeEditViewModel)DataContext).AllTags}}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <ComboBoxItem>
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </ComboBoxItem>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </ComboBox>
+                                <Button Content="Delete Tags" Command="{Binding $parent[ListBox].((vm:RecipeEditViewModel)DataContext).RemoveTag}" CommandParameter="{Binding }" Margin="10" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Content="New Tags" Command="{Binding AddTag}" Margin="5" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                <Button Command="{Binding SaveCommand}"
+                Content="Save"
+                x:CompileBindings="False"
+                Margin="5"/>
+                <Button Command="{Binding CancelCommand}"
+                Content="Cancel"
+                x:CompileBindings="False"
+                Margin="5"/>
+            </StackPanel>
+        </StackPanel>
+        </ScrollViewer>
+    </Border>
+</DockPanel>
+</UserControl>

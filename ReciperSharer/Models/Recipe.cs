@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 public class Recipe
 {
     [Key]
-    public int RecipeId {get;set;}
+    public int RecipeId { get; set; }
     private string name;
     public string Name
     {
@@ -24,7 +24,7 @@ public class Recipe
     }
 
     private User _owner;
-    
+
     [ForeignKey("OwnerId")]
     public User Owner
     {
@@ -126,22 +126,38 @@ public class Recipe
     [InverseProperty("UserFavouriteRecipes")]
     public List<User> FavoritedBy {get; set;}
 
-    public Recipe(){
+    public Recipe()
+    {
     }
     public Recipe(User owner, string name, string shortDescription, List<Ingredient> ingredients, TimeSpan preparationTime, TimeSpan cookingTime, int servings)
-{
-    Owner = owner;
-    Name = name;
-    ShortDescription = shortDescription;
-    Ingredients = ingredients ?? new List<Ingredient>();
-    PreparationTime = preparationTime;
-    CookingTime = cookingTime;
-    Servings = servings;
-    Steps = new List<Step>();
-    Ratings = new List<Rating>();
-    Tags = new List<Tag>();
-    FavoritedBy = new List<User>();
-}
+    {
+        Owner = owner;
+        Name = name;
+        ShortDescription = shortDescription;
+        Ingredients = ingredients ?? new List<Ingredient>();
+        PreparationTime = preparationTime;
+        CookingTime = cookingTime;
+        Servings = servings;
+        Steps = new List<Step>();
+        Ratings = new List<Rating>();
+        Tags = new List<Tag>();
+        FavoritedBy = new List<User>();
+    }
+
+    public Recipe(User owner, string name, string shortDescription, List<Ingredient> ingredients, TimeSpan preparationTime, TimeSpan cookingTime, int servings, List<Step> steps, List<Tag> tags)
+    {
+        Owner = owner;
+        Name = name;
+        ShortDescription = shortDescription;
+        Ingredients = ingredients ?? new List<Ingredient>();
+        PreparationTime = preparationTime;
+        CookingTime = cookingTime;
+        Servings = servings;
+        Steps = steps;
+        Ratings = new List<Rating>();
+        Tags = tags;
+        FavoritedBy = new List<User>();
+    }
 
 
     public override string ToString()
