@@ -71,6 +71,7 @@ public class RecipeEditViewModel : ViewModelBase
         get => _tags;
         set => this.RaiseAndSetIfChanged(ref _tags, value);
     }
+    
 
     public ObservableCollection<Tag> AllTags {get;}
 
@@ -171,8 +172,10 @@ public class RecipeEditViewModel : ViewModelBase
 
         //Steps:
         AddStep = ReactiveCommand.Create(() => {
-            Steps.Add(new Step());
-            Steps[-1].Number = Steps.Count;
+            Step step = new();
+
+            step.Number = Steps.Count+1;
+            Steps.Add(step);
         });
         RemoveStep = ReactiveCommand.Create<Step>((Step step) => {
             Steps.Remove(step);

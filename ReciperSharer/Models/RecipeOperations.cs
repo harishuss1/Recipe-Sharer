@@ -34,6 +34,12 @@ public class RecipeOperations
 
         recipe.Owner = _context.Users.Find(user.UserId);
         _context.Recipes.Add(recipe);
+        foreach (Step step in recipe.Steps){
+            _context.Steps.Add(step);
+        }
+        foreach (Ingredient ingredient in recipe.Ingredients){
+            _context.Ingredients.Add(ingredient);
+        }
         _context.SaveChanges();
     }
 
@@ -69,6 +75,14 @@ public class RecipeOperations
         var recipeToUpdate = _context.Recipes.Find(existingRecipe.RecipeId);
         if (recipeToUpdate != null)
         {
+            foreach (Step step in recipeToUpdate.Steps){
+                _context.Steps.Remove(step);
+            }
+            foreach (Ingredient ingredient in recipeToUpdate.Ingredients){
+                _context.Ingredients.Remove(ingredient);
+            }
+            _context.SaveChanges();
+
             recipeToUpdate.Name = newDetails.Name;
             recipeToUpdate.ShortDescription = newDetails.ShortDescription;
             recipeToUpdate.Ingredients = newDetails.Ingredients;
@@ -79,6 +93,13 @@ public class RecipeOperations
             recipeToUpdate.Tags = new List<Tag>(newDetails.Tags);
 
             _context.Recipes.Update(recipeToUpdate);
+            foreach (Step step in recipeToUpdate.Steps){
+                _context.Steps.Add(step);
+            }
+            foreach (Ingredient ingredient in recipeToUpdate.Ingredients){
+                _context.Ingredients.Add(ingredient);
+            }
+            
             _context.SaveChanges();
         }
         else

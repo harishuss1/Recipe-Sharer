@@ -130,6 +130,7 @@ public class UserController
     RecipeOperations.INSTANCE!.RemoveRecipe(CurrentlyLoggedInUser, recipe);
   }
 
+
   public void EditRecipe(Recipe oldRecipe, Recipe newRecipe){
     if (CurrentlyLoggedInUser == null)
     {
@@ -145,7 +146,7 @@ public class UserController
     }
     RecipeOperations.INSTANCE!.AddRecipe(CurrentlyLoggedInUser, recipe);
   }
-
+  
   public void DeleteUser(string username)
   {
     if (CurrentlyLoggedInUser == null)
@@ -154,5 +155,6 @@ public class UserController
     }
     User user = UserServices.INSTANCE!.GetUser(username);
     UserServices.INSTANCE!.DeleteUser(CurrentlyLoggedInUser.Username);
+
   }
 }

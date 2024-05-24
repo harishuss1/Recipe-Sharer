@@ -6,6 +6,8 @@ using Recipes;
 using Context;
 using System.Reactive;
 using RecipeShare.Controllers;
+using RecipeSharer;
+
 
 namespace RecipeShare.ViewModels;
 
@@ -66,21 +68,21 @@ public class MainWindowViewModel : ViewModelBase
   {
     LoggedInViewModel viewModel = new();
 
-    viewModel.Logout.Subscribe(_ => NavigateToWelcome());
-    viewModel.ShowRecipeCommand.Subscribe(_1 => NavigateToRecipes());
-    viewModel.ShowRatingCommand.Subscribe(_2 => NavigateToRatings());
-    viewModel.ShowSearchCommand.Subscribe(_3 => NavigateToSearch());
-    viewModel.ShowMakeRecipeCommand.Subscribe(_4 => NavigateToMakeRecipe());
-    viewModel.ShowProfileCommand.Subscribe(_5 => NavigateToProfile());
+    viewModel.Logout.Subscribe(_ => NavigateToWelcome());    
+    viewModel.ShowRecipeCommand.Subscribe (_1 => NavigateToRecipes());
+    viewModel.ShowRatingCommand.Subscribe (_2 => NavigateToRatings());
+    viewModel.ShowSearchCommand.Subscribe (_3 => NavigateToSearch());
+    viewModel.ShowMakeRecipeCommand.Subscribe (_4 => NavigateToEditRecipe() );
+    viewModel.ShowProfileCommand.Subscribe (_5 => NavigateToProfile());
 
     ContentViewModel = viewModel;
   }
-   public void NavigateToRecipes()
-    {
-        RecipesViewModel viewModel = new();
-        viewModel.Home.Subscribe(_ => NavigateToLoggedIn());
-        viewModel.Edit.Subscribe(_ => NavigateToEditRecipe());
-        viewModel.NewRecipe.Subscribe(_ => NavigateToEditRecipe());
+  public void NavigateToRecipes()
+  {
+    RecipesViewModel viewModel = new();
+    viewModel.Home.Subscribe(_ => NavigateToLoggedIn());
+    viewModel.Edit.Subscribe(_ => NavigateToEditRecipe());
+    viewModel.NewRecipe.Subscribe(_ => NavigateToEditRecipe());
 
     ContentViewModel = viewModel;
   }
@@ -94,6 +96,7 @@ public class MainWindowViewModel : ViewModelBase
   {
     SearchViewModel viewModel = new();
     viewModel.GoBackCommand.Subscribe(_ => NavigateToLoggedIn());
+    viewModel.ResetFilter.Subscribe(_1 => NavigateToSearch());
     ContentViewModel = viewModel;
   }
 
@@ -109,6 +112,7 @@ public class MainWindowViewModel : ViewModelBase
     ProfileViewModel viewModel = new(() => NavigateToRecipes());
     viewModel.GoBackCommand.Subscribe(_ =>
     {
+
       if (viewModel.IsAccountDeleted)
       {
           NavigateToWelcome();
@@ -122,6 +126,12 @@ public class MainWindowViewModel : ViewModelBase
     ContentViewModel = viewModel;
   }
 
+  public void NavigateToChangePassword()
+  {
+    ChangePasswordViewModel viewModel = new();
+    viewModel.CancelCommand.Subscribe(_ => NavigateToProfile());
+    ContentViewModel = viewModel;
+  }
 
   private void NavigateToEditRecipe()
   {
@@ -131,12 +141,7 @@ public class MainWindowViewModel : ViewModelBase
 
     ContentViewModel = viewModel;
   }
-  public void NavigateToChangePassword()
-  {
-    ChangePasswordViewModel viewModel = new();
-    viewModel.CancelCommand.Subscribe(_ => NavigateToProfile());
-    ContentViewModel = viewModel;
-  }
+
 
   public void NavigateToUpdateUserBio()
   {
@@ -146,3 +151,4 @@ public class MainWindowViewModel : ViewModelBase
     ContentViewModel = viewModel;
   }
 }
+
