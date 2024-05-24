@@ -76,9 +76,12 @@ public class SearchViewModel : ViewModelBase
     private readonly Search _search;
 
     public ReactiveCommand<Unit, Unit> SearchCommand { get; }
+
     public ReactiveCommand<Unit, Unit> GoBackCommand { get; }
 
     public ReactiveCommand<Unit, Unit> ResetFilter { get; }
+
+    public ReactiveCommand<Recipe, Unit> RateCommand { get; }
 
     public SearchViewModel()
     {
@@ -86,7 +89,10 @@ public class SearchViewModel : ViewModelBase
         SearchCommand = ReactiveCommand.Create(SearchButton);
         GoBackCommand = ReactiveCommand.Create(() => { });
         ResetFilter = ReactiveCommand.Create(() => { });
-
+        RateCommand = ReactiveCommand.Create<Recipe>((Recipe recipe) => {
+            try {UserController.INSTANCE.RateRecipe(recipe);}
+            catch (Exception e) {ErrorMessage = e.Message;}
+        });
     }
 
     private void SearchButton()

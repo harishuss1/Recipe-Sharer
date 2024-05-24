@@ -124,6 +124,8 @@
                           </ListBox.ItemTemplate>
                         </ListBox>
                       </TreeViewItem>
+                      <NumericUpDown Value="{Binding NewScore}" Minimum="0" Maximum="10" Increment="1"/>
+                      <Button Content="Rate" Command="{Binding $parent[ListBox].((vm:SearchViewModel)DataContext).RateCommand}"  CommandParameter="{Binding }"/>
                     </TreeViewItem>
                   </TreeView>
               </StackPanel>

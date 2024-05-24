@@ -9,7 +9,7 @@
 <DockPanel LastChildFill="True">
     <Border DockPanel.Dock="Right" Padding="20">
         <StackPanel>
-            
+            <TextBlock Text="{Binding ErrorMessage}" />
             <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Bold"/>
             <StackPanel Margin="0 5">
                 <TextBlock > 
@@ -25,7 +25,7 @@
             </StackPanel>
             <StackPanel Margin="0 5">
                 <TextBlock >Number of servings:</TextBlock>
-                <NumericUpDown Value="{Binding Servings}" />
+                <NumericUpDown Value="{Binding Servings}" Minimum="0"/>
             </StackPanel>
             <StackPanel Margin="0 5" Spacing="4">
                 <Label Content="Preparation Time:"/>
