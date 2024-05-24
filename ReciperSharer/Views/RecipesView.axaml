@@ -6,6 +6,7 @@
              xmlns:vm="using:RecipeShare.ViewModels"
              x:DataType="vm:RecipesViewModel"
              x:Class="RecipeShare.Views.RecipesView">
+             <ScrollViewer>
   <StackPanel>
     <TextBlock Text="{Binding ErrorMessage}"/>
     <ListBox ItemsSource="{Binding Recipes}">
@@ -73,4 +74,5 @@
     <Button Content="Home" Command="{Binding Home}" Margin="10" />
     <Button Content="Create New Recipe" Command="{Binding NewRecipe}" Margin="10" />
   </StackPanel>
+  </ScrollViewer>
 </UserControl>

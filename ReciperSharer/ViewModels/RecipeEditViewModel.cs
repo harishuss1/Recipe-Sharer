@@ -71,6 +71,7 @@ public class RecipeEditViewModel : ViewModelBase
         get => _tags;
         set => this.RaiseAndSetIfChanged(ref _tags, value);
     }
+    
 
     public ObservableCollection<Tag> AllTags {get;}
 
