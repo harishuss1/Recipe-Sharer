@@ -6,10 +6,27 @@
              xmlns:vm="using:RecipeShare.ViewModels"
              x:DataType="vm:SearchViewModel"
              x:Class="RecipeShare.Views.SearchView">
+<ScrollViewer>
  <StackPanel>
-    <TextBox Text="{Binding Keyword}" Watermark="Enter keyword..."/>
-    <Button Content="Search" Command="{Binding SearchCommand}" HorizontalAlignment="Stretch"/>
-    <Button Content="Back Home" Command="{Binding GoBackCommand}" HorizontalAlignment="Stretch" />
+    <Label Content="Keyword" />
+      <TextBox Text="{Binding Keyword}" Watermark="Enter keyword..."/>
+      <Label Content="Minimum Duration" />
+      <TimePicker SelectedTime="{Binding MinDuration}" ClockIdentifier="24HourClock" MinuteIncrement="1"/>
+      <Label Content="Maximum Duration" />
+      <TimePicker SelectedTime="{Binding MaxDuration}" ClockIdentifier="24HourClock" MinuteIncrement="1"/>
+      <Label Content="Minimum Rating" />
+      <NumericUpDown Value="{Binding MinimumRating}" Watermark="Enter minimum rating..." Maximum="10"  Minimum="0"/>
+      <Label Content="Minimum Servings" />
+      <NumericUpDown Value="{Binding MinServings}" Watermark="Enter minimum servings..." />
+      <Label Content="Maximum Servings" />
+      <NumericUpDown Value="{Binding MaxServings}" Watermark="Enter maximum servings..." />
+      <Label Content="Owner Username" />
+      <TextBox Text="{Binding OwnerUsername}" Watermark="Enter owner username..."/>
+    <Grid ColumnDefinitions="*,*">
+    <Button Grid.Column="0" Content="Search" Command="{Binding SearchCommand}" HorizontalAlignment="Stretch"/>
+    <Button Grid.Column="1" Content="Reset filters" Command="{Binding ResetFilter}" HorizontalAlignment="Stretch"/>
+</Grid>
+     <Button Content="Back Home" Command="{Binding GoBackCommand}" HorizontalAlignment="Stretch" />
      <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
     <ListBox ItemsSource="{Binding SearchResults}">
       <ListBox.ItemTemplate>
@@ -110,8 +127,11 @@
                     </TreeViewItem>
                   </TreeView>
               </StackPanel>
+            
+
           </DataTemplate>
       </ListBox.ItemTemplate>
     </ListBox>
   </StackPanel>
+  </ScrollViewer>
 </UserControl>

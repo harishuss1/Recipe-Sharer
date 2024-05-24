@@ -96,6 +96,7 @@ public class MainWindowViewModel : ViewModelBase
   {
     SearchViewModel viewModel = new();
     viewModel.GoBackCommand.Subscribe(_ => NavigateToLoggedIn());
+    viewModel.ResetFilter.Subscribe(_1 => NavigateToSearch());
     ContentViewModel = viewModel;
   }
 
