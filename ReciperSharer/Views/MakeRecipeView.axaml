@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="using:RecipeShare.ViewModels"
+             x:DataType="vm:MakeRecipeViewModel"
+             x:Class="RecipeShare.Views.MakeRecipeView">
+           <ScrollViewer>
+        <StackPanel>
+            <TextBlock Text="{Binding ErrorMessage}"/>
+            <TextBlock Text="Current Recipe"/>
+            <TextBlock Text="{Binding CurrentRecipe.Name}"/>
+            <TextBlock Text="{Binding CurrentRecipe.ShortDescription}"/>
+            <TextBlock Text="{Binding CurrentRecipe.PreparationTime}"/>
+            <TextBlock Text="{Binding CurrentRecipe.CookingTime}"/>
+            <TextBlock Text="{Binding CurrentRecipe.TotalTime}"/>
+            <TextBlock Text="{Binding CurrentRecipe.Servings}"/>
+
+            <TextBlock Text="Ingredients"/>
+            <ListBox ItemsSource="{Binding CurrentRecipe.OIngredients}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>    
+                                <MultiBinding StringFormat="{}{0}, {1}">
+                                    <Binding Path="Name" />
+                                    <Binding Path="Quantity" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <TextBlock Text="Steps"/>
+            <ListBox ItemsSource="{Binding CurrentRecipe.OSteps}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>    
+                                <MultiBinding StringFormat="{}{0}: {1}">
+                                    <Binding Path="Number" />
+                                    <Binding Path="Description" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <TextBlock Text="Tags"/>
+            <ListBox ItemsSource="{Binding CurrentRecipe.OTags}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Button Command="{Binding GoBackCommand}">Go Back</Button>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
