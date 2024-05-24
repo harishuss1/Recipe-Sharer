@@ -19,7 +19,6 @@ public class LoggedInViewModel : ViewModelBase
 
 
 
-
   public LoggedInViewModel()
   {
     Logout = ReactiveCommand.Create(() => UserController.INSTANCE.Logout());
@@ -32,4 +31,11 @@ public class LoggedInViewModel : ViewModelBase
     ShowMakeRecipeCommand = ReactiveCommand.Create(() => {  });
     ShowProfileCommand = ReactiveCommand.Create(() => {  });
   }
+
+
+  public ReactiveCommand<Unit, Unit> RecipeButton { get; }
+  public ReactiveCommand<Unit, Unit> RatingButton { get; }
+  public ReactiveCommand<Unit, Unit> SearchButton { get; }
+  public ReactiveCommand<Unit, Unit> Profile { get; }
+
 }

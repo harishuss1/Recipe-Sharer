@@ -19,15 +19,15 @@ public class RecipesViewModel : ViewModelBase
     }
     private ObservableCollection<Recipe> _recipes;
     public ObservableCollection<Recipe> Recipes {
-    get => _recipes;
-    set => this.RaiseAndSetIfChanged(ref _recipes, value);
-  }
+        get => _recipes;
+        set => this.RaiseAndSetIfChanged(ref _recipes, value);
+     }
 
-
-
-    public ReactiveCommand<int, Unit> Delete {get; }
+    public ReactiveCommand<int, Unit> Delete { get; set; }
+    public ReactiveCommand<int?, Unit> Edit { get; set; }
     
-    public ReactiveCommand<Unit, Unit> Home { get; }
+    public ReactiveCommand<Unit, Unit> Home { get; set; }
+    public ReactiveCommand<Unit, Unit> NewRecipe { get; set; }
 
     public RecipesViewModel()
     {   
@@ -49,5 +49,11 @@ public class RecipesViewModel : ViewModelBase
                 Recipes = new();
             }
         });
+
+        Edit = ReactiveCommand.Create<int?>((int? recipeId) => {
+            UserController.INSTANCE!.EdittedRecipeId = recipeId;
+        });
+
+        NewRecipe = ReactiveCommand.Create(() => {});
     }
 }
