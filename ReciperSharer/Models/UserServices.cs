@@ -6,6 +6,7 @@ using Context;
 using Recipes;
 using Users;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace RecipeSharer;
 
@@ -182,6 +183,14 @@ public class UserServices
             return true;
         }
         return false;
+    }
+
+    public List<Recipe> GetUserFavoriteRecipes(int userId)
+    {
+        var user = _context.Users.Include(u => u.UserFavouriteRecipes)
+                                    .FirstOrDefault(u => u.UserId == userId);
+
+        return user?.UserFavouriteRecipes ?? new List<Recipe>();
     }
 
     public void AddToFavorites(Recipe recipe, User user)
