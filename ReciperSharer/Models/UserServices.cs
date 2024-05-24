@@ -187,42 +187,35 @@ public class UserServices
 
     public List<Recipe> GetUserFavoriteRecipes(int userId)
     {
-        var user = _context.Users.Include(u => u.UserFavouriteRecipes)
-                                    .FirstOrDefault(u => u.UserId == userId);
+        var user = _context.Users.Include(u => u.UserFavouriteRecipes).FirstOrDefault(u => u.UserId == userId);
+
+        if (user == null)
+        {
+            throw new ArgumentException($"User with ID {userId} does not exist.");
+        }
 
         return user?.UserFavouriteRecipes ?? new List<Recipe>();
     }
 
     public void AddToFavorites(Recipe recipe, User user)
     {
-        if (user.AddToFavorites(recipe))
+        // Check if the recipe is already in the user's favorites
+        if (!user.UserFavouriteRecipes.Any(r => r.RecipeId == recipe.RecipeId))
         {
-            // checks to see if the recipe already exists in the db
-            var existingRecipe = _context.Recipes.FirstOrDefault(r => r.RecipeId == recipe.RecipeId);
-
-            if (existingRecipe == null)
-            {
-                _context.Recipes.Add(recipe);
-            }
-            else
-            {
-                _context.Attach(existingRecipe);
-            }
+            // Add the recipe to the user's favorites
+            user.UserFavouriteRecipes.Add(recipe);
+            _context.SaveChanges();
         }
-        user.UserFavouriteRecipes.Add(recipe);
-        _context.SaveChanges();
     }
 
     public void RemoveRecipeFromFavorites(Recipe recipe, User user)
     {
-        if (user.RemoveRecipeFromFavorites(recipe))
+        // Check if the recipe is in the user's favorites
+        if (user.UserFavouriteRecipes.Any(r => r.RecipeId == recipe.RecipeId))
         {
-            var existingRecipe = _context.Recipes.FirstOrDefault(r => r.RecipeId == recipe.RecipeId);
-            if (existingRecipe != null)
-            {
-                _context.Recipes.Remove(existingRecipe);
-                _context.SaveChanges();
-            }
+            // Remove the recipe from the user's favorites
+            user.UserFavouriteRecipes.Remove(recipe);
+            _context.SaveChanges();
         }
     }
 }

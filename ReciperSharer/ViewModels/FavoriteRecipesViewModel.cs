@@ -23,7 +23,15 @@ namespace RecipeShare.ViewModels
             set => this.RaiseAndSetIfChanged(ref _favoriteRecipes, value);
         }
 
+        private string _message;
+        public string Message
+        {
+            get => _message;
+            set => this.RaiseAndSetIfChanged(ref _message, value);
+        }
+
         public ReactiveCommand<Recipe, Unit> ViewRecipeCommand { get; }
+        public ReactiveCommand<Recipe, Unit> RemoveFromFavoritesCommand { get; }
         public ReactiveCommand<Unit, Unit> GoBackCommand { get; }
 
         public FavoriteRecipesViewModel(Action<Recipe> viewRecipeAction, Action goBackAction)
@@ -34,7 +42,15 @@ namespace RecipeShare.ViewModels
             FavoriteRecipes = _userServices.GetUserFavoriteRecipes(_currentUser.UserId);
 
             ViewRecipeCommand = ReactiveCommand.Create(viewRecipeAction);
+            RemoveFromFavoritesCommand = ReactiveCommand.Create<Recipe>(RemoveFromFavorites);
             GoBackCommand = ReactiveCommand.Create(goBackAction);
+        }
+
+        private void RemoveFromFavorites(Recipe recipe)
+        {
+            _userServices.RemoveRecipeFromFavorites(recipe, _currentUser);
+            FavoriteRecipes = _userServices.GetUserFavoriteRecipes(_currentUser.UserId);
+            Message = $"'{recipe.Name}' has been removed from your favorites.";
         }
     }
 }

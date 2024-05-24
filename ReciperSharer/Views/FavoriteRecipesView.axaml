@@ -8,12 +8,14 @@
              x:DataType="vm:FavoriteRecipesViewModel">
   <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
         <TextBlock Text="Favorite Recipes" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding Message}" Foreground="Red" HorizontalAlignment="Center"/>
         <ListBox ItemsSource="{Binding FavoriteRecipes}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                         <Button Content="View" Command="{Binding DataContext.ViewRecipeCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" x:CompileBindings="False" CommandParameter="{Binding}" Margin="10,0,0,0"/>
+                        <Button Content="Remove" Command="{Binding DataContext.RemoveFromFavoritesCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" x:CompileBindings="False" CommandParameter="{Binding}" Margin="10,0,0,0"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
