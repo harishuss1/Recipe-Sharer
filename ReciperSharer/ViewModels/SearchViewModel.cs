@@ -153,7 +153,7 @@ public class SearchViewModel : ViewModelBase
     {
         try
         {
-            if (_currentUser.UserFavouriteRecipes.Any(r => r.RecipeId == recipe.RecipeId))
+            if (UserController.INSTANCE!.CurrentlyLoggedInUser.UserFavouriteRecipes.Any(r => r.RecipeId == recipe.RecipeId))
             {
                 ErrorMessage = "Recipe is already in your favorites.";
                 return;
