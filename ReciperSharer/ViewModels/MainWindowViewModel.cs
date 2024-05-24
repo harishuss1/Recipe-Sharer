@@ -150,12 +150,7 @@ public class MainWindowViewModel : ViewModelBase
   }
   public void NavigateToFavoriteRecipes()
   {
-      FavoriteRecipesViewModel viewModel = new(recipe => NavigateToFavoriteRecipeDetails(recipe), NavigateToProfile);
-      ContentViewModel = viewModel;
-  }
-  public void NavigateToFavoriteRecipeDetails(Recipe recipe)
-  {
-      FavoriteRecipeDetailsViewModel viewModel = new(recipe, NavigateToFavoriteRecipes);
+      FavoriteRecipesViewModel viewModel = new(NavigateToProfile);
       ContentViewModel = viewModel;
   }
 }

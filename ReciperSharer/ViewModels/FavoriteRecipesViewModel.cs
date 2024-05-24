@@ -30,27 +30,32 @@ namespace RecipeShare.ViewModels
             set => this.RaiseAndSetIfChanged(ref _message, value);
         }
 
-        public ReactiveCommand<Recipe, Unit> ViewRecipeCommand { get; }
         public ReactiveCommand<Recipe, Unit> RemoveFromFavoritesCommand { get; }
         public ReactiveCommand<Unit, Unit> GoBackCommand { get; }
 
-        public FavoriteRecipesViewModel(Action<Recipe> viewRecipeAction, Action goBackAction)
+        public FavoriteRecipesViewModel(Action goBackAction)
         {
             _userServices = UserServices.INSTANCE ?? throw new ArgumentNullException(nameof(UserServices.INSTANCE));
             _currentUser = UserController.INSTANCE.CurrentlyLoggedInUser ?? throw new InvalidOperationException("No user is currently logged in");
 
             FavoriteRecipes = _userServices.GetUserFavoriteRecipes(_currentUser.UserId);
 
-            ViewRecipeCommand = ReactiveCommand.Create(viewRecipeAction);
             RemoveFromFavoritesCommand = ReactiveCommand.Create<Recipe>(RemoveFromFavorites);
             GoBackCommand = ReactiveCommand.Create(goBackAction);
         }
 
         private void RemoveFromFavorites(Recipe recipe)
         {
-            _userServices.RemoveRecipeFromFavorites(recipe, _currentUser);
-            FavoriteRecipes = _userServices.GetUserFavoriteRecipes(_currentUser.UserId);
-            Message = $"'{recipe.Name}' has been removed from your favorites.";
+           try
+            {
+                _userServices.RemoveRecipeFromFavorites(recipe, _currentUser);
+                FavoriteRecipes.Remove(recipe);
+                Message = $"'{recipe.Name}' has been removed from your favorites.";
+            }
+            catch (Exception ex)
+            {
+                Message = $"Error removing recipe: {ex.Message}";
+            }
         }
     }
 }

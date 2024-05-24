@@ -7,6 +7,7 @@ using Recipes;
 using Context;
 using RecipeSharer;
 using RecipeSearch;
+using System.Linq;
 using System.Collections.ObjectModel;
 
 namespace RecipeShare.ViewModels;
@@ -145,6 +146,11 @@ public class SearchViewModel : ViewModelBase
     {
         try
         {
+            if (_currentUser.UserFavouriteRecipes.Any(r => r.RecipeId == recipe.RecipeId))
+            {
+                ErrorMessage = "Recipe is already in your favorites.";
+                return;
+            }
             _userServices.AddToFavorites(recipe, _currentUser);
             ErrorMessage = "Recipe added to favorites.";
         }
