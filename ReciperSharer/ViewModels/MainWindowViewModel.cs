@@ -97,12 +97,15 @@ public class MainWindowViewModel : ViewModelBase
     SearchViewModel viewModel = new();
     viewModel.GoBackCommand.Subscribe(_ => NavigateToLoggedIn());
     viewModel.ResetFilter.Subscribe(_1 => NavigateToSearch());
+    viewModel.Makeit.Subscribe(_2 => NavigateToMakeRecipe());
     ContentViewModel = viewModel;
   }
 
   public void NavigateToMakeRecipe()
   {
-    ContentViewModel = new MakeRecipeViewModel();
+    MakeRecipeViewModel viewModel = new ();
+    viewModel.GoBackCommand.Subscribe(_ => NavigateToLoggedIn());
+    ContentViewModel = viewModel;
   }
 
   public void NavigateToProfile()

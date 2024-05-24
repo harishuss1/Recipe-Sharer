@@ -75,6 +75,7 @@ public class SearchViewModel : ViewModelBase
         get => _ownerUsername;
         set => this.RaiseAndSetIfChanged(ref _ownerUsername, value);
     }
+    
 
     private readonly Search _search;
     private readonly UserServices _userServices;
@@ -84,6 +85,8 @@ public class SearchViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> GoBackCommand { get; }
     public ReactiveCommand<Unit, Unit> ResetFilter { get; }
      public ReactiveCommand<Recipe, Unit> AddToFavoritesCommand { get; }
+    public ReactiveCommand<int?, Unit> Makeit { get; }
+
 
     public SearchViewModel()
     {
@@ -95,6 +98,10 @@ public class SearchViewModel : ViewModelBase
         GoBackCommand = ReactiveCommand.Create(() => { });
         ResetFilter = ReactiveCommand.Create(() => { });
         AddToFavoritesCommand = ReactiveCommand.Create<Recipe>(AddToFavorites);
+
+        Makeit = ReactiveCommand.Create<int?>(recipeId => {
+            UserController.INSTANCE!.MakeRecipeId=recipeId;
+        });
 
     }
 
