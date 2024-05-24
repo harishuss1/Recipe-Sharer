@@ -160,10 +160,12 @@ public class SearchViewModel : ViewModelBase
     {
         try
         {
-            if (UserController.INSTANCE!.CurrentlyLoggedInUser.UserFavouriteRecipes.Any(r => r.RecipeId == recipe.RecipeId))
-            {
-                ErrorMessage = "Recipe is already in your favorites.";
-                return;
+            if (UserController.INSTANCE!.CurrentlyLoggedInUser.UserFavouriteRecipes != null){
+                if (UserController.INSTANCE!.CurrentlyLoggedInUser.UserFavouriteRecipes.Any(r => r.RecipeId == recipe.RecipeId))
+                {
+                    ErrorMessage = "Recipe is already in your favorites.";
+                    return;
+                }
             }
             _userServices.AddToFavorites(recipe, _currentUser);
             ErrorMessage = "Recipe added to favorites.";
