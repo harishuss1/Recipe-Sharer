@@ -225,4 +225,18 @@ public class Search
         // Execute the query and return the results
         return query.ToList();
     }
+
+    public void ClearFilters()
+{
+    Ingredients.Clear();
+    Tags.Clear();
+    Keyword = null;
+    MinDuration = null;
+    MaxDuration = null;
+    MinimumRating = null;
+    UserFavorites.Clear();
+    MaxServings = null;
+    MinServings = null;
+    OwnerUsername = null;
+}
 }

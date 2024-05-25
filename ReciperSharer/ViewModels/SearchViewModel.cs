@@ -100,7 +100,7 @@ public class SearchViewModel : ViewModelBase
         // Initialize commands
         SearchCommand = ReactiveCommand.Create(SearchButton);
         GoBackCommand = ReactiveCommand.Create(() => { });
-        ResetFilter = ReactiveCommand.Create(() => { });
+        ResetFilter = ReactiveCommand.Create(_search.ClearFilters);
         RateCommand = ReactiveCommand.Create<Recipe>((Recipe recipe) => {
             try {UserController.INSTANCE.RateRecipe(recipe);}
             catch (Exception e) {ErrorMessage = e.Message;}

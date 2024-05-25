@@ -153,6 +153,7 @@ public class RecipeEditViewModel : ViewModelBase
                 ErrorMessage = e.Message;
             }
         }
+        RecipeOperations.INSTANCE!.AddTags();
 
         //These are assigned whether editing or adding:
         AllTags = new(RecipeOperations.INSTANCE!.GetAllTags());

@@ -21,9 +21,9 @@ public class RecipeOperations
     private static RecipeOperations? _instance;
 
     public static RecipeOperations INSTANCE
-      {
-            get => _instance ??= new(RecipeSharerContext.INSTANCE!);
-      }
+    {
+        get => _instance ??= new(RecipeSharerContext.INSTANCE!);
+    }
 
     public void AddRecipe(User user, Recipe recipe)
     {
@@ -34,10 +34,12 @@ public class RecipeOperations
 
         recipe.Owner = _context.Users.Find(user.UserId);
         _context.Recipes.Add(recipe);
-        foreach (Step step in recipe.Steps){
+        foreach (Step step in recipe.Steps)
+        {
             _context.Steps.Add(step);
         }
-        foreach (Ingredient ingredient in recipe.Ingredients){
+        foreach (Ingredient ingredient in recipe.Ingredients)
+        {
             _context.Ingredients.Add(ingredient);
         }
         _context.SaveChanges();
@@ -75,10 +77,12 @@ public class RecipeOperations
         var recipeToUpdate = _context.Recipes.Find(existingRecipe.RecipeId);
         if (recipeToUpdate != null)
         {
-            foreach (Step step in recipeToUpdate.Steps){
+            foreach (Step step in recipeToUpdate.Steps)
+            {
                 _context.Steps.Remove(step);
             }
-            foreach (Ingredient ingredient in recipeToUpdate.Ingredients){
+            foreach (Ingredient ingredient in recipeToUpdate.Ingredients)
+            {
                 _context.Ingredients.Remove(ingredient);
             }
             _context.SaveChanges();
@@ -94,11 +98,12 @@ public class RecipeOperations
 
             _context.Recipes.Update(recipeToUpdate);
             AddStepsToRecipe(recipeToUpdate.RecipeId, recipeToUpdate.Steps);
-            foreach (Ingredient ingredient in recipeToUpdate.Ingredients){
+            foreach (Ingredient ingredient in recipeToUpdate.Ingredients)
+            {
                 addIngredient(recipeToUpdate.RecipeId, ingredient);
             }
             AddTagsToRecipe(recipeToUpdate.RecipeId, recipeToUpdate.Tags);
-            
+
             _context.SaveChanges();
         }
         else
@@ -191,9 +196,11 @@ public class RecipeOperations
         return recipes;
     }
 
-    public Recipe GetRecipe(int recipeId){
+    public Recipe GetRecipe(int recipeId)
+    {
         Recipe recipe = _context.Recipes.Where(r => r.RecipeId == recipeId).Include(r => r.Ingredients).Include(r => r.Steps).Include(r => r.Tags).Include(r => r.Ratings).First();
-        if (recipe == null){
+        if (recipe == null)
+        {
             throw new ArgumentException("Recipe not found");
         }
         return recipe;
@@ -239,11 +246,31 @@ public class RecipeOperations
         return favoriteRecipes;
     }
 
-    public List<Tag> GetAllTags(){
+    public List<Tag> GetAllTags()
+    {
         List<Tag> tags = _context.Tags.ToList();
-        if (tags.Count == 0){
+        if (tags.Count == 0)
+        {
             throw new ArgumentException("No Tags Found");
         }
         return tags;
+    }
+
+    public void AddTags()
+    {
+        List<string> tagNames = new List<string> { "Spicy", "Vegetarian", "Gluten-free", "Dairy-free", "Vegan" };
+
+        foreach (var tagName in tagNames)
+        {
+            var tag = new Tag { Name = tagName };
+
+            var existingTag = _context.Tags.FirstOrDefault(t => t.Name == tag.Name);
+            if (existingTag == null)
+            {
+                _context.Tags.Add(tag);
+            }
+        }
+
+        _context.SaveChanges();
     }
 }
