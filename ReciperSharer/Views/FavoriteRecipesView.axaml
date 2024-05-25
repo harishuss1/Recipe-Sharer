@@ -1,0 +1,112 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:RecipeShare.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="RecipeShare.Views.FavoriteRecipesView"
+             x:DataType="vm:FavoriteRecipesViewModel">
+  <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+        <TextBlock Text="Favorite Recipes" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding Message}" Foreground="Red" HorizontalAlignment="Center"/>
+        <ListBox ItemsSource="{Binding FavoriteRecipes}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                        <TreeView>
+                            <TreeViewItem Header="Details">
+                                <TreeViewItem>
+                                    <TreeViewItem.Header>
+                                    <TextBlock>
+                                        <Run Text="Rating: "/>
+                                        <Run Text="{Binding ORating}"/>
+                                        <Run Text="/10"/>
+                                    </TextBlock>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+                                <TreeViewItem>
+                                    <TreeViewItem.Header>
+                                    <TextBlock>
+                                        <Run Text="Short Description: "/>
+                                        <Run Text="{Binding ShortDescription}"/>
+                                    </TextBlock>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+                                <TreeViewItem>
+                                    <TreeViewItem.Header>
+                                    <TextBlock>
+                                        <Run Text="Preparation Time: "/>
+                                        <Run Text="{Binding PreparationTime}"/>
+                                    </TextBlock>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+                                <TreeViewItem>
+                                    <TreeViewItem.Header>
+                                    <TextBlock>
+                                        <Run Text="Cooking Time: "/>
+                                        <Run Text="{Binding CookingTime}"/>
+                                    </TextBlock>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+                                <TreeViewItem>
+                                    <TreeViewItem.Header>
+                                    <TextBlock>
+                                        <Run Text="Servings: "/>
+                                        <Run Text="{Binding Servings}"/>
+                                    </TextBlock>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+                                <TreeViewItem Header="Ingredients">
+                                    <ListBox ItemsSource="{Binding OIngredients}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>    
+                                                <MultiBinding StringFormat="{}{0}, {1}{2}">
+                                                    <Binding Path="Name" />
+                                                    <Binding Path="Quantity" />
+                                                    <Binding Path="UnitOfMass" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </TreeViewItem>
+                                <TreeViewItem Header="Steps">
+                                    <ListBox ItemsSource="{Binding OSteps}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>    
+                                                <MultiBinding StringFormat="{}{0}: {1}">
+                                                    <Binding Path="Number" />
+                                                    <Binding Path="Description" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </TreeViewItem>
+                                <TreeViewItem Header="Tags">
+                                    <ListBox ItemsSource="{Binding OTags}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                        <TextBlock Text="{Binding Name}">
+                                        </TextBlock>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </TreeViewItem>
+                            </TreeViewItem>
+                            <Button Content="Remove" Command="{Binding DataContext.RemoveFromFavoritesCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" x:CompileBindings="False" CommandParameter="{Binding}" Margin="10,0,0,0"/>
+                        </TreeView>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Content="Back" Command="{Binding GoBackCommand}" HorizontalAlignment="Stretch"/>
+    </StackPanel>
+</UserControl>
