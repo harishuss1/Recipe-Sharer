@@ -1,0 +1,140 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="using:RecipeShare.ViewModels"
+             x:DataType="vm:SearchViewModel"
+             x:Class="RecipeShare.Views.SearchView">
+<ScrollViewer>
+ <StackPanel>
+    <Label Content="Keyword" />
+      <TextBox Text="{Binding Keyword}" Watermark="Enter keyword..."/>
+      <Label Content="Minimum Duration" />
+      <TimePicker SelectedTime="{Binding MinDuration}" ClockIdentifier="24HourClock" MinuteIncrement="1"/>
+      <Label Content="Maximum Duration" />
+      <TimePicker SelectedTime="{Binding MaxDuration}" ClockIdentifier="24HourClock" MinuteIncrement="1"/>
+      <Label Content="Minimum Rating" />
+      <NumericUpDown Value="{Binding MinimumRating}" Watermark="Enter minimum rating..." Maximum="10"  Minimum="0"/>
+      <Label Content="Minimum Servings" />
+      <NumericUpDown Value="{Binding MinServings}" Watermark="Enter minimum servings..." />
+      <Label Content="Maximum Servings" />
+      <NumericUpDown Value="{Binding MaxServings}" Watermark="Enter maximum servings..." />
+      <Label Content="Owner Username" />
+      <TextBox Text="{Binding OwnerUsername}" Watermark="Enter owner username..."/>
+    <Grid ColumnDefinitions="*,*">
+    <Button Grid.Column="0" Content="Search" Command="{Binding SearchCommand}" HorizontalAlignment="Stretch"/>
+    <Button Grid.Column="1" Content="Reset filters" Command="{Binding ResetFilter}" HorizontalAlignment="Stretch"/>
+</Grid>
+     <Button Content="Back Home" Command="{Binding GoBackCommand}" HorizontalAlignment="Stretch" />
+     <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
+    <ListBox ItemsSource="{Binding SearchResults}">
+      <ListBox.ItemTemplate>
+          <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                  <TreeView>
+                    <TreeViewItem>
+                      <TreeViewItem.Header>
+                        <TextBlock>
+                          <Run Text="Name: "/>
+                          <Run Text="{Binding Name}"/>
+                        </TextBlock>
+                      </TreeViewItem.Header>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Rating: "/>
+                            <Run Text="{Binding ORating}"/>
+                            <Run Text="/10"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Short Description: "/>
+                            <Run Text="{Binding ShortDescription}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Preparation Time: "/>
+                            <Run Text="{Binding PreparationTime}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Cooking Time: "/>
+                            <Run Text="{Binding CookingTime}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Servings: "/>
+                            <Run Text="{Binding Servings}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem Header="Ingredients">
+                        <ListBox ItemsSource="{Binding OIngredients}">
+                          <ListBox.ItemTemplate>
+                            <DataTemplate>
+                              <TextBlock>
+                                <TextBlock.Text>    
+                                    <MultiBinding StringFormat="{}{0}, {1}{2}">
+                                        <Binding Path="Name" />
+                                        <Binding Path="Quantity" />
+                                        <Binding Path="UnitOfMass" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                              </TextBlock>
+                            </DataTemplate>
+                          </ListBox.ItemTemplate>
+                        </ListBox>
+                      </TreeViewItem>
+                      <TreeViewItem Header="Steps">
+                        <ListBox ItemsSource="{Binding OSteps}">
+                          <ListBox.ItemTemplate>
+                            <DataTemplate>
+                              <TextBlock>
+                                <TextBlock.Text>    
+                                    <MultiBinding StringFormat="{}{0}: {1}">
+                                        <Binding Path="Number" />
+                                        <Binding Path="Description" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                              </TextBlock>
+                            </DataTemplate>
+                          </ListBox.ItemTemplate>
+                        </ListBox>
+                      </TreeViewItem>
+                      <TreeViewItem Header="Tags">
+                        <ListBox ItemsSource="{Binding OTags}">
+                          <ListBox.ItemTemplate>
+                            <DataTemplate>
+                              <TextBlock Text="{Binding Name}">
+                              </TextBlock>
+                            </DataTemplate>
+                          </ListBox.ItemTemplate>
+                        </ListBox>
+                      </TreeViewItem>
+                      <TextBlock Text="Add a Rating!"/>
+                      <NumericUpDown Value="{Binding NewScore}" Minimum="0" Maximum="10" Increment="1"/>
+                      <Button Content="Rate" Command="{Binding $parent[ListBox].((vm:SearchViewModel)DataContext).RateCommand}"  CommandParameter="{Binding }" Margin="10" HorizontalAlignment="Stretch"/>
+                      <Button Content="Add to Favorites" Command="{Binding DataContext.AddToFavoritesCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" x:CompileBindings="False" CommandParameter="{Binding}" Margin="10" HorizontalAlignment="Stretch"/>
+                      <Button Content="Make it!" Command="{Binding $parent[ListBox].((vm:SearchViewModel)DataContext).Makeit}" CommandParameter="{Binding RecipeId}" Margin="10" HorizontalAlignment="Stretch"/>
+                    </TreeViewItem>
+                  </TreeView>
+              </StackPanel>
+          </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </StackPanel>
+  </ScrollViewer>
+</UserControl>

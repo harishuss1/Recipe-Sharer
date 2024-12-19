@@ -1,0 +1,120 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="using:RecipeShare.ViewModels"
+             x:DataType="vm:RecipesViewModel"
+             x:Class="RecipeShare.Views.RecipesView">
+             <ScrollViewer>
+ <StackPanel>
+    <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
+    <ListBox ItemsSource="{Binding Recipes}">
+      <ListBox.ItemTemplate>
+          <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                  <TreeView>
+                    <TreeViewItem>
+                      <TreeViewItem.Header>
+                        <TextBlock>
+                          <Run Text="Name: "/>
+                          <Run Text="{Binding Name}"/>
+                        </TextBlock>
+                      </TreeViewItem.Header>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Rating: "/>
+                            <Run Text="{Binding ORating}"/>
+                            <Run Text="/10"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Short Description: "/>
+                            <Run Text="{Binding ShortDescription}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Preparation Time: "/>
+                            <Run Text="{Binding PreparationTime}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Cooking Time: "/>
+                            <Run Text="{Binding CookingTime}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem>
+                        <TreeViewItem.Header>
+                          <TextBlock>
+                            <Run Text="Servings: "/>
+                            <Run Text="{Binding Servings}"/>
+                          </TextBlock>
+                        </TreeViewItem.Header>
+                      </TreeViewItem>
+                      <TreeViewItem Header="Ingredients">
+                        <ListBox ItemsSource="{Binding OIngredients}">
+                          <ListBox.ItemTemplate>
+                            <DataTemplate>
+                              <TextBlock>
+                                <TextBlock.Text>    
+                                    <MultiBinding StringFormat="{}{0}, {1}{2}">
+                                        <Binding Path="Name" />
+                                        <Binding Path="Quantity" />
+                                        <Binding Path="UnitOfMass" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                              </TextBlock>
+                            </DataTemplate>
+                          </ListBox.ItemTemplate>
+                        </ListBox>
+                      </TreeViewItem>
+                      <TreeViewItem Header="Steps">
+                        <ListBox ItemsSource="{Binding OSteps}">
+                          <ListBox.ItemTemplate>
+                            <DataTemplate>
+                              <TextBlock>
+                                <TextBlock.Text>    
+                                    <MultiBinding StringFormat="{}{0}: {1}">
+                                        <Binding Path="Number" />
+                                        <Binding Path="Description" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                              </TextBlock>
+                            </DataTemplate>
+                          </ListBox.ItemTemplate>
+                        </ListBox>
+                      </TreeViewItem>
+                      <TreeViewItem Header="Tags">
+                        <ListBox ItemsSource="{Binding OTags}">
+                          <ListBox.ItemTemplate>
+                            <DataTemplate>
+                              <TextBlock Text="{Binding Name}">
+                              </TextBlock>
+                            </DataTemplate>
+                          </ListBox.ItemTemplate>
+                        </ListBox>
+                      </TreeViewItem>
+                      <Button Content="Delete" Command="{Binding $parent[ListBox].((vm:RecipesViewModel)DataContext).Delete}" CommandParameter="{Binding RecipeId}" Margin="10" HorizontalAlignment="Stretch"/>
+                      <Button Content="Edit" Command="{Binding $parent[ListBox].((vm:RecipesViewModel)DataContext).Edit}" CommandParameter="{Binding RecipeId}" Margin="10" HorizontalAlignment="Stretch"/>
+                    </TreeViewItem>
+                  </TreeView>
+              </StackPanel>
+          </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    <Button Content="Home" Command="{Binding Home}" Margin="10" HorizontalAlignment="Stretch"/>
+    <Button Content="Create New Recipe" Command="{Binding NewRecipe}" Margin="10" HorizontalAlignment="Stretch"/>
+  </StackPanel>
+  </ScrollViewer>
+</UserControl>

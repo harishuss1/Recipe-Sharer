@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RecipeSharer\RecipeSharer.csproj" />
+    <ProjectReference Include="..\ReciperSharer\RecipeShare.csproj" />
   </ItemGroup>
 
 </Project>
